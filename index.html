@@ -41,19 +41,25 @@
             bg: '#F9F7F2',
         };
 
+        // ★プレビュー確認用：ロゴをSVGコードで仮置きしています。
+        // 本番時はここを "カワゴエヤ.png" に書き換えてください。
+        const PREVIEW_LOGO = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><text x='10' y='40' font-family='serif' font-weight='bold' font-size='30' fill='%232C2C2C'>KAWAGOEYA</text></svg>`;
+
         const PAGE_CONTENT = {
-            // 画像パスを設定（同じフォルダに画像を置いてください）
-            logoImage: "カワゴエヤ.png", 
+            // ★本番時はここを "カワゴエヤ.png" に書き換えてください
+            logoImage: PREVIEW_LOGO, 
             
             hero: {
                 title: "創作",
-                subtitle: "豆菓子の技、一粒の芸術。",
+                subtitle: "ナッツ菓子の技、一粒の芸術。",
                 description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
-                bgImage: "kenji2-Photoroom.png" 
+                // ★TOP画像を変更しました（ファイル名を指定）
+                bgImage: "2098E344-D795-4BA4-84B7-37AFBA59522A.jpeg" 
             },
             intro: {
                 title: "ナッツパティシエの流儀",
-                text: "私たち川越屋は、単に豆を焼くだけではありません。気温や湿度、豆の状態を見極め、秒単位で焙煎を調整する。それはまさに、パティシエがケーキを作るような繊細な作業です。伝統の技と新しい感性を融合させ、記憶に残る味わいを創造します。"
+                // 改行タグ <br> を含めて段落を表現しています
+                text: "私たち川越屋は、単にナッツを焼くだけではありません。<br>気温や湿度、ナッツの状態を見極め、職人の経験値で焙煎を調整する。<br>味付は、まさに、パティシエがケーキを作るような繊細な作業です。<br>伝統の技と新しい感性を融合させ、記憶に残る味わいを創造します。"
             }
         };
 
@@ -169,7 +175,8 @@
                 <!-- Hero Section -->
                 <section class="relative h-[60vh] lg:h-[70vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
                     <div class="absolute inset-0 z-0">
-                        <img src="${PAGE_CONTENT.hero.bgImage}" alt="Background" class="w-full h-full object-cover object-top opacity-90">
+                        <!-- object-cover を object-contain に変更し、全体が収まるようにしました -->
+                        <img src="${PAGE_CONTENT.hero.bgImage}" alt="Background" class="w-full h-full object-contain object-center opacity-90">
                         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20"></div>
                     </div>
                     <div class="relative z-10 container mx-auto px-6 text-center text-white">
@@ -228,7 +235,7 @@
                         <div class="w-96 h-96 rounded-full bg-orange-500 absolute bottom-0 right-0 blur-3xl"></div>
                     </div>
                     <div class="container mx-auto relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-                        <div class="lg:w-1/2">
+                        <div class="lg:w-2/3">
                             <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6">オリジナル商品の開発</h2>
                             <p class="text-lg text-white/80 leading-relaxed mb-8">
                                 「こんな味のナッツを作りたい」「地元の特産品とコラボしたい」<br/>
@@ -244,19 +251,13 @@
                                </div>
                             </div>
                         </div>
-                        <div class="lg:w-auto">
-                            <a href="#" class="group inline-flex items-center gap-4 bg-white text-gray-900 px-8 py-4 rounded-full font-bold transition-all hover:bg-orange-100 hover:scale-105">
-                                <span>お問い合わせはこちら</span>
-                                <i data-lucide="chevron-right" class="group-hover:translate-x-1 transition-transform"></i>
-                            </a>
-                        </div>
                     </div>
                 </section>
 
                 <!-- Footer -->
                 <footer class="bg-gray-900 text-white pt-20 pb-10 px-6">
                     <div class="container mx-auto">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-gray-800 pb-12">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-gray-800 pb-12">
                             <div class="md:col-span-1">
                                 <div class="mb-6 bg-white inline-block p-2 rounded">
                                     <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto">
@@ -278,15 +279,8 @@
                                 <ul class="space-y-4 text-sm text-gray-400">
                                     <li><a href="#" class="hover:text-white transition-colors">素焼きナッツ</a></li>
                                     <li><a href="#" class="hover:text-white transition-colors">フレーバーナッツ</a></li>
-                                    <li><a href="#" class="hover:text-white transition-colors">ギフトセット</a></li>
                                     <li><a href="#" class="hover:text-white transition-colors">業務用</a></li>
                                 </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-bold mb-6 text-gray-300">お問い合わせ</h4>
-                                <p class="text-gray-400 text-sm mb-4">OEMのご相談や商品に関する<br>お問い合わせはこちらから</p>
-                                <div class="text-xl font-serif font-bold text-orange-400">012-345-6789</div>
-                                <p class="text-xs text-gray-500 mt-1">受付時間 9:00 - 17:00 (土日祝除く)</p>
                             </div>
                         </div>
                         <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
