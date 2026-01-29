@@ -44,6 +44,7 @@
         // ★プレビュー用の仮画像データ（本番で読み込みエラー時に表示されます）
         window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='%23eee'/><text x='100' y='40' font-family='sans-serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%23999'>ロゴ画像</text></svg>`;
         window.PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像</text></svg>`;
+        window.PREVIEW_FOOTER_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 300' style='background:%23e5e7eb'><rect width='150' height='300' fill='%23d1d5db'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='20' text-anchor='middle' fill='%234b5563'>Footer<br/>Image</text></svg>`;
 
         const PAGE_CONTENT = {
             // ★リネーム後のファイル名
@@ -261,6 +262,7 @@
                                 そんなアイデアを、私たちの技術で形にしませんか？<br/>
                                 製造ロットや仕様につきましては、お客様のご要望に合わせて柔軟に対応いたします。
                             </p>
+                            <!-- 配置を元の設定（左揃え）に戻しました -->
                             <div class="flex flex-wrap gap-4">
                                <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
                                  <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> 試作開発対応
@@ -278,11 +280,10 @@
                     <div class="container mx-auto">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-gray-800 pb-12">
                             <div class="md:col-span-1">
-                                <div class="mb-6">
-                                    <!-- フッターのロゴ画像を7moro.pngに変更し、白枠を削除、サイズ調整 -->
-                                    <img src="./7moro.png" alt="KAWAGOEYA" class="h-20 w-auto" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
+                                <!-- フッター画像の配置調整: flex justify-center (スマホ中央) md:justify-center (PCもカラム内中央で右寄りに見せる) -->
+                                <div class="mb-6 flex justify-center md:justify-center">
+                                    <img src="./7moro.png" alt="KAWAGOEYA" class="h-64 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_FOOTER_DATA;">
                                 </div>
-                                <!-- 下部の文言を削除しました -->
                             </div>
                             <div>
                                 <h4 class="font-bold mb-6 text-gray-300">メニュー</h4>
