@@ -43,7 +43,8 @@
 
         // ★プレビュー用の仮画像データ（本番では使われませんが、削除しないでください）
         const PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='%23eee'/><text x='100' y='40' font-family='sans-serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%23999'>ロゴ画像</text></svg>`;
-        const PREVIEW_HERO_DATA = "https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=2000&auto=format&fit=crop";
+        // 修正：以前の画像が出ないように、プレースホルダー画像に変更しました
+        const PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像（本番で表示されます）</text></svg>`;
 
         const PAGE_CONTENT = {
             // ★本番用のファイル名を指定しています
