@@ -23,6 +23,15 @@
         }
         .font-serif { font-family: 'Noto Serif JP', serif; }
         .font-sans { font-family: 'Noto Sans JP', sans-serif; }
+        
+        /* モーダル表示時のアニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-animate {
+            animation: fadeIn 0.3s ease-out;
+        }
     </style>
 </head>
 <body>
@@ -41,22 +50,21 @@
             bg: '#F9F7F2',
         };
 
-        // ★プレビュー用の仮画像データ（本番で読み込みエラー時に表示されます）
+        // ★プレビュー用の仮画像データ
         window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='%23eee'/><text x='100' y='40' font-family='sans-serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%23999'>ロゴ画像</text></svg>`;
         window.PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像</text></svg>`;
         window.PREVIEW_FOOTER_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 300' style='background:%23e5e7eb'><rect width='150' height='300' fill='%23d1d5db'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='20' text-anchor='middle' fill='%234b5563'>Footer<br/>Image</text></svg>`;
 
         const PAGE_CONTENT = {
-            // ★リネーム後のファイル名
             logoImage: "./logo.png", 
+            // ★動画ファイル名を設定
+            footerVideo: "./MINANA製造工程.mp4",
             
             hero: {
                 title: "創作",
                 subtitle: "ナッツ菓子の技、一粒の芸術。",
                 description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
-                // ★リネーム後のファイル名
                 bgImage: "./hero.jpg",
-                // 念のため拡張子違いのフォールバック
                 fallbackBgImage: "./hero.jpeg" 
             },
             intro: {
@@ -72,7 +80,6 @@
                 engTitle: "Arrival",
                 description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。",
                 icon: "truck", 
-                // ★リネーム後のファイル名 (png)
                 image: "./step1.png"
             },
             {
@@ -81,7 +88,6 @@
                 engTitle: "Selection",
                 description: "最新鋭の選別機と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。",
                 icon: "check-circle", 
-                // ★リネーム後のファイル名 (png)
                 image: "./step2.png"
             },
             {
@@ -90,7 +96,6 @@
                 engTitle: "Roasting",
                 description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。",
                 icon: "flame",
-                // ★リネーム後のファイル名 (jpg)
                 image: "./step3.jpg"
             },
             {
@@ -99,7 +104,6 @@
                 engTitle: "Sugar Coating",
                 description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。",
                 icon: "droplets",
-                // ★リネーム後のファイル名 (jpg)
                 image: "./step4.jpg"
             },
             {
@@ -108,7 +112,6 @@
                 engTitle: "Seasoning",
                 description: "きな粉、ラズベリーなど、多彩なフレーバーを纏わせます。素材の風味を損なわないよう、パウダーはたっぷり使い、職人の目で確かめながら作業しています。",
                 icon: "utensils",
-                // ★リネーム後のファイル名 (jpg)
                 image: "./step5.jpg"
             },
             {
@@ -117,10 +120,31 @@
                 engTitle: "Packaging",
                 description: "正確、丁寧をモットーに真心こめてパッケージングしています。金属探知機による最終検査を経て、皆様のもとへ出荷されます。",
                 icon: "gift",
-                // ★リネーム後のファイル名 (jpg)
                 image: "./step6.jpg"
             }
         ];
+
+        /* === 動画モーダル制御 === */
+        window.openVideoModal = function() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('promoVideo');
+            if(modal && video) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex'); // Flexboxで中央揃え
+                video.play().catch(e => console.log('Auto-play prevented:', e));
+            }
+        }
+
+        window.closeVideoModal = function() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('promoVideo');
+            if(modal && video) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                video.pause();
+                video.currentTime = 0;
+            }
+        }
 
         /* === 描画ロジック === */
 
@@ -137,16 +161,13 @@
                 const stepNum = String(index + 1).padStart(2, '0');
                 return `
                 <div class="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border-b-4" style="border-color: ${BRAND_COLORS.primary}">
-                    <!-- Image Area -->
                     <div class="relative h-64 overflow-hidden">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10"></div>
                         <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
-                        <!-- Step Badge -->
                         <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-white/90 backdrop-blur rounded-full shadow-lg">
                             <span class="font-serif text-xl font-bold" style="color: ${BRAND_COLORS.primary}">${stepNum}</span>
                         </div>
                     </div>
-                    <!-- Content Area -->
                     <div class="p-8">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="p-2 rounded-full bg-orange-50 text-orange-800">
@@ -165,11 +186,26 @@
 
             // HTML全体の組み立て
             app.innerHTML = `
+                <!-- Video Modal (Hidden by default) -->
+                <div id="videoModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
+                    <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
+                        <button onclick="closeVideoModal()" class="absolute -top-12 right-0 text-white hover:text-orange-400 transition-colors flex items-center gap-2">
+                            <span class="text-sm font-bold">CLOSE</span>
+                            <i data-lucide="x" class="w-8 h-8"></i>
+                        </button>
+                        <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden">
+                            <video id="promoVideo" controls class="w-full h-full">
+                                <source src="${PAGE_CONTENT.footerVideo}" type="video/mp4">
+                                <p class="text-white text-center p-4">動画を再生できません。</p>
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Header -->
                 <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4">
                     <div class="container mx-auto px-6 flex justify-between items-center">
                         <div class="flex items-center">
-                            <!-- onerror: 画像読み込みエラー時はプレビュー用画像を表示 (window.PREVIEW_LOGO_DATAを参照) -->
                             <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
                         </div>
                         <nav class="hidden md:flex gap-8">
@@ -184,7 +220,6 @@
                 <!-- Hero Section -->
                 <section class="relative h-[65vh] lg:h-[85vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
                     <div class="absolute inset-0 z-0">
-                        <!-- object-coverでワイドに表示、object-topで手を切れさせない -->
                         <img 
                             src="${PAGE_CONTENT.hero.bgImage}" 
                             alt="Background" 
@@ -262,7 +297,6 @@
                                 そんなアイデアを、私たちの技術で形にしませんか？<br/>
                                 製造ロットや仕様につきましては、お客様のご要望に合わせて柔軟に対応いたします。
                             </p>
-                            <!-- 配置を元の設定（左揃え）に戻しました -->
                             <div class="flex flex-wrap gap-4">
                                <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
                                  <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> 試作開発対応
@@ -280,9 +314,18 @@
                     <div class="container mx-auto">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-gray-800 pb-12">
                             <div class="md:col-span-1">
-                                <!-- フッター画像の配置調整: flex justify-center (スマホ中央) md:justify-center (PCもカラム内中央で右寄りに見せる) -->
+                                <!-- フッター画像のクリック機能追加 -->
+                                <!-- カーソルをpointerにし、hover時にアイコンを表示 -->
                                 <div class="mb-6 flex justify-center md:justify-center">
-                                    <img src="./7moro.png" alt="KAWAGOEYA" class="h-64 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_FOOTER_DATA;">
+                                    <div class="relative group cursor-pointer" onclick="openVideoModal()">
+                                        <img src="./7moro.png" alt="KAWAGOEYA" class="h-64 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src=window.PREVIEW_FOOTER_DATA;">
+                                        <!-- 再生アイコンオーバーレイ -->
+                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <div class="bg-black/40 rounded-full p-3 backdrop-blur-sm">
+                                                <i data-lucide="play" class="w-8 h-8 text-white fill-white"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div>
