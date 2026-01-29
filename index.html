@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>川越屋 KAWAGOEYA - 創作</title>
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons (CDN) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #F9F7F2;
+            color: #2C2C2C;
+        }
+        .font-serif { font-family: 'Noto Serif JP', serif; }
+        .font-sans { font-family: 'Noto Sans JP', sans-serif; }
+    </style>
+</head>
+<body>
+
+    <!-- アプリケーションのコンテナ -->
+    <div id="app">
+        <!-- コンテンツはJavaScriptによってここに描画されます -->
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        /* === 設定エリア：ここを変更するだけでコンテンツが更新されます === */
+        
+        const BRAND_COLORS = {
+            primary: '#4B2E1E',
+            bg: '#F9F7F2',
+        };
+
+        const PAGE_CONTENT = {
+            // 画像パスを設定（同じフォルダに画像を置いてください）
+            logoImage: "カワゴエヤ.png", 
+            
+            hero: {
+                title: "創作",
+                subtitle: "豆菓子の技、一粒の芸術。",
+                description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
+                bgImage: "kenji2-Photoroom.png" 
+            },
+            intro: {
+                title: "ナッツパティシエの流儀",
+                text: "私たち川越屋は、単に豆を焼くだけではありません。気温や湿度、豆の状態を見極め、秒単位で焙煎を調整する。それはまさに、パティシエがケーキを作るような繊細な作業です。伝統の技と新しい感性を融合させ、記憶に残る味わいを創造します。"
+            }
+        };
+
+        const PROCESS_STEPS = [
+            {
+                id: 1,
+                title: "原料入荷",
+                engTitle: "Arrival",
+                description: "世界中から厳選された落花生、アーモンド、カシューナッツなどが入荷されます。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。",
+                icon: "truck", // Lucide icon name
+                image: "https://images.unsplash.com/photo-1627916538084-297eb622695e?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 2,
+                title: "選別",
+                engTitle: "Selection",
+                description: "機械による色彩選別と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。",
+                icon: "check-circle",
+                image: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 3,
+                title: "焙煎",
+                engTitle: "Roasting",
+                description: "味の決め手となる焙煎。豆の種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。",
+                icon: "flame",
+                image: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 4,
+                title: "糖がけ",
+                engTitle: "Sugar Coating",
+                description: "銅釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、薄く均一な衣を作ることで、上品な甘さと美しい艶を生み出します。",
+                icon: "droplets",
+                image: "https://images.unsplash.com/photo-1612151855475-877969f4a6cc?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 5,
+                title: "味付け",
+                engTitle: "Seasoning",
+                description: "抹茶、きな粉、胡椒、チーズなど、多彩なフレーバーを纏わせます。素材の風味を損なわないよう、パウダーの配合比率は季節によって微調整しています。",
+                icon: "utensils",
+                image: "https://images.unsplash.com/photo-1594916300438-e6b360bf05b1?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 6,
+                title: "包装",
+                engTitle: "Packaging",
+                description: "出来立ての鮮度を逃さないよう、酸素を通しにくいフィルムで素早くパッケージング。金属探知機による最終検査を経て、皆様のもとへ出荷されます。",
+                icon: "gift",
+                image: "https://images.unsplash.com/photo-1631454553896-e2a27b878345?q=80&w=800&auto=format&fit=crop"
+            }
+        ];
+
+        /* === 描画ロジック === */
+
+        function renderApp() {
+            const app = document.getElementById('app');
+            
+            // ヘッダーナビゲーション項目
+            const navItems = ['ホーム', '創作', '商品一覧'].map(item => 
+                `<a href="#" class="text-sm tracking-widest hover:text-orange-400 transition-colors nav-link text-white/90">${item}</a>`
+            ).join('');
+
+            // ステップカードの生成
+            const stepsHtml = PROCESS_STEPS.map((step, index) => {
+                const stepNum = String(index + 1).padStart(2, '0');
+                return `
+                <div class="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border-b-4" style="border-color: ${BRAND_COLORS.primary}">
+                    <!-- Image Area -->
+                    <div class="relative h-64 overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10"></div>
+                        <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <!-- Step Badge -->
+                        <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-white/90 backdrop-blur rounded-full shadow-lg">
+                            <span class="font-serif text-xl font-bold" style="color: ${BRAND_COLORS.primary}">${stepNum}</span>
+                        </div>
+                    </div>
+                    <!-- Content Area -->
+                    <div class="p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="p-2 rounded-full bg-orange-50 text-orange-800">
+                                <i data-lucide="${step.icon}" class="w-8 h-8"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs uppercase tracking-widest text-gray-500 mb-1">${step.engTitle}</span>
+                                <h3 class="text-2xl font-serif font-bold" style="color: ${BRAND_COLORS.primary}">${step.title}</h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 leading-relaxed text-sm lg:text-base">${step.description}</p>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            // HTML全体の組み立て
+            app.innerHTML = `
+                <!-- Header -->
+                <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4">
+                    <div class="container mx-auto px-6 flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-12 w-auto object-contain">
+                        </div>
+                        <nav class="hidden md:flex gap-8">
+                            ${navItems}
+                        </nav>
+                        <button class="md:hidden text-gray-800">
+                            <i data-lucide="menu" class="header-icon text-white"></i>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Hero Section -->
+                <section class="relative h-[60vh] lg:h-[70vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="${PAGE_CONTENT.hero.bgImage}" alt="Background" class="w-full h-full object-cover object-top opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20"></div>
+                    </div>
+                    <div class="relative z-10 container mx-auto px-6 text-center text-white">
+                        <span class="inline-block py-1 px-3 border border-white/30 rounded-full text-xs tracking-[0.2em] mb-6 backdrop-blur-sm">
+                            MANUFACTURING PROCESS
+                        </span>
+                        <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-wide drop-shadow-lg">
+                            ${PAGE_CONTENT.hero.title}
+                        </h1>
+                        <p class="text-xl md:text-2xl font-light tracking-wider opacity-90 mb-8 font-serif drop-shadow-md">
+                            ${PAGE_CONTENT.hero.subtitle}
+                        </p>
+                        <div class="w-24 h-1 bg-orange-400 mx-auto rounded-full"></div>
+                    </div>
+                </section>
+
+                <!-- Intro Section -->
+                <section class="py-20 md:py-32 px-6">
+                    <div class="container mx-auto max-w-4xl text-center">
+                        <div class="mb-8 flex justify-center">
+                             <img src="https://cdn-icons-png.flaticon.com/512/2619/2619528.png" class="w-16 h-16 opacity-20 sepia" alt="decoration" />
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-serif font-bold mb-10 text-gray-800">
+                            ${PAGE_CONTENT.intro.title}
+                        </h2>
+                        <p class="text-lg leading-loose text-gray-600 font-medium">
+                            ${PAGE_CONTENT.intro.text}
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Process Grid -->
+                <section class="py-20 px-6 bg-white">
+                    <div class="container mx-auto">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b pb-6 border-gray-100">
+                            <div>
+                                <span class="text-orange-600 font-bold tracking-widest text-sm block mb-2">THE PROCESS</span>
+                                <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-800">
+                                    美味しさを創る6つの工程
+                                </h2>
+                            </div>
+                            <p class="text-gray-500 mt-4 md:mt-0 max-w-md text-sm">
+                                一つひとつの工程に妥協せず、素材のポテンシャルを最大限に引き出す。それが川越屋のスタンダードです。
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                            ${stepsHtml}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- OEM / Contact -->
+                <section class="py-24 px-6 relative overflow-hidden text-white" style="background-color: ${BRAND_COLORS.primary}">
+                    <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                        <div class="w-96 h-96 rounded-full bg-white absolute -top-20 -left-20 blur-3xl"></div>
+                        <div class="w-96 h-96 rounded-full bg-orange-500 absolute bottom-0 right-0 blur-3xl"></div>
+                    </div>
+                    <div class="container mx-auto relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+                        <div class="lg:w-1/2">
+                            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6">オリジナル商品の開発</h2>
+                            <p class="text-lg text-white/80 leading-relaxed mb-8">
+                                「こんな味のナッツを作りたい」「地元の特産品とコラボしたい」<br/>
+                                そんなアイデアを、私たちの技術で形にしませんか？<br/>
+                                製造ロットや仕様につきましては、お客様のご要望に合わせて柔軟に対応いたします。
+                            </p>
+                            <div class="flex flex-wrap gap-4">
+                               <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
+                                 <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> 試作開発対応
+                               </div>
+                               <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
+                                 <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> パッケージ提案
+                               </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-auto">
+                            <a href="#" class="group inline-flex items-center gap-4 bg-white text-gray-900 px-8 py-4 rounded-full font-bold transition-all hover:bg-orange-100 hover:scale-105">
+                                <span>お問い合わせはこちら</span>
+                                <i data-lucide="chevron-right" class="group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="bg-gray-900 text-white pt-20 pb-10 px-6">
+                    <div class="container mx-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-gray-800 pb-12">
+                            <div class="md:col-span-1">
+                                <div class="mb-6 bg-white inline-block p-2 rounded">
+                                    <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto">
+                                </div>
+                                <p class="text-gray-400 text-sm leading-relaxed">
+                                    創業以来、豆菓子一筋。<br>伝統の味を守りながら、<br>新しい美味しさを追求し続けます。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-6 text-gray-300">メニュー</h4>
+                                <ul class="space-y-4 text-sm text-gray-400">
+                                    <li><a href="#" class="hover:text-white transition-colors">ホーム</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors">創作（製造工程）</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors">商品一覧</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-6 text-gray-300">商品カテゴリー</h4>
+                                <ul class="space-y-4 text-sm text-gray-400">
+                                    <li><a href="#" class="hover:text-white transition-colors">素焼きナッツ</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors">フレーバーナッツ</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors">ギフトセット</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors">業務用</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-6 text-gray-300">お問い合わせ</h4>
+                                <p class="text-gray-400 text-sm mb-4">OEMのご相談や商品に関する<br>お問い合わせはこちらから</p>
+                                <div class="text-xl font-serif font-bold text-orange-400">012-345-6789</div>
+                                <p class="text-xs text-gray-500 mt-1">受付時間 9:00 - 17:00 (土日祝除く)</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                            <p>&copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.</p>
+                            <div class="flex gap-6 mt-4 md:mt-0">
+                                <a href="#" class="hover:text-white transition-colors">プライバシーポリシー</a>
+                                <a href="#" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+
+                <!-- Scroll to Top -->
+                <button id="scrollToTop" class="fixed bottom-8 right-8 bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-orange-50 z-40 opacity-0 translate-y-10 pointer-events-none">
+                    <i data-lucide="arrow-up" class="w-5 h-5"></i>
+                </button>
+            `;
+
+            // Lucideアイコンの初期化
+            lucide.createIcons();
+
+            // スクロールイベントの設定
+            const header = document.getElementById('main-header');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const headerIcon = document.querySelector('.header-icon');
+            const scrollBtn = document.getElementById('scrollToTop');
+
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY > 50;
+                
+                if (scrolled) {
+                    header.classList.add('bg-white/95', 'backdrop-blur', 'shadow-md', 'py-3');
+                    header.classList.remove('bg-transparent', 'py-4');
+                    navLinks.forEach(el => {
+                        el.classList.add('text-gray-600');
+                        el.classList.remove('text-white/90');
+                    });
+                    if(headerIcon) headerIcon.classList.replace('text-white', 'text-gray-800');
+                    
+                    scrollBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    scrollBtn.classList.add('opacity-100', 'translate-y-0');
+                } else {
+                    header.classList.remove('bg-white/95', 'backdrop-blur', 'shadow-md', 'py-3');
+                    header.classList.add('bg-transparent', 'py-4');
+                    navLinks.forEach(el => {
+                        el.classList.remove('text-gray-600');
+                        el.classList.add('text-white/90');
+                    });
+                    if(headerIcon) headerIcon.classList.replace('text-gray-800', 'text-white');
+
+                    scrollBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    scrollBtn.classList.remove('opacity-100', 'translate-y-0');
+                }
+            });
+
+            // トップへ戻るボタン
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // 初期描画実行
+        renderApp();
+    </script>
+</body>
+</html>
