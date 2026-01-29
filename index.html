@@ -41,22 +41,20 @@
             bg: '#F9F7F2',
         };
 
-        // ★プレビュー用の仮画像データ（本番では使われませんが、削除しないでください）
+        // ★プレビュー用の仮画像データ（本番で読み込みエラー時に表示されます）
         const PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='%23eee'/><text x='100' y='40' font-family='sans-serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%23999'>ロゴ画像</text></svg>`;
-        // 修正：以前の画像が出ないように、プレースホルダー画像に変更しました
         const PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像（本番で表示されます）</text></svg>`;
 
         const PAGE_CONTENT = {
-            // ★本番用のファイル名を指定しています
-            // プレビュー画面では画像がないため仮画像が表示されますが、GitHubに上げれば正しく表示されます
-            logoImage: "カワゴエヤ.png", 
+            // ★【重要修正】先頭に「./」を付けました。これで「同じフォルダにある」ことを明示します。
+            logoImage: "./カワゴエヤ.png", 
             
             hero: {
                 title: "創作",
                 subtitle: "ナッツ菓子の技、一粒の芸術。",
                 description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
-                // ★本番用のファイル名を指定しています
-                bgImage: "2098E344-D795-4BA4-84B7-37AFBA59522A.jpeg" 
+                // ★【重要修正】先頭に「./」を付けました。
+                bgImage: "./2098E344-D795-4BA4-84B7-37AFBA59522A.jpeg" 
             },
             intro: {
                 title: "ナッツパティシエの流儀",
@@ -163,7 +161,7 @@
                 <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4">
                     <div class="container mx-auto px-6 flex justify-between items-center">
                         <div class="flex items-center">
-                            <!-- onerrorを追加: 画像がない場合はプレビュー用仮画像を表示 -->
+                            <!-- onerror: 画像読み込みエラー時はプレビュー用画像を表示 -->
                             <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src=PREVIEW_LOGO_DATA;">
                         </div>
                         <nav class="hidden md:flex gap-8">
@@ -178,7 +176,6 @@
                 <!-- Hero Section -->
                 <section class="relative h-[60vh] lg:h-[70vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
                     <div class="absolute inset-0 z-0">
-                        <!-- onerrorを追加: 画像がない場合はプレビュー用仮画像を表示 -->
                         <!-- object-containで全体が収まるように設定済み -->
                         <img src="${PAGE_CONTENT.hero.bgImage}" alt="Background" class="w-full h-full object-contain object-center opacity-90" onerror="this.onerror=null; this.src=PREVIEW_HERO_DATA;">
                         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20"></div>
