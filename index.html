@@ -278,13 +278,11 @@
                     <div class="container mx-auto">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-gray-800 pb-12">
                             <div class="md:col-span-1">
-                                <div class="mb-6 bg-white inline-block p-2 rounded">
-                                    <!-- onerrorを追加: 画像がない場合はプレビュー用仮画像を表示 -->
-                                    <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
+                                <div class="mb-6">
+                                    <!-- フッターのロゴ画像を7moro.pngに変更し、白枠を削除、サイズ調整 -->
+                                    <img src="./7moro.png" alt="KAWAGOEYA" class="h-20 w-auto" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
                                 </div>
-                                <p class="text-gray-400 text-sm leading-relaxed">
-                                    創業以来、豆菓子一筋。<br>伝統の味を守りながら、<br>新しい美味しさを追求し続けます。
-                                </p>
+                                <!-- 下部の文言を削除しました -->
                             </div>
                             <div>
                                 <h4 class="font-bold mb-6 text-gray-300">メニュー</h4>
