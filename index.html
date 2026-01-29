@@ -174,10 +174,10 @@
                 </header>
 
                 <!-- Hero Section -->
-                <section class="relative h-[60vh] lg:h-[70vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
+                <section class="relative h-[65vh] lg:h-[85vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
                     <div class="absolute inset-0 z-0">
-                        <!-- object-containで全体が収まるように設定済み -->
-                        <img src="${PAGE_CONTENT.hero.bgImage}" alt="Background" class="w-full h-full object-contain object-center opacity-90" onerror="this.onerror=null; this.src=PREVIEW_HERO_DATA;">
+                        <!-- 修正: object-coverでワイドに表示、object-topで手を切れさせない -->
+                        <img src="${PAGE_CONTENT.hero.bgImage}" alt="Background" class="w-full h-full object-cover object-top opacity-90" onerror="this.onerror=null; this.src=PREVIEW_HERO_DATA;">
                         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20"></div>
                     </div>
                     <div class="relative z-10 container mx-auto px-6 text-center text-white">
