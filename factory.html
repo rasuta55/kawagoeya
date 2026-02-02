@@ -179,8 +179,8 @@
             
             <!-- Desktop Menu (Hidden on Mobile) -->
             <div class="hidden md:flex space-x-8 text-sm text-gray-300 font-medium tracking-wider items-center">
-                <!-- メタルボタン化＆factory_koujousiryou.htmlへリンク -->
-                <a href="factory_koujousiryou.html" class="metal-btn">施設概要</a>
+                <!-- ページ内リンクに変更 -->
+                <a href="#about" class="metal-btn">施設概要</a>
             </div>
 
             <!-- Mobile Hamburger Button -->
@@ -194,7 +194,8 @@
             <div class="w-full max-w-xs flex flex-col gap-6 p-6">
                 <p class="text-brand-gold font-english text-center text-sm tracking-[0.2em] mb-4">MENU</p>
                 
-                <a href="factory_koujousiryou.html" class="metal-btn text-center text-lg w-full py-4">
+                <!-- ページ内リンクに変更 & メニューを閉じる処理を追加 -->
+                <a href="#about" class="metal-btn text-center text-lg w-full py-4" onclick="closeMobileMenu()">
                     施設概要
                 </a>
                 
