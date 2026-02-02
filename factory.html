@@ -59,6 +59,20 @@
             transform: translateY(0);
         }
 
+        .gold-gradient-text {
+            background: linear-gradient(45deg, #C5A059, #E6D2A0, #C5A059);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
         .image-hover-zoom {
             overflow: hidden;
         }
@@ -82,6 +96,15 @@
             align-items: center;
             transition: opacity 0.5s ease;
         }
+        
+        /* Modal Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-animate {
+            animation: fadeIn 0.3s ease-out;
+        }
     </style>
 </head>
 <body class="bg-white text-brand-dark font-sans antialiased selection:bg-brand-gold selection:text-white">
@@ -91,6 +114,23 @@
         <div class="text-center">
             <h1 class="font-english text-3xl text-brand-gold italic tracking-widest animate-pulse">KAWAGOEYA</h1>
             <p class="text-gray-500 text-xs mt-2 font-serif tracking-widest">EST. NEW FACTORY</p>
+        </div>
+    </div>
+
+    <!-- Video Modal for Kenji Tsuchiya -->
+    <div id="kenjiVideoModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeKenjiVideo()">
+        <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
+            <button onclick="closeKenjiVideo()" class="absolute -top-12 right-0 text-white hover:text-brand-gold transition-colors flex items-center gap-2">
+                <span class="text-sm font-bold tracking-widest">CLOSE</span>
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden border border-white/10">
+                <!-- 動画プレーヤー：コントロール付き -->
+                <video id="kenjiVideoPlayer" controls class="w-full h-full">
+                    <source src="./factory_kenji.mp4" type="video/mp4">
+                    <p class="text-white text-center p-4">お使いのブラウザは動画の再生に対応していません。</p>
+                </video>
+            </div>
         </div>
     </div>
 
@@ -173,7 +213,7 @@
         </div>
     </section>
 
-    <!-- Technology Section (復活) -->
+    <!-- Technology Section -->
     <section id="technology" class="py-32 bg-brand-dark text-white relative overflow-hidden">
         <!-- Background Elements -->
         <div class="absolute top-0 right-0 w-1/3 h-full bg-brand-accent/5 backdrop-blur-3xl rounded-full filter blur-[100px]"></div>
@@ -276,7 +316,7 @@
         </div>
     </section>
 
-    <!-- Stats Section (復活) -->
+    <!-- Stats Section -->
     <section id="capacity" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16 fade-up">
@@ -310,7 +350,7 @@
         </div>
     </section>
 
-    <!-- Message & Quality (復活) -->
+    <!-- Message & Quality -->
     <section id="quality" class="py-24 bg-factory-pattern bg-cover bg-fixed relative text-white">
         <div class="absolute inset-0 bg-brand-dark/90"></div>
         <div class="max-w-5xl mx-auto px-6 relative z-10">
@@ -332,19 +372,28 @@
 
             <!-- Chef's Message -->
             <div class="text-center fade-up">
-                <div class="inline-block p-1 border rounded-full border-brand-gold/30 mb-6">
+                <!-- 画像にクリックイベントを追加 -->
+                <div class="inline-block p-1 border rounded-full border-brand-gold/30 mb-6 cursor-pointer hover:scale-105 transition-transform" onclick="openKenjiVideo()">
                     <div class="w-24 h-24 rounded-full bg-gray-700 overflow-hidden relative">
                          <!-- Chef Image -->
                         <img src="./product_ken.jpeg" alt="Kenji Tsuchiya" class="w-full h-full object-cover" onerror="this.src='https://placehold.jp/200x200.png?text=Chef'">
+                        <!-- 再生アイコンオーバーレイ -->
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity">
+                             <i data-lucide="play" class="w-8 h-8 text-white"></i>
+                        </div>
                     </div>
                 </div>
                 <blockquote class="font-serif text-2xl md:text-3xl leading-relaxed italic mb-8">
                     "味は、幸せを伝えるもの。<br>
                     ナッツを通して、幸せの虹色を描きたい。"
                 </blockquote>
-                <div class="text-brand-gold font-english tracking-widest">
+                <!-- テキストにもクリックイベントを追加 -->
+                <div class="text-brand-gold font-english tracking-widest cursor-pointer hover:text-white transition-colors" onclick="openKenjiVideo()">
                     <span class="block text-sm text-gray-400 font-sans normal-case mb-1">Nuts Pâtissier</span>
                     KENJI TSUCHIYA
+                    <div class="mt-2 inline-flex items-center gap-2 text-xs border border-brand-gold/50 px-3 py-1 rounded-full text-brand-gold/80 hover:bg-brand-gold hover:text-black transition-colors">
+                        <i data-lucide="play-circle" class="w-3 h-3"></i> Watch Video
+                    </div>
                 </div>
                 <p class="mt-8 text-sm text-gray-400 max-w-xl mx-auto leading-relaxed font-light">
                     お客様のニーズに応えるべく、日々味の研究を行っています。<br>
@@ -443,6 +492,28 @@
                 };
                 updateCount();
             });
+        }
+
+        // Kenji Video Modal Control
+        function openKenjiVideo() {
+            const modal = document.getElementById('kenjiVideoModal');
+            const video = document.getElementById('kenjiVideoPlayer');
+            if(modal && video) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                video.play().catch(e => console.log('Auto-play prevented:', e));
+            }
+        }
+
+        function closeKenjiVideo() {
+            const modal = document.getElementById('kenjiVideoModal');
+            const video = document.getElementById('kenjiVideoPlayer');
+            if(modal && video) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                video.pause();
+                video.currentTime = 0;
+            }
         }
     </script>
 </body>
