@@ -111,7 +111,7 @@
             display: inline-block;
             background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #d0d0d0 51%, #e0e0e0 100%);
             color: #333 !important;
-            padding: 8px 24px;
+            padding: 8px 16px; /* スマホ向けにパディングを少し調整 */
             border-radius: 4px;
             border: 1px solid #999;
             box-shadow: 
@@ -122,10 +122,18 @@
             text-decoration: none;
             transition: all 0.2s ease;
             font-family: 'Noto Serif JP', serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
+            font-size: 0.85rem; /* 少し小さめに */
+            letter-spacing: 0.05em;
             white-space: nowrap;
             cursor: pointer;
+        }
+        
+        @media (min-width: 768px) {
+            .metal-btn {
+                padding: 8px 24px;
+                font-size: 0.9rem;
+                letter-spacing: 0.1em;
+            }
         }
         
         .metal-btn:hover {
@@ -175,40 +183,16 @@
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center relative z-50">
-            <a href="./index.html" class="font-serif text-2xl text-white tracking-widest relative z-50">川越屋千葉工場<span class="text-brand-gold text-sm ml-2 font-english italic">KAWAGOEYA</span></a>
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center relative z-50">
+            <!-- ロゴ：スマホでは少し小さく -->
+            <a href="./index.html" class="font-serif text-lg md:text-2xl text-white tracking-widest relative z-50 truncate mr-2">
+                川越屋千葉工場<span class="text-brand-gold text-xs md:text-sm ml-2 font-english italic hidden sm:inline">KAWAGOEYA</span>
+            </a>
             
-            <!-- Desktop Menu (Hidden on Mobile) -->
-            <div class="hidden md:flex space-x-8 text-sm text-gray-300 font-medium tracking-wider items-center">
-                <!-- リンク先をfactory_koujousiryou.htmlに修正 -->
+            <!-- メニュー：ハンバーガーを廃止し、ボタンを常時表示 -->
+            <div class="flex items-center shrink-0">
+                <!-- リンク先：factory_koujousiryou.html -->
                 <a href="factory_koujousiryou.html" class="metal-btn">施設概要</a>
-            </div>
-
-            <!-- Mobile Hamburger Button -->
-            <!-- ボタンの背景を追加し、タップ領域を拡大 -->
-            <button id="mobile-menu-btn" class="md:hidden bg-brand-dark/50 p-2 rounded border border-white/20 text-white focus:outline-none relative z-50 hover:bg-brand-gold/20 transition-colors" aria-label="Menu">
-                <i data-lucide="menu" id="menu-icon" class="w-6 h-6 transition-transform duration-300"></i>
-            </button>
-        </div>
-
-        <!-- Mobile Menu Overlay (Full Screen) -->
-        <!-- z-indexを40に設定し、確実に表示されるように -->
-        <div id="mobile-menu" class="fixed inset-0 bg-brand-dark/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-300">
-            <div class="w-full max-w-xs flex flex-col gap-6 p-6">
-                <p class="text-brand-gold font-english text-center text-sm tracking-[0.2em] mb-4">MENU</p>
-                
-                <!-- リンク先をfactory_koujousiryou.htmlに修正 -->
-                <a href="factory_koujousiryou.html" class="metal-btn text-center text-lg w-full py-4">
-                    施設概要
-                </a>
-                
-                <a href="./index.html" class="text-gray-400 hover:text-white transition-colors text-center font-serif text-sm tracking-widest py-2 border-b border-white/10">
-                    TOPへ戻る
-                </a>
-                
-                <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-center font-serif text-sm tracking-widest py-2" onclick="closeMobileMenu()">
-                    お問い合わせ
-                </a>
             </div>
         </div>
     </nav>
@@ -232,7 +216,7 @@
                 千葉県山武郡横芝光町より、ナッツの新たな可能性をお届けします。
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-6">
-                <!-- 標準のアンカーリンクに戻しました -->
+                <!-- 標準のアンカーリンク -->
                 <a href="#technology" class="group relative px-8 py-3 bg-white text-brand-dark font-medium tracking-widest overflow-hidden transition-all hover:bg-brand-gold hover:text-white">
                     <span class="relative z-10">VIEW MORE</span>
                 </a>
@@ -585,51 +569,6 @@
                 video.currentTime = 0;
             }
         }
-
-        // Mobile Menu Script
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        let isMenuOpen = false;
-
-        function toggleMobileMenu() {
-            isMenuOpen = !isMenuOpen;
-            
-            if (isMenuOpen) {
-                // Open Menu
-                mobileMenu.classList.remove('pointer-events-none');
-                mobileMenu.classList.remove('opacity-0');
-                
-                // Change Icon to X
-                menuIcon.setAttribute('data-lucide', 'x');
-                
-                // Disable Scroll
-                document.body.style.overflow = 'hidden';
-            } else {
-                // Close Menu
-                mobileMenu.classList.add('opacity-0');
-                mobileMenu.classList.add('pointer-events-none');
-                
-                // Change Icon to Menu
-                menuIcon.setAttribute('data-lucide', 'menu');
-                
-                // Enable Scroll
-                document.body.style.overflow = '';
-            }
-            lucide.createIcons();
-        }
-
-        function closeMobileMenu() {
-            if (isMenuOpen) {
-                toggleMobileMenu();
-            }
-        }
-
-        if (mobileBtn) {
-            mobileBtn.addEventListener('click', toggleMobileMenu);
-        }
-        
-        // scrollToSection関数は削除済み
     </script>
 </body>
 </html>
