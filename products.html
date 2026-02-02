@@ -12,7 +12,7 @@
             --text-main: #3e2723;       /* メインテキスト */
             --text-sub: #546e7a;        /* サブテキスト */
             
-            /* カテゴリカラー（更新） */
+            /* カテゴリカラー */
             --tag-salt-bg: #bbdefb;     /* 薄いブルー */
             --tag-salt-text: #0d47a1;   /* 濃いブルー */
             --tag-sweet-bg: #ffcdd2;    /* 薄いレッド */
@@ -37,10 +37,29 @@
             margin: 0 auto;
         }
 
+        /* 戻るボタン（トップページへ） */
+        .top-back-link {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--primary-brown);
+            background-color: white;
+            border: 1px solid var(--primary-brown);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        .top-back-link:hover {
+            background-color: var(--primary-brown);
+            color: white;
+        }
+
         /* ヘッダーデザイン */
         header {
             text-align: center;
-            margin-bottom: 70px;
+            margin-bottom: 60px;
             padding-bottom: 40px;
             border-bottom: 1px solid #e0e0e0;
             position: relative;
@@ -128,6 +147,33 @@
             box-shadow: 0 15px 30px rgba(93, 64, 55, 0.1);
         }
 
+        /* クリック可能なカードのスタイル */
+        .card.clickable {
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .card.clickable:hover {
+            border-color: var(--accent-gold);
+        }
+        /* クリック可能を示すアイコン */
+        .card.clickable::after {
+            content: '🔍 画像を見る';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.75rem;
+            color: white;
+            background: var(--primary-brown);
+            padding: 4px 12px;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .card.clickable:hover::after {
+            opacity: 1;
+        }
+
         /* カード上部のメタ情報 */
         .card-meta {
             display: flex;
@@ -138,16 +184,11 @@
 
         .cat-badge {
             font-size: 0.75rem;
-            font-weight: 900; /* 太字を強化 */
+            font-weight: 900;
             padding: 5px 12px;
             border-radius: 6px;
             letter-spacing: 0.05em;
-            /* 白縁の効果（文字の周りに白い影をつける） */
-            text-shadow: 
-                1.5px 1.5px 0 #fff, 
-                -1.5px -1.5px 0 #fff, 
-                -1.5px 1.5px 0 #fff, 
-                1.5px -1.5px 0 #fff;
+            text-shadow: 1.5px 1.5px 0 #fff, -1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px -1.5px 0 #fff;
         }
 
         .cat-salt {
@@ -201,6 +242,74 @@
             font-size: 0.8rem;
         }
 
+        /* =========================================
+           全画面画像ビューアー（モーダル）のスタイル
+           ========================================= */
+        #imageViewer {
+            display: none; /* 初期状態は非表示 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* 背景を白にしてページ遷移したように見せる */
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto; /* 画像が大きい場合はスクロール */
+            animation: fadeIn 0.3s ease;
+        }
+
+        #imageViewer .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #imageViewer img {
+            max-width: 100%;
+            max-height: 80vh;
+            width: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .viewer-close-btn {
+            background-color: var(--primary-brown);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .viewer-close-btn:hover {
+            background-color: #3e2723;
+            transform: scale(1.05);
+        }
+
+        .viewer-close-btn::before {
+            content: '←';
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         /* レスポンシブ対応 */
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
@@ -212,6 +321,11 @@
 </head>
 <body>
     <div class="container">
+        <!-- ページ左上に「戻るボタン」を設置 -->
+        <div style="text-align: left;">
+            <a href="./index.html" class="top-back-link">← トップページ（製造工程）に戻る</a>
+        </div>
+
         <header>
             <h1>PREMIUM FLAVOR NUTS</h1>
             <p class="subtitle">バルク商品提案カタログ - 2026 Collection</p>
@@ -224,8 +338,9 @@
                 <span class="section-tag">Liquid Coating Series</span>
             </div>
             <div class="grid">
-                <!-- 1. バジル＆チーズ -->
-                <div class="card">
+                <!-- 1. バジル＆チーズ（クリック機能付き） -->
+                <!-- ★ここにクリックイベントを追加しました -->
+                <div class="card clickable" onclick="openImageViewer('./product_basil.jpg')">
                     <div class="card-meta">
                         <span class="cat-badge cat-salt">SALT / 塩系</span>
                     </div>
@@ -399,5 +514,42 @@
             <p>&copy; 2026 KAWAGOEYA. All Rights Reserved.</p>
         </footer>
     </div>
+
+    <!-- 全画面画像ビューアー（疑似ページ遷移） -->
+    <div id="imageViewer">
+        <div class="content-wrapper">
+            <img id="viewerImage" src="" alt="商品詳細">
+            <button class="viewer-close-btn" onclick="closeImageViewer()">前の画面に戻る</button>
+        </div>
+    </div>
+
+    <!-- 制御スクリプト -->
+    <script>
+        function openImageViewer(imageSrc) {
+            var viewer = document.getElementById('imageViewer');
+            var viewerImg = document.getElementById('viewerImage');
+            
+            viewerImg.src = imageSrc;
+            
+            // 画像読み込みエラー時のフォールバック（プレビュー用）
+            viewerImg.onerror = function() {
+                // ダミー画像を表示
+                this.src = 'https://placehold.jp/800x600.png?text=Image%20Not%20Found';
+            };
+
+            viewer.style.display = "flex";
+            // スクロールを禁止する
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeImageViewer() {
+            var viewer = document.getElementById('imageViewer');
+            viewer.style.display = "none";
+            // スクロールを許可する
+            document.body.style.overflow = "auto";
+            // 閉じたときにsrcをクリア
+            document.getElementById('viewerImage').src = "";
+        }
+    </script>
 </body>
 </html>
