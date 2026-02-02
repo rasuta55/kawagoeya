@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全商品カタログ | プレミアムフレーバーナッツ</title>
+    <style>
+        :root {
+            /* カラーパレット定義 */
+            --primary-brown: #5d4037;   /* メインの濃い茶色 */
+            --bg-cream: #fdfbf7;        /* 全体の背景色 */
+            --text-main: #3e2723;       /* メインテキスト */
+            --text-sub: #546e7a;        /* サブテキスト */
+            
+            /* カテゴリカラー（更新） */
+            --tag-salt-bg: #bbdefb;     /* 薄いブルー */
+            --tag-salt-text: #0d47a1;   /* 濃いブルー */
+            --tag-sweet-bg: #ffcdd2;    /* 薄いレッド */
+            --tag-sweet-text: #b71c1c;  /* 濃いレッド */
+            
+            /* アクセント */
+            --accent-gold: #bcaaa4;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ヘッダーデザイン */
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-brown);
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: var(--primary-brown);
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            color: #8d6e63;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* セクションデザイン */
+        section {
+            margin-bottom: 90px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 35px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #efebe9;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-brown);
+            font-weight: 600;
+        }
+
+        .section-tag {
+            margin-left: 20px;
+            font-size: 0.8rem;
+            color: #fff;
+            background-color: var(--accent-gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        /* グリッドレイアウト */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* カードデザイン */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(93, 64, 55, 0.1);
+        }
+
+        /* カード上部のメタ情報 */
+        .card-meta {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .cat-badge {
+            font-size: 0.75rem;
+            font-weight: 900; /* 太字を強化 */
+            padding: 5px 12px;
+            border-radius: 6px;
+            letter-spacing: 0.05em;
+            /* 白縁の効果（文字の周りに白い影をつける） */
+            text-shadow: 
+                1.5px 1.5px 0 #fff, 
+                -1.5px -1.5px 0 #fff, 
+                -1.5px 1.5px 0 #fff, 
+                1.5px -1.5px 0 #fff;
+        }
+
+        .cat-salt {
+            background-color: var(--tag-salt-bg);
+            color: var(--tag-salt-text);
+        }
+
+        .cat-sweet {
+            background-color: var(--tag-sweet-bg);
+            color: var(--tag-sweet-text);
+        }
+
+        /* 商品名 */
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+
+        /* ナッツの種類タグ */
+        .nuts-info {
+            display: inline-block;
+            background: #fff8f0;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6d4c41;
+            margin-bottom: 18px;
+            width: fit-content;
+            border: 1px solid #efebe9;
+        }
+
+        /* 説明文 */
+        .description {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.7;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px;
+            border-top: 1px solid #e0e0e0;
+            color: #a1887f;
+            font-size: 0.8rem;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; gap: 20px; }
+            .section-header { flex-direction: column; align-items: flex-start; }
+            .section-tag { margin-left: 0; margin-top: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PREMIUM FLAVOR NUTS</h1>
+            <p class="subtitle">バルク商品提案カタログ - 2026 Collection</p>
+        </header>
+
+        <!-- Section 1: 糖掛け（液掛け）全11種 -->
+        <section id="eki">
+            <div class="section-header">
+                <h2 class="section-title">手につきにくい「糖掛け製法」</h2>
+                <span class="section-tag">Liquid Coating Series</span>
+            </div>
+            <div class="grid">
+                <!-- 1. バジル＆チーズ -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">バジル＆チーズ</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">パルメザンをメインに数種のチーズをブレンドしてコクを出し、バジルの香りとスパイスで深い味わいに仕上げました。</p>
+                </div>
+
+                <!-- 2. 3種のペッパー -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">3種のペッパー<br><span style="font-size:0.8em; font-weight:normal;">（ロレーヌ岩塩）</span></h3>
+                    <div class="nuts-info">アーモンド / カシューナッツ</div>
+                    <p class="description">旨味の強いフランス産ロレーヌ岩塩と、3種（ブラック、ホワイト、グリーン）のペッパーとガーリックをがつんと効かせたスパイシーな味わいです。</p>
+                </div>
+
+                <!-- 3. 旨塩燻製風味 -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">旨塩燻製風味<br><span style="font-size:0.8em; font-weight:normal;">（ロレーヌ岩塩）</span></h3>
+                    <div class="nuts-info">アーモンド / カシューナッツ</div>
+                    <p class="description">旨味の強いフランス産ロレーヌ岩塩を効かせたシンプルなナッツ。ほんのり香る燻製風味と濃いめの塩味が食欲をそそります。</p>
+                </div>
+
+                <!-- 4. トマト＆バジル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">トマト＆バジル<br><span style="font-size:0.8em; font-weight:normal;">（イタリアンハーブ風味）</span></h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">プリッツのような爽やかなトマトの酸味と旨味をベースに、バジルの香りとスパイスを効かせたピリ辛味に仕上げました。</p>
+                </div>
+
+                <!-- 5. ハニーバター -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">ハニーバター</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">ハンガリー産アカシアはちみつとシーズニングをたっぷり重ね掛けし、香ばしいバター香る美味しさに仕上げました。</p>
+                </div>
+
+                <!-- 6. メープル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">メープル</h3>
+                    <div class="nuts-info">くるみ / アーモンド</div>
+                    <p class="description">カナダ産メープルシュガーとシーズニングとやさしい甘さの三温糖を溶かしこみ、メープルの香りを引き立てました。</p>
+                </div>
+
+                <!-- 7. カカオ -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">カカオ</h3>
+                    <div class="nuts-info">くるみ</div>
+                    <p class="description">ブラウンシュガーとラカントで程よい甘さを加え、ポリフェノール豊富な有機ココアパウダーをたっぷり掛けました。</p>
+                </div>
+
+                <!-- 8. 塩キャラメル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">塩キャラメル<br><span style="font-size:0.8em; font-weight:normal;">（ロレーヌ岩塩）</span></h3>
+                    <div class="nuts-info">カシューナッツ / くるみ</div>
+                    <p class="description">ブラウンシュガーとキャラメルシーズニングを溶かしこみ、ロレーヌ岩塩でほど良い塩気を加え、塩キャラメル風味に仕上げました。</p>
+                </div>
+
+                <!-- 9. 焦がしキャラメル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">焦がしキャラメル</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">ブラウンシュガーとキャラメルシーズニングを溶かしこみ、甘く香ばしい焦がしキャラメル風味に仕上げました。</p>
+                </div>
+
+                <!-- 10. 黒糖 -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">黒糖</h3>
+                    <div class="nuts-info">くるみ / アーモンド</div>
+                    <p class="description">沖縄県産黒糖を何度も重ね掛けしナッツに染み込ませました。素材の味が生きたシンプルな美味しさです。</p>
+                </div>
+
+                <!-- 11. 黒糖シナモン -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">黒糖シナモン</h3>
+                    <div class="nuts-info">くるみ</div>
+                    <p class="description">沖縄県産黒糖を何度も重ね掛けし、シナモンの風味をしっかり溶け込ませたヘビーユーザーの多い独特な味わいです。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: 粉掛け製法 全5種 -->
+        <section id="kona">
+            <div class="section-header">
+                <h2 class="section-title">ふんわり香り立つ「粉掛け製法」</h2>
+                <span class="section-tag">Powder Coating Series</span>
+            </div>
+            <div class="grid">
+                <!-- 1. きなこ -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">きなこ</h3>
+                    <div class="nuts-info">くるみ</div>
+                    <p class="description">国産大豆のきなこを、たっぷりまぶしました。優しい甘さとふんわり掛かったきなこの香ばしさが、和菓子にも似た味わいです。</p>
+                </div>
+
+                <!-- 2. 黒糖きなこ -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">黒糖きなこ</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">沖縄県産黒糖を何度も重ね掛けし、国産大豆のきなこを更にふんわりと重ね掛けした、厚みのある味わいです。</p>
+                </div>
+
+                <!-- 3. ラズベリー -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">ラズベリー</h3>
+                    <div class="nuts-info">カシューナッツ</div>
+                    <p class="description">味が濃縮されたFDラズベリーとヨーグルトをたっぷりカシューに絡めました。見た目も鮮やかで甘酸っぱい味が特に女性に人気です。</p>
+                </div>
+
+                <!-- 4. レモンヨーグルト -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">レモンヨーグルト</h3>
+                    <div class="nuts-info">カシューナッツ</div>
+                    <p class="description">国産レモン皮パウダーにヨーグルト味を加え、甘みと酸味が効いた贅沢な味わいのカシューナッツに仕立てました。</p>
+                </div>
+
+                <!-- 5. いちごみるく -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">いちごみるく</h3>
+                    <div class="nuts-info">カシューナッツ</div>
+                    <p class="description">苺（とちおとめ）パウダーとミルクをふんわりと重ね掛けした、甘くて少し酸味がある懐かしい味わいのカシューナッツです。</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 KAWAGOEYA. All Rights Reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
