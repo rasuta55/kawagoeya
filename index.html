@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>川越屋 KAWAGOEYA - 創作</title>
+    <title>川越屋 KAWAGOEYA - 加工場の設備</title>
     
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -31,6 +31,48 @@
         }
         .modal-animate {
             animation: fadeIn 0.3s ease-out;
+        }
+
+        /* メタル風ボタンのスタイル */
+        .metal-btn {
+            display: inline-block;
+            /* シルバー系の金属的なグラデーション */
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #d0d0d0 51%, #e0e0e0 100%);
+            color: #333 !important; /* 文字色は濃いグレー固定 */
+            padding: 8px 24px;
+            border-radius: 4px;
+            border: 1px solid #999;
+            /* 立体感を出すシャドウ */
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.8),
+                0 2px 3px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            white-space: nowrap; /* 折り返し防止 */
+        }
+        
+        .metal-btn:hover {
+            /* ホバー時は明るく輝く */
+            background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 50%, #e0e0e0 51%, #f0f0f0 100%);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.9),
+                0 0 10px rgba(255,255,255,0.5),
+                0 3px 6px rgba(0,0,0,0.4);
+            transform: translateY(-1px);
+            color: #000 !important;
+        }
+        
+        .metal-btn:active {
+            /* クリック時は沈む */
+            background: linear-gradient(135deg, #d0d0d0 0%, #e0e0e0 50%, #c0c0c0 51%, #d0d0d0 100%);
+            box-shadow: 
+                inset 0 2px 5px rgba(0,0,0,0.2);
+            transform: translateY(1px);
         }
     </style>
 </head>
@@ -60,7 +102,7 @@
             footerVideo: "./MINANA製造工程.mp4",
             
             hero: {
-                title: "創作",
+                title: "加工場の設備", 
                 subtitle: "ナッツ菓子の技、一粒の芸術。",
                 description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
                 bgImage: "./hero.jpg",
@@ -153,12 +195,14 @@
             // ヘッダーナビゲーション項目（リンク先を設定）
             const NAV_LINKS = [
                 { label: 'ホーム', href: './index.html' },
-                { label: '創作', href: './index.html' },
+                // ★PDFへのリンクに変更しました
+                { label: '加工場の設備', href: 'product_kakoujou.pdf' },
                 { label: '商品一覧', href: './products.html' }
             ];
 
+            // メタルボタン風クラスを適用
             const navItems = NAV_LINKS.map(item => 
-                `<a href="${item.href}" class="text-sm tracking-widest hover:text-orange-400 transition-colors nav-link text-white/90">${item.label}</a>`
+                `<a href="${item.href}" class="metal-btn">${item.label}</a>`
             ).join('');
 
             // ステップカードの生成
@@ -208,12 +252,13 @@
                 </div>
 
                 <!-- Header -->
-                <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4">
+                <!-- ★変更点: fixed から absolute に変更し、ページ上部に固定（スクロール追従なし） -->
+                <header id="main-header" class="absolute w-full z-50 py-4">
                     <div class="container mx-auto px-6 flex justify-between items-center">
                         <div class="flex items-center">
                             <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
                         </div>
-                        <nav class="hidden md:flex gap-8">
+                        <nav class="hidden md:flex gap-4">
                             ${navItems}
                         </nav>
                         <button class="md:hidden text-gray-800">
@@ -334,7 +379,7 @@
                                 <h4 class="font-bold mb-6 text-gray-300">メニュー</h4>
                                 <ul class="space-y-4 text-sm text-gray-400">
                                     <li><a href="./index.html" class="hover:text-white transition-colors">ホーム</a></li>
-                                    <li><a href="./index.html" class="hover:text-white transition-colors">創作</a></li>
+                                    <li><a href="./index.html" class="hover:text-white transition-colors">加工場の設備</a></li>
                                     <li><a href="./products.html" class="hover:text-white transition-colors">商品一覧</a></li>
                                 </ul>
                             </div>
@@ -366,35 +411,16 @@
             // Lucideアイコンの初期化
             lucide.createIcons();
 
-            // スクロールイベントの設定
-            const header = document.getElementById('main-header');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const headerIcon = document.querySelector('.header-icon');
+            // スクロールイベントの設定（トップへ戻るボタンのみ）
             const scrollBtn = document.getElementById('scrollToTop');
 
             window.addEventListener('scroll', () => {
                 const scrolled = window.scrollY > 50;
                 
                 if (scrolled) {
-                    header.classList.add('bg-white/95', 'backdrop-blur', 'shadow-md', 'py-3');
-                    header.classList.remove('bg-transparent', 'py-4');
-                    navLinks.forEach(el => {
-                        el.classList.add('text-gray-600');
-                        el.classList.remove('text-white/90');
-                    });
-                    if(headerIcon) headerIcon.classList.replace('text-white', 'text-gray-800');
-                    
                     scrollBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
                     scrollBtn.classList.add('opacity-100', 'translate-y-0');
                 } else {
-                    header.classList.remove('bg-white/95', 'backdrop-blur', 'shadow-md', 'py-3');
-                    header.classList.add('bg-transparent', 'py-4');
-                    navLinks.forEach(el => {
-                        el.classList.remove('text-gray-600');
-                        el.classList.add('text-white/90');
-                    });
-                    if(headerIcon) headerIcon.classList.replace('text-gray-800', 'text-white');
-
                     scrollBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
                     scrollBtn.classList.remove('opacity-100', 'translate-y-0');
                 }
