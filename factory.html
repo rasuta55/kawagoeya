@@ -174,17 +174,43 @@
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="./index.html" class="font-serif text-2xl text-white tracking-widest">川越屋千葉工場<span class="text-brand-gold text-sm ml-2 font-english italic">KAWAGOEYA</span></a>
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center relative z-50">
+            <a href="./index.html" class="font-serif text-2xl text-white tracking-widest relative z-50">川越屋千葉工場<span class="text-brand-gold text-sm ml-2 font-english italic">KAWAGOEYA</span></a>
+            
+            <!-- Desktop Menu (Hidden on Mobile) -->
             <div class="hidden md:flex space-x-8 text-sm text-gray-300 font-medium tracking-wider items-center">
                 <!-- メタルボタン化＆factory_koujousiryou.htmlへリンク -->
                 <a href="factory_koujousiryou.html" class="metal-btn">施設概要</a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white p-2 focus:outline-none relative z-50" aria-label="Menu">
+                <i data-lucide="menu" id="menu-icon" class="w-8 h-8 transition-transform duration-300"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay (Full Screen) -->
+        <div id="mobile-menu" class="fixed inset-0 bg-brand-dark/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-300">
+            <div class="w-full max-w-xs flex flex-col gap-6 p-6">
+                <p class="text-brand-gold font-english text-center text-sm tracking-[0.2em] mb-4">MENU</p>
+                
+                <a href="factory_koujousiryou.html" class="metal-btn text-center text-lg w-full py-4">
+                    施設概要
+                </a>
+                
+                <a href="./index.html" class="text-gray-400 hover:text-white transition-colors text-center font-serif text-sm tracking-widest py-2 border-b border-white/10">
+                    TOPへ戻る
+                </a>
+                
+                <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-center font-serif text-sm tracking-widest py-2" onclick="closeMobileMenu()">
+                    お問い合わせ
+                </a>
             </div>
         </div>
     </nav>
 
     <!-- Back to Top Button (Fixed) -->
-    <a href="./index.html" class="fixed top-24 left-6 z-40 flex items-center gap-2 px-5 py-2 bg-brand-dark/80 backdrop-blur text-white border border-brand-gold/50 rounded-full hover:bg-brand-gold hover:text-brand-dark transition-all duration-300 group shadow-lg">
+    <a href="./index.html" class="fixed top-24 left-6 z-30 flex items-center gap-2 px-5 py-2 bg-brand-dark/80 backdrop-blur text-white border border-brand-gold/50 rounded-full hover:bg-brand-gold hover:text-brand-dark transition-all duration-300 group shadow-lg">
         <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
         <span class="text-sm font-medium tracking-wider">TOPへ戻る</span>
     </a>
@@ -221,7 +247,7 @@
                 <div class="lg:w-1/2 fade-up">
                     <div class="image-hover-zoom shadow-2xl relative">
                         <!-- Factory Exterior -->
-                        <img src="./product_niji.jpg" alt="新加工場外観" class="w-full h-[500px] object-cover hover:scale-105 transition-all duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=Factory'">
+                        <img src="./product_niji.jpg" alt="新加工場外観" class="w-full h-[500px] object-cover hover:scale-105 transition-all duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=Factory+Exterior'">
                         <div class="absolute bottom-0 left-0 bg-brand-dark p-6 text-white max-w-xs">
                             <p class="text-brand-gold text-xs font-english tracking-widest mb-1">LOCATION</p>
                             <p class="font-serif text-lg">千葉県山武郡横芝光町屋形3660</p>
@@ -295,7 +321,7 @@
                 <div class="order-1">
                     <div class="aspect-video bg-gray-800 rounded-lg overflow-hidden relative group border border-white/10">
                         <!-- Sorter Image -->
-                        <img src="./product_kougaku.jpg" alt="光学選別機" class="w-full h-full object-contain p-4 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=Sorter'">
+                        <img src="./product_kougaku.jpg" alt="光学選別機" class="w-full h-full object-contain p-4 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=AI+Sorter'">
                         <div class="absolute bottom-4 left-4 bg-brand-gold text-brand-dark px-3 py-1 text-xs font-bold tracking-widest z-10">AI DRIVEN</div>
                     </div>
                 </div>
@@ -553,6 +579,49 @@
                 video.pause();
                 video.currentTime = 0;
             }
+        }
+
+        // Mobile Menu Script
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+            
+            if (isMenuOpen) {
+                // Open Menu
+                mobileMenu.classList.remove('pointer-events-none');
+                mobileMenu.classList.remove('opacity-0');
+                
+                // Change Icon to X
+                menuIcon.setAttribute('data-lucide', 'x');
+                
+                // Disable Scroll
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Close Menu
+                mobileMenu.classList.add('opacity-0');
+                mobileMenu.classList.add('pointer-events-none');
+                
+                // Change Icon to Menu
+                menuIcon.setAttribute('data-lucide', 'menu');
+                
+                // Enable Scroll
+                document.body.style.overflow = '';
+            }
+            lucide.createIcons();
+        }
+
+        function closeMobileMenu() {
+            if (isMenuOpen) {
+                toggleMobileMenu();
+            }
+        }
+
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', toggleMobileMenu);
         }
     </script>
 </body>
