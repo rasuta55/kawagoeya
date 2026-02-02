@@ -59,20 +59,6 @@
             transform: translateY(0);
         }
 
-        .gold-gradient-text {
-            background: linear-gradient(45deg, #C5A059, #E6D2A0, #C5A059);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
-        }
-
         .image-hover-zoom {
             overflow: hidden;
         }
@@ -111,16 +97,21 @@
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="font-serif text-2xl text-white tracking-widest">川越屋<span class="text-brand-gold text-sm ml-2 font-english italic">KAWAGOEYA</span></a>
+            <a href="./index.html" class="font-serif text-2xl text-white tracking-widest">川越屋千葉工場<span class="text-brand-gold text-sm ml-2 font-english italic">KAWAGOEYA</span></a>
             <div class="hidden md:flex space-x-8 text-sm text-gray-300 font-medium tracking-wider">
-                <a href="#about" class="hover:text-brand-gold transition-colors">施設概要</a>
-                <a href="#technology" class="hover:text-brand-gold transition-colors">最新技術</a>
-                <a href="#capacity" class="hover:text-brand-gold transition-colors">生産能力</a>
-                <a href="#quality" class="hover:text-brand-gold transition-colors">品質管理</a>
-                <a href="#contact" class="px-6 py-2 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-dark transition-all duration-300">お問い合わせ</a>
+                <!-- 修正：クリックするとPDFへ移動 -->
+                <a href="product_kakoujou.pdf" class="hover:text-brand-gold transition-colors">施設概要</a>
+                <!-- 他のメニューは削除しました -->
             </div>
         </div>
     </nav>
+
+    <!-- Back to Top Button (Fixed) -->
+    <!-- 左上に固定表示される戻るボタン -->
+    <a href="./index.html" class="fixed top-24 left-6 z-40 flex items-center gap-2 px-5 py-2 bg-brand-dark/80 backdrop-blur text-white border border-brand-gold/50 rounded-full hover:bg-brand-gold hover:text-brand-dark transition-all duration-300 group shadow-lg">
+        <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
+        <span class="text-sm font-medium tracking-wider">TOPへ戻る</span>
+    </a>
 
     <!-- Hero Section -->
     <header class="relative h-screen bg-hero-pattern bg-cover bg-center bg-fixed flex items-center justify-center overflow-hidden">
@@ -134,9 +125,10 @@
                 最新鋭の設備と職人の感性が融合した、川越屋の新加工場。<br>
                 千葉県山武郡横芝光町より、ナッツの新たな可能性をお届けします。
             </p>
+            <!-- リンク先削除に伴いボタンも調整 -->
             <div class="flex flex-col md:flex-row justify-center gap-6">
-                <a href="#technology" class="group relative px-8 py-3 bg-white text-brand-dark font-medium tracking-widest overflow-hidden transition-all hover:bg-brand-gold hover:text-white">
-                    <span class="relative z-10">TECHNOLOGY</span>
+                <a href="#about" class="group relative px-8 py-3 bg-white text-brand-dark font-medium tracking-widest overflow-hidden transition-all hover:bg-brand-gold hover:text-white">
+                    <span class="relative z-10">VIEW MORE</span>
                 </a>
             </div>
         </div>
@@ -153,8 +145,8 @@
             <div class="flex flex-col lg:flex-row items-center gap-16">
                 <div class="lg:w-1/2 fade-up">
                     <div class="image-hover-zoom shadow-2xl relative">
-                        <!-- Factory Exterior: Updated to 工場虹.jpg -->
-                        <img src="工場虹.jpg" alt="新加工場外観" class="w-full h-[500px] object-cover hover:scale-105 transition-all duration-700">
+                        <!-- Factory Exterior -->
+                        <img src="./product_niji.jpg" alt="新加工場外観" class="w-full h-[500px] object-cover hover:scale-105 transition-all duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=Factory'">
                         <div class="absolute bottom-0 left-0 bg-brand-dark p-6 text-white max-w-xs">
                             <p class="text-brand-gold text-xs font-english tracking-widest mb-1">LOCATION</p>
                             <p class="font-serif text-lg">千葉県山武郡横芝光町屋形3660</p>
@@ -185,187 +177,6 @@
         </div>
     </section>
 
-    <!-- Technology Section -->
-    <section id="technology" class="py-32 bg-brand-dark text-white relative overflow-hidden">
-        <!-- Background Elements -->
-        <div class="absolute top-0 right-0 w-1/3 h-full bg-brand-accent/5 backdrop-blur-3xl rounded-full filter blur-[100px]"></div>
-
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="text-center mb-24 fade-up">
-                <span class="text-brand-gold font-english text-xl tracking-[0.3em]">INNOVATION</span>
-                <h2 class="text-4xl md:text-6xl font-serif mt-4">革新的設備導入</h2>
-                <p class="text-gray-400 mt-6 max-w-2xl mx-auto">最新鋭のテクノロジーが、ナッツの品質を劇的に向上させます。</p>
-            </div>
-
-            <!-- Machine 1: Roaster -->
-            <div class="grid md:grid-cols-2 gap-12 items-center mb-32 fade-up">
-                <div class="order-2 md:order-1 space-y-6">
-                    <div class="flex items-center gap-4 text-brand-gold mb-2">
-                        <i data-lucide="flame" class="w-6 h-6"></i>
-                        <span class="font-english tracking-widest text-sm">ROASTING</span>
-                    </div>
-                    <h3 class="text-3xl font-serif">流動層焙煎機</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        ナッツを効率よく、ムラなく焙煎する最新システム。熱風でナッツを浮遊させながら焙煎することで、一粒一粒に均一に火を通します。<br>
-                        <span class="text-brand-gold text-sm block mt-2">※くるみとはラインを完全分離し、アレルゲン交差を防止。</span>
-                    </p>
-                    <ul class="space-y-2 text-sm text-gray-300">
-                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-brand-gold rounded-full"></div>アーモンド・カシューナッツ専用</li>
-                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-brand-gold rounded-full"></div>月間生産能力：50トン</li>
-                    </ul>
-                </div>
-                <div class="order-1 md:order-2">
-                    <div class="aspect-video bg-gray-800 rounded-lg overflow-hidden relative group border border-white/10">
-                        <!-- Roaster Image: Updated to 流動焙煎機.png -->
-                        <img src="流動焙煎機.png" alt="流動層焙煎機" class="w-full h-full object-contain p-4 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Machine 2: Sorter -->
-            <div class="grid md:grid-cols-2 gap-12 items-center mb-32 fade-up">
-                <div class="order-1">
-                    <div class="aspect-video bg-gray-800 rounded-lg overflow-hidden relative group border border-white/10">
-                        <!-- Sorter Image: Updated to 光学選別機1.png -->
-                        <img src="光学選別機1.png" alt="光学選別機" class="w-full h-full object-contain p-4 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute bottom-4 left-4 bg-brand-gold text-brand-dark px-3 py-1 text-xs font-bold tracking-widest z-10">AI DRIVEN</div>
-                    </div>
-                </div>
-                <div class="order-2 space-y-6">
-                    <div class="flex items-center gap-4 text-brand-gold mb-2">
-                        <i data-lucide="scan-eye" class="w-6 h-6"></i>
-                        <span class="font-english tracking-widest text-sm">SORTING</span>
-                    </div>
-                    <h3 class="text-3xl font-serif">AI搭載 光学選別機</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        「ディープラーニング」技術を搭載した最新モデル。RGBフルカラーカメラ、NIR（近赤外線）、X線の複合判定により、従来困難だった内部欠損や虫食い、同色異物を徹底的に排除します。
-                    </p>
-                    <div class="grid grid-cols-2 gap-4 text-xs font-mono text-gray-500 mt-4">
-                        <div class="bg-white/5 p-3 rounded border border-white/10">
-                            <span class="block text-brand-gold mb-1">DETECT 1</span>
-                            虫食い・内部欠損
-                        </div>
-                        <div class="bg-white/5 p-3 rounded border border-white/10">
-                            <span class="block text-brand-gold mb-1">DETECT 2</span>
-                            金属・石・ガラス
-                        </div>
-                        <div class="bg-white/5 p-3 rounded border border-white/10">
-                            <span class="block text-brand-gold mb-1">DETECT 3</span>
-                            変色・形状不良
-                        </div>
-                        <div class="bg-white/5 p-3 rounded border border-white/10">
-                            <span class="block text-brand-gold mb-1">DETECT 4</span>
-                            殻（くるみ等）
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Machine 3: Coating -->
-            <div class="grid md:grid-cols-2 gap-12 items-center fade-up">
-                <div class="order-2 md:order-1 space-y-6">
-                    <div class="flex items-center gap-4 text-brand-gold mb-2">
-                        <i data-lucide="droplet" class="w-6 h-6"></i>
-                        <span class="font-english tracking-widest text-sm">COATING</span>
-                    </div>
-                    <h3 class="text-3xl font-serif">Coaterow NEXT <span class="text-sm font-sans font-light ml-2 opacity-70">マルチスピン式コーティング</span></h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        オールステンレス仕様の衛生的な新コーティングマシン。マルチスピン方式により、シーズニングやソルト、オイルを短時間で均質にコーティング。ムラのない美しい仕上がりを実現します。
-                    </p>
-                     <ul class="space-y-2 text-sm text-gray-300">
-                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-brand-gold rounded-full"></div>高効率・均質加工</li>
-                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-brand-gold rounded-full"></div>月間生産能力：40トン</li>
-                    </ul>
-                </div>
-                <div class="order-1 md:order-2">
-                    <div class="aspect-video bg-gray-800 rounded-lg overflow-hidden relative group border border-white/10">
-                         <!-- Coating Image: Updated to コータロー.jpg -->
-                        <img src="コータロー.jpg" alt="コーティング機" class="w-full h-full object-contain p-2 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section id="capacity" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16 fade-up">
-                <h2 class="text-3xl md:text-4xl font-serif text-brand-dark">生産能力</h2>
-                <p class="text-gray-500 mt-2 text-sm">Monthly Production Capacity</p>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="text-center p-8 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 fade-up border-b-4 border-brand-gold group">
-                    <div class="text-brand-gold mb-4 group-hover:scale-110 transition-transform"><i data-lucide="waves" class="w-8 h-8 mx-auto"></i></div>
-                    <h3 class="text-sm text-gray-500 mb-2 font-medium">流動層焙煎機</h3>
-                    <p class="text-4xl font-serif text-brand-dark"><span class="counter">50</span><span class="text-base ml-1">t</span></p>
-                </div>
-                <div class="text-center p-8 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 fade-up border-b-4 border-brand-dark group delay-100">
-                    <div class="text-brand-dark mb-4 group-hover:scale-110 transition-transform"><i data-lucide="scan" class="w-8 h-8 mx-auto"></i></div>
-                    <h3 class="text-sm text-gray-500 mb-2 font-medium">ナッツ光学選別機</h3>
-                    <p class="text-4xl font-serif text-brand-dark"><span class="counter">50</span><span class="text-base ml-1">t</span></p>
-                </div>
-                <div class="text-center p-8 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 fade-up border-b-4 border-brand-gold group delay-200">
-                    <div class="text-brand-gold mb-4 group-hover:scale-110 transition-transform"><i data-lucide="spray-can" class="w-8 h-8 mx-auto"></i></div>
-                    <h3 class="text-sm text-gray-500 mb-2 font-medium">オイルコート機</h3>
-                    <p class="text-4xl font-serif text-brand-dark"><span class="counter">40</span><span class="text-base ml-1">t</span></p>
-                </div>
-                <div class="text-center p-8 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 fade-up border-b-4 border-brand-dark group delay-300">
-                    <div class="text-brand-dark mb-4 group-hover:scale-110 transition-transform"><i data-lucide="candy" class="w-8 h-8 mx-auto"></i></div>
-                    <h3 class="text-sm text-gray-500 mb-2 font-medium">糖衣掛け機（増設）</h3>
-                    <p class="text-4xl font-serif text-brand-dark"><span class="counter">25</span><span class="text-base ml-1">t</span></p>
-                </div>
-            </div>
-            <p class="text-center text-xs text-gray-400 mt-8">※自動包装機7ライン、手詰め2ラインにより業務用・小分け商品も柔軟に対応</p>
-        </div>
-    </section>
-
-    <!-- Message & Quality -->
-    <section id="quality" class="py-24 bg-factory-pattern bg-cover bg-fixed relative text-white">
-        <div class="absolute inset-0 bg-brand-dark/90"></div>
-        <div class="max-w-5xl mx-auto px-6 relative z-10">
-            <!-- Safety Grid -->
-            <div class="grid md:grid-cols-2 gap-12 mb-20">
-                <div class="bg-white/5 backdrop-blur-sm p-8 border border-white/10 fade-up">
-                    <h3 class="text-xl font-serif text-brand-gold mb-4">Peanut Free Policy</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        新工場はピーナッツフリーの管理を徹底。流動層焙煎はくるみとの併用もなく、アレルゲンを厳格に分別管理することで、安心・安全な製品をお届けします。
-                    </p>
-                </div>
-                <div class="bg-white/5 backdrop-blur-sm p-8 border border-white/10 fade-up delay-100">
-                    <h3 class="text-xl font-serif text-brand-gold mb-4">Quality Standard</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        JFS-B規格に準拠した製造管理体制。焙煎ライン・選別ラインにはX線を完備し、異物混入リスクを最小限に抑えています。
-                    </p>
-                </div>
-            </div>
-
-            <!-- Chef's Message -->
-            <div class="text-center fade-up">
-                <div class="inline-block p-1 border rounded-full border-brand-gold/30 mb-6">
-                    <div class="w-24 h-24 rounded-full bg-gray-700 overflow-hidden relative">
-                         <!-- Chef Image: Updated to 22.jpg -->
-                        <img src="22.jpg" alt="Kenji Tsuchiya" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                <blockquote class="font-serif text-2xl md:text-3xl leading-relaxed italic mb-8">
-                    "味は、幸せを伝えるもの。<br>
-                    ナッツを通して、幸せの虹色を描きたい。"
-                </blockquote>
-                <div class="text-brand-gold font-english tracking-widest">
-                    <span class="block text-sm text-gray-400 font-sans normal-case mb-1">Nuts Pâtissier</span>
-                    KENJI TSUCHIYA
-                </div>
-                <p class="mt-8 text-sm text-gray-400 max-w-xl mx-auto leading-relaxed font-light">
-                    お客様のニーズに応えるべく、日々味の研究を行っています。<br>
-                    納得のいく商品作りをご一緒に行わせていただきます。是非、ナッツの描く物語を作りましょう。
-                </p>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer id="contact" class="bg-black text-white py-16 border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
@@ -376,12 +187,6 @@
                     <p><i data-lucide="map-pin" class="inline w-4 h-4 mr-2 text-brand-gold"></i>千葉県山武郡横芝光町屋形3660</p>
                     <p>新加工場にて、皆様からのご注文をお待ちしております。</p>
                 </div>
-            </div>
-            <div class="text-right">
-                <p class="text-brand-gold font-serif mb-4 text-lg">一貫した製造が可能な数少ないメーカーとして。<br>絶対に損はさせません。</p>
-                <a href="#" class="inline-block bg-brand-gold text-brand-dark px-10 py-4 font-medium tracking-widest hover:bg-white transition-colors duration-300">
-                    CONTACT US
-                </a>
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-white/10 text-center text-xs text-gray-600 font-english">
@@ -416,10 +221,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Trigger number counter if it's the stats section
-                    if(entry.target.querySelector('.counter')) {
-                        startCounters(entry.target);
-                    }
                     observer.unobserve(entry.target);
                 }
             });
@@ -440,28 +241,6 @@
                 navbar.classList.remove('py-2');
             }
         });
-
-        // Simple Counter Animation
-        function startCounters(container) {
-            const counters = container.querySelectorAll('.counter');
-            counters.forEach(counter => {
-                const target = +counter.innerText;
-                const speed = 200; 
-                const inc = target / speed;
-                
-                let count = 0;
-                const updateCount = () => {
-                    count += inc * 5; // speed up
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count);
-                        setTimeout(updateCount, 20);
-                    } else {
-                        counter.innerText = target;
-                    }
-                };
-                updateCount();
-            });
-        }
     </script>
 </body>
 </html>
