@@ -12,7 +12,7 @@
             --text-main: #3e2723;       /* メインテキスト */
             --text-sub: #546e7a;        /* サブテキスト */
             
-            /* カテゴリカラー */
+            /* カテゴリカラー（更新） */
             --tag-salt-bg: #bbdefb;     /* 薄いブルー */
             --tag-salt-text: #0d47a1;   /* 濃いブルー */
             --tag-sweet-bg: #ffcdd2;    /* 薄いレッド */
@@ -184,11 +184,16 @@
 
         .cat-badge {
             font-size: 0.75rem;
-            font-weight: 900;
+            font-weight: 900; /* 太字を強化 */
             padding: 5px 12px;
             border-radius: 6px;
             letter-spacing: 0.05em;
-            text-shadow: 1.5px 1.5px 0 #fff, -1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px -1.5px 0 #fff;
+            /* 白縁の効果（文字の周りに白い影をつける） */
+            text-shadow: 
+                1.5px 1.5px 0 #fff, 
+                -1.5px -1.5px 0 #fff, 
+                -1.5px 1.5px 0 #fff, 
+                1.5px -1.5px 0 #fff;
         }
 
         .cat-salt {
@@ -323,7 +328,7 @@
     <div class="container">
         <!-- ページ左上に「戻るボタン」を設置 -->
         <div style="text-align: left;">
-            <a href="./index.html" class="top-back-link">← トップページ（製造工程）に戻る</a>
+            <a href="./index.html" class="top-back-link">← TOPに戻る</a>
         </div>
 
         <header>
@@ -339,7 +344,6 @@
             </div>
             <div class="grid">
                 <!-- 1. バジル＆チーズ（クリック機能付き） -->
-                <!-- ★ここにクリックイベントを追加しました -->
                 <div class="card clickable" onclick="openImageViewer('./product_basil.jpg')">
                     <div class="card-meta">
                         <span class="cat-badge cat-salt">SALT / 塩系</span>
@@ -349,8 +353,9 @@
                     <p class="description">パルメザンをメインに数種のチーズをブレンドしてコクを出し、バジルの香りとスパイスで深い味わいに仕上げました。</p>
                 </div>
 
-                <!-- 2. 3種のペッパー -->
-                <div class="card">
+                <!-- 2. 3種のペッパー（クリック機能付き） -->
+                <!-- ★ここにクリックイベントを追加しました (.png -> .jpg) -->
+                <div class="card clickable" onclick="openImageViewer('./product_pepper.jpg')">
                     <div class="card-meta">
                         <span class="cat-badge cat-salt">SALT / 塩系</span>
                     </div>
