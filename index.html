@@ -3,412 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>川越屋 KAWAGOEYA - 創作</title>
-    
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons (CDN) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
+    <title>全商品カタログ | プレミアムフレーバーナッツ</title>
     <style>
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            background-color: #F9F7F2;
-            color: #2C2C2C;
+        :root {
+            /* カラーパレット定義 */
+            --primary-brown: #5d4037;   /* メインの濃い茶色 */
+            --bg-cream: #fdfbf7;        /* 全体の背景色 */
+            --text-main: #3e2723;       /* メインテキスト */
+            --text-sub: #546e7a;        /* サブテキスト */
+            
+            /* カテゴリカラー（更新） */
+            --tag-salt-bg: #bbdefb;     /* 薄いブルー */
+            --tag-salt-text: #0d47a1;   /* 濃いブルー */
+            --tag-sweet-bg: #ffcdd2;    /* 薄いレッド */
+            --tag-sweet-text: #b71c1c;  /* 濃いレッド */
+            
+            /* アクセント */
+            --accent-gold: #bcaaa4;
         }
-        .font-serif { font-family: 'Noto Serif JP', serif; }
-        .font-sans { font-family: 'Noto Sans JP', sans-serif; }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ヘッダーデザイン */
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+        }
         
-        /* モーダル表示時のアニメーション */
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-brown);
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: var(--primary-brown);
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            color: #8d6e63;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* セクションデザイン */
+        section {
+            margin-bottom: 90px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 35px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #efebe9;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-brown);
+            font-weight: 600;
+        }
+
+        .section-tag {
+            margin-left: 20px;
+            font-size: 0.8rem;
+            color: #fff;
+            background-color: var(--accent-gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        /* グリッドレイアウト */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* カードデザイン */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(93, 64, 55, 0.1);
+        }
+
+        /* クリック可能なカードのスタイル */
+        .card.clickable {
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .card.clickable:hover {
+            border-color: var(--accent-gold);
+        }
+        /* クリック可能を示すアイコン */
+        .card.clickable::after {
+            content: '🔍 画像を見る';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.75rem;
+            color: white;
+            background: var(--primary-brown);
+            padding: 4px 10px;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card.clickable:hover::after {
+            opacity: 1;
+        }
+
+        /* カード上部のメタ情報 */
+        .card-meta {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .cat-badge {
+            font-size: 0.75rem;
+            font-weight: 900; /* 太字を強化 */
+            padding: 5px 12px;
+            border-radius: 6px;
+            letter-spacing: 0.05em;
+            /* 白縁の効果（文字の周りに白い影をつける） */
+            text-shadow: 
+                1.5px 1.5px 0 #fff, 
+                -1.5px -1.5px 0 #fff, 
+                -1.5px 1.5px 0 #fff, 
+                1.5px -1.5px 0 #fff;
+        }
+
+        .cat-salt {
+            background-color: var(--tag-salt-bg);
+            color: var(--tag-salt-text);
+        }
+
+        .cat-sweet {
+            background-color: var(--tag-sweet-bg);
+            color: var(--tag-sweet-text);
+        }
+
+        /* 商品名 */
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+
+        /* ナッツの種類タグ */
+        .nuts-info {
+            display: inline-block;
+            background: #fff8f0;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6d4c41;
+            margin-bottom: 18px;
+            width: fit-content;
+            border: 1px solid #efebe9;
+        }
+
+        /* 説明文 */
+        .description {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.7;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px;
+            border-top: 1px solid #e0e0e0;
+            color: #a1887f;
+            font-size: 0.8rem;
+        }
+
+        /* モーダルウィンドウのスタイル */
+        #imageModal {
+            display: none; /* 初期状態は非表示 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        #imageModal img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .modal-close-btn {
+            background-color: white;
+            color: var(--primary-brown);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-close-btn:hover {
+            background-color: var(--accent-gold);
+            color: white;
+            transform: scale(1.05);
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        .modal-animate {
-            animation: fadeIn 0.3s ease-out;
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; gap: 20px; }
+            .section-header { flex-direction: column; align-items: flex-start; }
+            .section-tag { margin-left: 0; margin-top: 8px; }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>PREMIUM FLAVOR NUTS</h1>
+            <p class="subtitle">バルク商品提案カタログ - 2026 Collection</p>
+            <p style="margin-top: 20px;"><a href="./index.html" style="color: var(--primary-brown); text-decoration: none; border-bottom: 1px solid var(--primary-brown);">← TOPページへ戻る</a></p>
+        </header>
 
-    <!-- アプリケーションのコンテナ -->
-    <div id="app">
-        <!-- コンテンツはJavaScriptによってここに描画されます -->
+        <!-- Section 1: 糖掛け（液掛け）全11種 -->
+        <section id="eki">
+            <div class="section-header">
+                <h2 class="section-title">手につきにくい「糖掛け製法」</h2>
+                <span class="section-tag">Liquid Coating Series</span>
+            </div>
+            <div class="grid">
+                <!-- 1. バジル＆チーズ（クリック機能付き） -->
+                <div class="card clickable" onclick="openModal('./product_basil.jpg')">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">バジル＆チーズ</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">パルメザンをメインに数種のチーズをブレンドしてコクを出し、バジルの香りとスパイスで深い味わいに仕上げました。</p>
+                </div>
+
+                <!-- 2. 3種のペッパー -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">3種のペッパー<br><span style="font-size:0.8em; font-weight:normal;">（ロレーヌ岩塩）</span></h3>
+                    <div class="nuts-info">アーモンド / カシューナッツ</div>
+                    <p class="description">旨味の強いフランス産ロレーヌ岩塩と、3種（ブラック、ホワイト、グリーン）のペッパーとガーリックをがつんと効かせたスパイシーな味わいです。</p>
+                </div>
+
+                <!-- 3. 旨塩燻製風味 -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">旨塩燻製風味<br><span style="font-size:0.8em; font-weight:normal;">（ロレーヌ岩塩）</span></h3>
+                    <div class="nuts-info">アーモンド / カシューナッツ</div>
+                    <p class="description">旨味の強いフランス産ロレーヌ岩塩を効かせたシンプルなナッツ。ほんのり香る燻製風味と濃いめの塩味が食欲をそそります。</p>
+                </div>
+
+                <!-- 4. トマト＆バジル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-salt">SALT / 塩系</span>
+                    </div>
+                    <h3 class="product-name">トマト＆バジル<br><span style="font-size:0.8em; font-weight:normal;">（イタリアンハーブ風味）</span></h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">プリッツのような爽やかなトマトの酸味と旨味をベースに、バジルの香りとスパイスを効かせたピリ辛味に仕上げました。</p>
+                </div>
+
+                <!-- 5. ハニーバター -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">ハニーバター</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">ハンガリー産アカシアはちみつとシーズニングをたっぷり重ね掛けし、香ばしいバター香る美味しさに仕上げました。</p>
+                </div>
+
+                <!-- 6. メープル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">メープル</h3>
+                    <div class="nuts-info">くるみ / アーモンド</div>
+                    <p class="description">カナダ産メープルシュガーとシーズニングとやさしい甘さの三温糖を溶かしこみ、メープルの香りを引き立てました。</p>
+                </div>
+
+                <!-- 7. カカオ -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">カカオ</h3>
+                    <div class="nuts-info">くるみ</div>
+                    <p class="description">ブラウンシュガーとラカントで程よい甘さを加え、ポリフェノール豊富な有機ココアパウダーをたっぷり掛けました。</p>
+                </div>
+
+                <!-- 8. 塩キャラメル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">塩キャラメル<br><span style="font-size:0.8em; font-weight:normal;">（ロレーヌ岩塩）</span></h3>
+                    <div class="nuts-info">カシューナッツ / くるみ</div>
+                    <p class="description">ブラウンシュガーとキャラメルシーズニングを溶かしこみ、ロレーヌ岩塩でほど良い塩気を加え、塩キャラメル風味に仕上げました。</p>
+                </div>
+
+                <!-- 9. 焦がしキャラメル -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">焦がしキャラメル</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">ブラウンシュガーとキャラメルシーズニングを溶かしこみ、甘く香ばしい焦がしキャラメル風味に仕上げました。</p>
+                </div>
+
+                <!-- 10. 黒糖 -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">黒糖</h3>
+                    <div class="nuts-info">くるみ / アーモンド</div>
+                    <p class="description">沖縄県産黒糖を何度も重ね掛けしナッツに染み込ませました。素材の味が生きたシンプルな美味しさです。</p>
+                </div>
+
+                <!-- 11. 黒糖シナモン -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">黒糖シナモン</h3>
+                    <div class="nuts-info">くるみ</div>
+                    <p class="description">沖縄県産黒糖を何度も重ね掛けし、シナモンの風味をしっかり溶け込ませたヘビーユーザーの多い独特な味わいです。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: 粉掛け製法 全5種 -->
+        <section id="kona">
+            <div class="section-header">
+                <h2 class="section-title">ふんわり香り立つ「粉掛け製法」</h2>
+                <span class="section-tag">Powder Coating Series</span>
+            </div>
+            <div class="grid">
+                <!-- 1. きなこ -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">きなこ</h3>
+                    <div class="nuts-info">くるみ</div>
+                    <p class="description">国産大豆のきなこを、たっぷりまぶしました。優しい甘さとふんわり掛かったきなこの香ばしさが、和菓子にも似た味わいです。</p>
+                </div>
+
+                <!-- 2. 黒糖きなこ -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">黒糖きなこ</h3>
+                    <div class="nuts-info">アーモンド</div>
+                    <p class="description">沖縄県産黒糖を何度も重ね掛けし、国産大豆のきなこを更にふんわりと重ね掛けした、厚みのある味わいです。</p>
+                </div>
+
+                <!-- 3. ラズベリー -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">ラズベリー</h3>
+                    <div class="nuts-info">カシューナッツ</div>
+                    <p class="description">味が濃縮されたFDラズベリーとヨーグルトをたっぷりカシューに絡めました。見た目も鮮やかで甘酸っぱい味が特に女性に人気です。</p>
+                </div>
+
+                <!-- 4. レモンヨーグルト -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">レモンヨーグルト</h3>
+                    <div class="nuts-info">カシューナッツ</div>
+                    <p class="description">国産レモン皮パウダーにヨーグルト味を加え、甘みと酸味が効いた贅沢な味わいのカシューナッツに仕立てました。</p>
+                </div>
+
+                <!-- 5. いちごみるく -->
+                <div class="card">
+                    <div class="card-meta">
+                        <span class="cat-badge cat-sweet">SWEET / 甘系</span>
+                    </div>
+                    <h3 class="product-name">いちごみるく</h3>
+                    <div class="nuts-info">カシューナッツ</div>
+                    <p class="description">苺（とちおとめ）パウダーとミルクをふんわりと重ね掛けした、甘くて少し酸味がある懐かしい味わいのカシューナッツです。</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 KAWAGOEYA. All Rights Reserved.</p>
+        </footer>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- 画像表示用モーダル（隠し要素） -->
+    <div id="imageModal" onclick="closeModal()">
+        <img id="modalImage" src="" alt="商品詳細" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeModal()">前の画面に戻る</button>
+    </div>
+
+    <!-- モーダル制御スクリプト -->
     <script>
-        /* === 設定エリア：ここを変更するだけでコンテンツが更新されます === */
-        
-        const BRAND_COLORS = {
-            primary: '#4B2E1E',
-            bg: '#F9F7F2',
-        };
-
-        // ★プレビュー用の仮画像データ
-        window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='%23eee'/><text x='100' y='40' font-family='sans-serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%23999'>ロゴ画像</text></svg>`;
-        window.PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像</text></svg>`;
-        window.PREVIEW_FOOTER_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 300' style='background:%23e5e7eb'><rect width='150' height='300' fill='%23d1d5db'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='20' text-anchor='middle' fill='%234b5563'>Footer<br/>Image</text></svg>`;
-
-        const PAGE_CONTENT = {
-            logoImage: "./logo.png", 
-            footerVideo: "./MINANA製造工程.mp4",
+        function openModal(imageSrc) {
+            var modal = document.getElementById('imageModal');
+            var modalImg = document.getElementById('modalImage');
             
-            hero: {
-                title: "創作",
-                subtitle: "ナッツ菓子の技、一粒の芸術。",
-                description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
-                bgImage: "./hero.jpg",
-                fallbackBgImage: "./hero.jpeg" 
-            },
-            intro: {
-                title: "ナッツパティシエの流儀",
-                text: "私たち川越屋は、単にナッツを焼くだけではありません。<br>気温や湿度、ナッツの状態を見極め、職人の経験値で焙煎を調整する。<br>味付は、まさに、パティシエがケーキを作るような繊細な作業です。<br>伝統の技と新しい感性を融合させ、記憶に残る味わいを創造します。"
-            }
-        };
-
-        const PROCESS_STEPS = [
-            {
-                id: 1,
-                title: "原料入荷",
-                engTitle: "Arrival",
-                description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。",
-                icon: "truck", 
-                image: "./step1.png"
-            },
-            {
-                id: 2,
-                title: "選別",
-                engTitle: "Selection",
-                description: "最新鋭の選別機と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。",
-                icon: "check-circle", 
-                image: "./step2.png"
-            },
-            {
-                id: 3,
-                title: "焙煎",
-                engTitle: "Roasting",
-                description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。",
-                icon: "flame",
-                image: "./step3.jpg"
-            },
-            {
-                id: 4,
-                title: "糖掛け",
-                engTitle: "Sugar Coating",
-                description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。",
-                icon: "droplets",
-                image: "./step4.jpg"
-            },
-            {
-                id: 5,
-                title: "味付け",
-                engTitle: "Seasoning",
-                description: "きな粉、ラズベリーなど、多彩なフレーバーを纏わせます。素材の風味を損なわないよう、パウダーはたっぷり使い、職人の目で確かめながら作業しています。",
-                icon: "utensils",
-                image: "./step5.jpg"
-            },
-            {
-                id: 6,
-                title: "包装",
-                engTitle: "Packaging",
-                description: "正確、丁寧をモットーに真心こめてパッケージングしています。金属探知機による最終検査を経て、皆様のもとへ出荷されます。",
-                icon: "gift",
-                image: "./step6.jpg"
-            }
-        ];
-
-        /* === 動画モーダル制御 === */
-        window.openVideoModal = function() {
-            const modal = document.getElementById('videoModal');
-            const video = document.getElementById('promoVideo');
-            if(modal && video) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex'); 
-                video.play().catch(e => console.log('Auto-play prevented:', e));
-            }
-        }
-
-        window.closeVideoModal = function() {
-            const modal = document.getElementById('videoModal');
-            const video = document.getElementById('promoVideo');
-            if(modal && video) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                video.pause();
-                video.currentTime = 0;
-            }
-        }
-
-        /* === 描画ロジック === */
-
-        function renderApp() {
-            const app = document.getElementById('app');
+            modalImg.src = imageSrc;
             
-            // ヘッダーナビゲーション項目（リンク先を設定）
-            const NAV_LINKS = [
-                { label: 'ホーム', href: './index.html' },
-                { label: '創作', href: './index.html' },
-                { label: '商品一覧', href: './products.html' }
-            ];
+            // 画像読み込みエラー時のフォールバック（プレビュー用）
+            modalImg.onerror = function() {
+                // ダミー画像を表示
+                this.src = 'https://placehold.jp/800x600.png?text=Image%20Not%20Found';
+                // またはアラートを出すなど
+                // alert('画像が見つかりません: ' + imageSrc);
+            };
 
-            const navItems = NAV_LINKS.map(item => 
-                `<a href="${item.href}" class="text-sm tracking-widest hover:text-orange-400 transition-colors nav-link text-white/90">${item.label}</a>`
-            ).join('');
-
-            // ステップカードの生成
-            const stepsHtml = PROCESS_STEPS.map((step, index) => {
-                const stepNum = String(index + 1).padStart(2, '0');
-                return `
-                <div class="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border-b-4" style="border-color: ${BRAND_COLORS.primary}">
-                    <div class="relative h-64 overflow-hidden">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10"></div>
-                        <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
-                        <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-white/90 backdrop-blur rounded-full shadow-lg">
-                            <span class="font-serif text-xl font-bold" style="color: ${BRAND_COLORS.primary}">${stepNum}</span>
-                        </div>
-                    </div>
-                    <div class="p-8">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="p-2 rounded-full bg-orange-50 text-orange-800">
-                                <i data-lucide="${step.icon}" class="w-8 h-8"></i>
-                            </div>
-                            <div>
-                                <span class="block text-xs uppercase tracking-widest text-gray-500 mb-1">${step.engTitle}</span>
-                                <h3 class="text-2xl font-serif font-bold" style="color: ${BRAND_COLORS.primary}">${step.title}</h3>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 leading-relaxed text-sm lg:text-base">${step.description}</p>
-                    </div>
-                </div>
-                `;
-            }).join('');
-
-            // HTML全体の組み立て
-            app.innerHTML = `
-                <!-- Video Modal -->
-                <div id="videoModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
-                    <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
-                        <button onclick="closeVideoModal()" class="absolute -top-12 right-0 text-white hover:text-orange-400 transition-colors flex items-center gap-2">
-                            <span class="text-sm font-bold">CLOSE</span>
-                            <i data-lucide="x" class="w-8 h-8"></i>
-                        </button>
-                        <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden">
-                            <video id="promoVideo" controls class="w-full h-full">
-                                <source src="${PAGE_CONTENT.footerVideo}" type="video/mp4">
-                                <p class="text-white text-center p-4">動画を再生できません。</p>
-                            </video>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Header -->
-                <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4">
-                    <div class="container mx-auto px-6 flex justify-between items-center">
-                        <div class="flex items-center">
-                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
-                        </div>
-                        <nav class="hidden md:flex gap-8">
-                            ${navItems}
-                        </nav>
-                        <button class="md:hidden text-gray-800">
-                            <i data-lucide="menu" class="header-icon text-white"></i>
-                        </button>
-                    </div>
-                </header>
-
-                <!-- Hero Section -->
-                <section class="relative h-[65vh] lg:h-[85vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
-                    <div class="absolute inset-0 z-0">
-                        <img 
-                            src="${PAGE_CONTENT.hero.bgImage}" 
-                            alt="Background" 
-                            class="w-full h-full object-cover object-top opacity-90" 
-                            onerror="
-                                if (this.src.endsWith('hero.jpg')) { 
-                                    this.src = '${PAGE_CONTENT.hero.fallbackBgImage}'; 
-                                } else { 
-                                    this.onerror=null; 
-                                    this.src=window.PREVIEW_HERO_DATA; 
-                                }"
-                        >
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20"></div>
-                    </div>
-                    <div class="relative z-10 container mx-auto px-6 text-center text-white">
-                        <span class="inline-block py-1 px-3 border border-white/30 rounded-full text-xs tracking-[0.2em] mb-6 backdrop-blur-sm">
-                            MANUFACTURING PROCESS
-                        </span>
-                        <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-wide drop-shadow-lg">
-                            ${PAGE_CONTENT.hero.title}
-                        </h1>
-                        <p class="text-xl md:text-2xl font-light tracking-wider opacity-90 mb-8 font-serif drop-shadow-md">
-                            ${PAGE_CONTENT.hero.subtitle}
-                        </p>
-                        <div class="w-24 h-1 bg-orange-400 mx-auto rounded-full"></div>
-                    </div>
-                </section>
-
-                <!-- Intro Section -->
-                <section class="py-20 md:py-32 px-6">
-                    <div class="container mx-auto max-w-4xl text-center">
-                        <div class="mb-8 flex justify-center">
-                             <img src="https://cdn-icons-png.flaticon.com/512/2619/2619528.png" class="w-16 h-16 opacity-20 sepia" alt="decoration" />
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-serif font-bold mb-10 text-gray-800">
-                            ${PAGE_CONTENT.intro.title}
-                        </h2>
-                        <p class="text-lg leading-loose text-gray-600 font-medium">
-                            ${PAGE_CONTENT.intro.text}
-                        </p>
-                    </div>
-                </section>
-
-                <!-- Process Grid -->
-                <section class="py-20 px-6 bg-white">
-                    <div class="container mx-auto">
-                        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b pb-6 border-gray-100">
-                            <div>
-                                <span class="text-orange-600 font-bold tracking-widest text-sm block mb-2">THE PROCESS</span>
-                                <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-800">
-                                    美味しさを創る6つの工程
-                                </h2>
-                            </div>
-                            <p class="text-gray-500 mt-4 md:mt-0 max-w-md text-sm">
-                                一つひとつの工程に妥協せず、素材のポテンシャルを最大限に引き出す。それが川越屋のスタンダードです。
-                            </p>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                            ${stepsHtml}
-                        </div>
-                    </div>
-                </section>
-
-                <!-- OEM / Contact -->
-                <section class="py-24 px-6 relative overflow-hidden text-white" style="background-color: ${BRAND_COLORS.primary}">
-                    <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                        <div class="w-96 h-96 rounded-full bg-white absolute -top-20 -left-20 blur-3xl"></div>
-                        <div class="w-96 h-96 rounded-full bg-orange-500 absolute bottom-0 right-0 blur-3xl"></div>
-                    </div>
-                    <div class="container mx-auto relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-                        <div class="lg:w-2/3">
-                            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6">オリジナル商品の開発</h2>
-                            <p class="text-lg text-white/80 leading-relaxed mb-8">
-                                「こんな味のナッツを作りたい」「地元の特産品とコラボしたい」<br/>
-                                そんなアイデアを、私たちの技術で形にしませんか？<br/>
-                                製造ロットや仕様につきましては、お客様のご要望に合わせて柔軟に対応いたします。
-                            </p>
-                            <div class="flex flex-wrap gap-4">
-                               <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
-                                 <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> 試作開発対応
-                               </div>
-                               <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
-                                 <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> パッケージ提案
-                               </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Footer -->
-                <footer class="bg-gray-900 text-white pt-20 pb-10 px-6">
-                    <div class="container mx-auto">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-gray-800 pb-12">
-                            <div class="md:col-span-1">
-                                <div class="mb-6 flex justify-center md:justify-center">
-                                    <div class="relative group cursor-pointer" onclick="openVideoModal()">
-                                        <img src="./7moro.png" alt="KAWAGOEYA" class="h-64 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src=window.PREVIEW_FOOTER_DATA;">
-                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div class="bg-black/40 rounded-full p-3 backdrop-blur-sm">
-                                                <i data-lucide="play" class="w-8 h-8 text-white fill-white"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="font-bold mb-6 text-gray-300">メニュー</h4>
-                                <ul class="space-y-4 text-sm text-gray-400">
-                                    <li><a href="./index.html" class="hover:text-white transition-colors">ホーム</a></li>
-                                    <li><a href="./index.html" class="hover:text-white transition-colors">創作（製造工程）</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">商品一覧</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-bold mb-6 text-gray-300">商品カテゴリー</h4>
-                                <ul class="space-y-4 text-sm text-gray-400">
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">素焼きナッツ</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">フレーバーナッツ</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">業務用</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-                            <p>&copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.</p>
-                            <div class="flex gap-6 mt-4 md:mt-0">
-                                <a href="#" class="hover:text-white transition-colors">プライバシーポリシー</a>
-                                <a href="#" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-
-                <!-- Scroll to Top -->
-                <button id="scrollToTop" class="fixed bottom-8 right-8 bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-orange-50 z-40 opacity-0 translate-y-10 pointer-events-none">
-                    <i data-lucide="arrow-up" class="w-5 h-5"></i>
-                </button>
-            `;
-
-            // Lucideアイコンの初期化
-            lucide.createIcons();
-
-            // スクロールイベントの設定
-            const header = document.getElementById('main-header');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const headerIcon = document.querySelector('.header-icon');
-            const scrollBtn = document.getElementById('scrollToTop');
-
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY > 50;
-                
-                if (scrolled) {
-                    header.classList.add('bg-white/95', 'backdrop-blur', 'shadow-md', 'py-3');
-                    header.classList.remove('bg-transparent', 'py-4');
-                    navLinks.forEach(el => {
-                        el.classList.add('text-gray-600');
-                        el.classList.remove('text-white/90');
-                    });
-                    if(headerIcon) headerIcon.classList.replace('text-white', 'text-gray-800');
-                    
-                    scrollBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-                    scrollBtn.classList.add('opacity-100', 'translate-y-0');
-                } else {
-                    header.classList.remove('bg-white/95', 'backdrop-blur', 'shadow-md', 'py-3');
-                    header.classList.add('bg-transparent', 'py-4');
-                    navLinks.forEach(el => {
-                        el.classList.remove('text-gray-600');
-                        el.classList.add('text-white/90');
-                    });
-                    if(headerIcon) headerIcon.classList.replace('text-gray-800', 'text-white');
-
-                    scrollBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-                    scrollBtn.classList.remove('opacity-100', 'translate-y-0');
-                }
-            });
-
-            // トップへ戻るボタン
-            scrollBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            modal.style.display = "flex";
         }
 
-        // 初期描画実行
-        // 念のためDOMContentLoadedを待つ
-        document.addEventListener('DOMContentLoaded', renderApp);
+        function closeModal() {
+            var modal = document.getElementById('imageModal');
+            modal.style.display = "none";
+            // 閉じたときにsrcをクリア（次回の表示のため）
+            document.getElementById('modalImage').src = "";
+        }
     </script>
 </body>
 </html>
