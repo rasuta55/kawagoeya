@@ -3,80 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>株式会社川越屋 新加工場のご案内</title>
+    <title>工場資料 - 川越屋千葉工場</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #525252; /* 画像が際立つ濃いグレーの背景 */
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
+            font-family: 'Noto Serif JP', serif;
+            background-color: #1a1a1a;
+            color: #fff;
         }
-        .page-container {
-            max-width: 1000px; /* PCで見やすい最大幅 */
-            margin: 0 auto;
-            background-color: #ffffff;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .page-image {
-            display: block; /* 画像下の隙間を完全に除去 */
-            width: 100%;
-            height: auto;
-            border-bottom: 1px solid #f3f4f6; /* ページ区切りを薄く入れる（任意） */
-        }
-        /* 最後の画像の下線は削除 */
-        .page-image:last-child {
-            border-bottom: none;
-        }
-        
-        /* プレビュー環境での画像切れ対策（alt表示用スタイル） */
-        img:not([src]) {
-            visibility: hidden;
-        }
-        
-        /* 画像読み込みエラー時の表示スタイル（ローカル確認前用） */
-        .page-image {
-            min-height: 50px; 
-            background-color: #f0f0f0;
-            position: relative;
-            text-align: center;
-            color: #666;
-            font-family: sans-serif;
-            font-size: 0.8rem;
-            display: flex;
+        /* メタル風ボタン（戻るボタン用） */
+        .metal-btn-back {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #d0d0d0 51%, #e0e0e0 100%);
+            color: #333 !important;
+            padding: 10px 30px;
+            border-radius: 50px;
+            border: 1px solid #999;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 5px rgba(0,0,0,0.5);
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 50;
         }
-        /* 画像が正しくロードされたら背景などをリセット */
-        img[src*=".jpg"] {
-            min-height: auto;
-            background-color: transparent;
+        .metal-btn-back:hover {
+            background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 50%, #e0e0e0 51%, #f0f0f0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+        }
+        
+        .img-container img {
+            width: 100%;
+            max-width: 1000px; /* PCで見すぎないように最大幅を設定 */
+            margin: 0 auto;
             display: block;
+        }
+        
+        /* ページ全体のフェードイン */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
-<body>
+<body class="fade-in">
 
-    <!-- 
-      注意: このHTMLファイルを正常に表示するには、
-      以下の画像ファイルがHTMLと同じフォルダにある必要があります。
-      - product_kakoujou_page-0001.jpg
-      - product_kakoujou_page-0002.jpg
-      - ...
-      - product_kakoujou_page-0009.jpg
-    -->
+    <!-- 戻るボタン -->
+    <a href="factory.html" class="metal-btn-back">
+        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        前に戻る
+    </a>
 
-    <div class="page-container">
-        <img src="product_kakoujou_page-0001.jpg" alt="ページ1: 表紙 株式会社川越屋 新加工場のご案内" class="page-image">
-        <img src="product_kakoujou_page-0002.jpg" alt="ページ2: 新加工場概要（外観・低温倉庫・入口）" class="page-image">
-        <img src="product_kakoujou_page-0003.jpg" alt="ページ3: 新設備・新設作業室（焙煎室・選別室）" class="page-image">
-        <img src="product_kakoujou_page-0004.jpg" alt="ページ4: 新工場の生産能力と特徴" class="page-image">
-        <img src="product_kakoujou_page-0005.jpg" alt="ページ5: 流動層焙煎機 (New Machine)" class="page-image">
-        <img src="product_kakoujou_page-0006.jpg" alt="ページ6: アーモンド・くるみ 光学選別機" class="page-image">
-        <img src="product_kakoujou_page-0007.jpg" alt="ページ7: 光学選別機 仕組み詳細図" class="page-image">
-        <img src="product_kakoujou_page-0008.jpg" alt="ページ8: 新コーティングマシン Coaterow NEXT" class="page-image">
-        <img src="product_kakoujou_page-0009.jpg" alt="ページ9: 一貫した製造・パティシエメッセージ" class="page-image">
+    <!-- 画像一覧コンテナ -->
+    <div class="flex flex-col items-center justify-center py-20 px-4 space-y-2">
+        <!-- Page 1 (表紙) -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0001.jpg" alt="Page 1">
+        </div>
+        
+        <!-- Page 2 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0002.jpg" alt="Page 2">
+        </div>
+
+        <!-- Page 3 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0003.jpg" alt="Page 3">
+        </div>
+
+        <!-- Page 4 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0004.jpg" alt="Page 4">
+        </div>
+
+        <!-- Page 5 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0005.jpg" alt="Page 5">
+        </div>
+
+        <!-- Page 6 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0006.jpg" alt="Page 6">
+        </div>
+
+        <!-- Page 7 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0007.jpg" alt="Page 7">
+        </div>
+
+        <!-- Page 8 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0008.jpg" alt="Page 8">
+        </div>
+
+        <!-- Page 9 -->
+        <div class="img-container">
+            <img src="./product_kakoujou_page-0009.jpg" alt="Page 9">
+        </div>
     </div>
 
+    <!-- ページ下部の戻るボタン（スマホ用） -->
+    <div class="flex justify-center pb-20">
+         <a href="factory.html" class="metal-btn-back !static !transform-none !shadow-none hover:!translate-y-[-2px]">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            施設概要トップへ戻る
+        </a>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
