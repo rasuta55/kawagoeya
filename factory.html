@@ -125,7 +125,7 @@
             font-size: 0.9rem;
             letter-spacing: 0.1em;
             white-space: nowrap;
-            cursor: pointer; /* カーソルをポインターに */
+            cursor: pointer;
         }
         
         .metal-btn:hover {
@@ -180,23 +180,25 @@
             
             <!-- Desktop Menu (Hidden on Mobile) -->
             <div class="hidden md:flex space-x-8 text-sm text-gray-300 font-medium tracking-wider items-center">
-                <!-- JavaScriptでスクロール制御に変更 -->
-                <a href="#" onclick="scrollToSection('about'); return false;" class="metal-btn">施設概要</a>
+                <!-- リンク先をfactory_koujousiryou.htmlに修正 -->
+                <a href="factory_koujousiryou.html" class="metal-btn">施設概要</a>
             </div>
 
             <!-- Mobile Hamburger Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-white p-2 focus:outline-none relative z-50" aria-label="Menu">
-                <i data-lucide="menu" id="menu-icon" class="w-8 h-8 transition-transform duration-300"></i>
+            <!-- ボタンの背景を追加し、タップ領域を拡大 -->
+            <button id="mobile-menu-btn" class="md:hidden bg-brand-dark/50 p-2 rounded border border-white/20 text-white focus:outline-none relative z-50 hover:bg-brand-gold/20 transition-colors" aria-label="Menu">
+                <i data-lucide="menu" id="menu-icon" class="w-6 h-6 transition-transform duration-300"></i>
             </button>
         </div>
 
         <!-- Mobile Menu Overlay (Full Screen) -->
+        <!-- z-indexを40に設定し、確実に表示されるように -->
         <div id="mobile-menu" class="fixed inset-0 bg-brand-dark/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-300">
             <div class="w-full max-w-xs flex flex-col gap-6 p-6">
                 <p class="text-brand-gold font-english text-center text-sm tracking-[0.2em] mb-4">MENU</p>
                 
-                <!-- JavaScriptでスクロール制御に変更 -->
-                <a href="#" class="metal-btn text-center text-lg w-full py-4" onclick="scrollToSection('about'); return false;">
+                <!-- リンク先をfactory_koujousiryou.htmlに修正 -->
+                <a href="factory_koujousiryou.html" class="metal-btn text-center text-lg w-full py-4">
                     施設概要
                 </a>
                 
@@ -204,7 +206,7 @@
                     TOPへ戻る
                 </a>
                 
-                <a href="#" class="text-gray-400 hover:text-white transition-colors text-center font-serif text-sm tracking-widest py-2" onclick="scrollToSection('contact'); return false;">
+                <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-center font-serif text-sm tracking-widest py-2" onclick="closeMobileMenu()">
                     お問い合わせ
                 </a>
             </div>
@@ -230,8 +232,8 @@
                 千葉県山武郡横芝光町より、ナッツの新たな可能性をお届けします。
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-6">
-                <!-- ビューモアもJS制御に変更 -->
-                <a href="#" onclick="scrollToSection('technology'); return false;" class="group relative px-8 py-3 bg-white text-brand-dark font-medium tracking-widest overflow-hidden transition-all hover:bg-brand-gold hover:text-white">
+                <!-- 標準のアンカーリンクに戻しました -->
+                <a href="#technology" class="group relative px-8 py-3 bg-white text-brand-dark font-medium tracking-widest overflow-hidden transition-all hover:bg-brand-gold hover:text-white">
                     <span class="relative z-10">VIEW MORE</span>
                 </a>
             </div>
@@ -627,19 +629,7 @@
             mobileBtn.addEventListener('click', toggleMobileMenu);
         }
         
-        // Custom Scroll Function (for ensuring smooth scroll in preview)
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                // メニューが開いていれば閉じる（スマホ用）
-                closeMobileMenu();
-                
-                // 少し遅延させてからスクロール（メニュー閉じるアニメーション考慮）
-                setTimeout(() => {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            }
-        }
+        // scrollToSection関数は削除済み
     </script>
 </body>
 </html>
