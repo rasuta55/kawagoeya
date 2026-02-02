@@ -57,7 +57,6 @@
 
         const PAGE_CONTENT = {
             logoImage: "./logo.png", 
-            // ★動画ファイル名を設定
             footerVideo: "./MINANA製造工程.mp4",
             
             hero: {
@@ -130,7 +129,7 @@
             const video = document.getElementById('promoVideo');
             if(modal && video) {
                 modal.classList.remove('hidden');
-                modal.classList.add('flex'); // Flexboxで中央揃え
+                modal.classList.add('flex'); 
                 video.play().catch(e => console.log('Auto-play prevented:', e));
             }
         }
@@ -151,9 +150,15 @@
         function renderApp() {
             const app = document.getElementById('app');
             
-            // ヘッダーナビゲーション項目
-            const navItems = ['ホーム', '創作', '商品一覧'].map(item => 
-                `<a href="#" class="text-sm tracking-widest hover:text-orange-400 transition-colors nav-link text-white/90">${item}</a>`
+            // ヘッダーナビゲーション項目（リンク先を設定）
+            const NAV_LINKS = [
+                { label: 'ホーム', href: './index.html' },
+                { label: '創作', href: './index.html' },
+                { label: '商品一覧', href: './products.html' }
+            ];
+
+            const navItems = NAV_LINKS.map(item => 
+                `<a href="${item.href}" class="text-sm tracking-widest hover:text-orange-400 transition-colors nav-link text-white/90">${item.label}</a>`
             ).join('');
 
             // ステップカードの生成
@@ -186,7 +191,7 @@
 
             // HTML全体の組み立て
             app.innerHTML = `
-                <!-- Video Modal (Hidden by default) -->
+                <!-- Video Modal -->
                 <div id="videoModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
                     <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
                         <button onclick="closeVideoModal()" class="absolute -top-12 right-0 text-white hover:text-orange-400 transition-colors flex items-center gap-2">
@@ -314,12 +319,9 @@
                     <div class="container mx-auto">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-gray-800 pb-12">
                             <div class="md:col-span-1">
-                                <!-- フッター画像のクリック機能追加 -->
-                                <!-- カーソルをpointerにし、hover時にアイコンを表示 -->
                                 <div class="mb-6 flex justify-center md:justify-center">
                                     <div class="relative group cursor-pointer" onclick="openVideoModal()">
                                         <img src="./7moro.png" alt="KAWAGOEYA" class="h-64 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src=window.PREVIEW_FOOTER_DATA;">
-                                        <!-- 再生アイコンオーバーレイ -->
                                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <div class="bg-black/40 rounded-full p-3 backdrop-blur-sm">
                                                 <i data-lucide="play" class="w-8 h-8 text-white fill-white"></i>
@@ -331,17 +333,17 @@
                             <div>
                                 <h4 class="font-bold mb-6 text-gray-300">メニュー</h4>
                                 <ul class="space-y-4 text-sm text-gray-400">
-                                    <li><a href="#" class="hover:text-white transition-colors">ホーム</a></li>
-                                    <li><a href="#" class="hover:text-white transition-colors">創作（製造工程）</a></li>
-                                    <li><a href="#" class="hover:text-white transition-colors">商品一覧</a></li>
+                                    <li><a href="./index.html" class="hover:text-white transition-colors">ホーム</a></li>
+                                    <li><a href="./index.html" class="hover:text-white transition-colors">創作（製造工程）</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors">商品一覧</a></li>
                                 </ul>
                             </div>
                             <div>
                                 <h4 class="font-bold mb-6 text-gray-300">商品カテゴリー</h4>
                                 <ul class="space-y-4 text-sm text-gray-400">
-                                    <li><a href="#" class="hover:text-white transition-colors">素焼きナッツ</a></li>
-                                    <li><a href="#" class="hover:text-white transition-colors">フレーバーナッツ</a></li>
-                                    <li><a href="#" class="hover:text-white transition-colors">業務用</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors">素焼きナッツ</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors">フレーバーナッツ</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors">業務用</a></li>
                                 </ul>
                             </div>
                         </div>
