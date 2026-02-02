@@ -81,8 +81,6 @@
 
     <!-- JavaScript Logic -->
     <script>
-        /* === 設定エリア：ここを変更するだけでコンテンツが更新されます === */
-        
         const BRAND_COLORS = {
             primary: '#4B2E1E',
             bg: '#F9F7F2',
@@ -98,7 +96,7 @@
             footerVideo: "./MINANA製造工程.mp4",
             
             hero: {
-                title: "創作",
+                title: "創作", 
                 subtitle: "ナッツ菓子の技、一粒の芸術。",
                 description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
                 bgImage: "./hero.jpg",
@@ -161,6 +159,18 @@
             }
         ];
 
+        /* === スマホメニュー制御 === */
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobileMenu');
+            if (menu) {
+                if (menu.classList.contains('translate-x-full')) {
+                    menu.classList.remove('translate-x-full');
+                } else {
+                    menu.classList.add('translate-x-full');
+                }
+            }
+        }
+
         /* === 動画モーダル制御 === */
         window.openVideoModal = function() {
             const modal = document.getElementById('videoModal');
@@ -188,20 +198,21 @@
         function renderApp() {
             const app = document.getElementById('app');
             
-            // ヘッダーナビゲーション項目（リンク先を設定）
             const NAV_LINKS = [
                 { label: 'ホーム', href: './index.html' },
-                // ★修正: 名称を「加工場設備」に変更し、factory.htmlへリンク
                 { label: '加工場設備', href: './factory.html' },
                 { label: '商品一覧', href: './products.html' }
             ];
 
-            // メタルボタン風クラスを適用
             const navItems = NAV_LINKS.map(item => 
                 `<a href="${item.href}" class="metal-btn">${item.label}</a>`
             ).join('');
 
-            // ステップカードの生成
+            // スマホ用メニューアイテム (メタルボタンクラス付き)
+            const mobileNavItems = NAV_LINKS.map(item => 
+                `<a href="${item.href}" class="metal-btn text-lg py-3 px-8 w-64 text-center">${item.label}</a>`
+            ).join('');
+
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
                 const stepNum = String(index + 1).padStart(2, '0');
                 return `
@@ -229,8 +240,15 @@
                 `;
             }).join('');
 
-            // HTML全体の組み立て
             app.innerHTML = `
+                <!-- Mobile Menu Overlay -->
+                <div id="mobileMenu" class="fixed inset-0 z-[60] bg-white/95 backdrop-blur-md flex flex-col justify-center items-center space-y-8 transition-transform duration-300 translate-x-full md:hidden">
+                    <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-gray-800 p-2">
+                        <i data-lucide="x" class="w-10 h-10"></i>
+                    </button>
+                    ${mobileNavItems}
+                </div>
+
                 <!-- Video Modal -->
                 <div id="videoModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
                     <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
@@ -256,8 +274,8 @@
                         <nav class="hidden md:flex gap-4">
                             ${navItems}
                         </nav>
-                        <button class="md:hidden text-gray-800">
-                            <i data-lucide="menu" class="header-icon text-white"></i>
+                        <button class="md:hidden text-gray-800 bg-white/80 p-2 rounded-full backdrop-blur-sm" onclick="toggleMobileMenu()">
+                            <i data-lucide="menu" class="w-6 h-6"></i>
                         </button>
                     </div>
                 </header>
