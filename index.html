@@ -12,297 +12,360 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <style>
-        :root {
-            --gold-primary: #C5A059;
-            --gold-light: #FFD700;
-            --gold-dark: #8B6508;
-            --bg-metal-1: #8a8a8a;
-            --bg-metal-2: #b0b0b0;
-        }
-
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            color: #1a1a1a;
-            /* --- リアルステンレス背景（動く光沢） --- */
-            background-color: var(--bg-metal-1);
+            /* ステンレス・ヘアライン風の背景 */
+            background-color: #8a8a8a; /* ベースの金属色 */
             background-image: 
-                repeating-linear-gradient(0deg, transparent 0px, transparent 1px, rgba(255, 255, 255, 0.05) 1px, rgba(255, 255, 255, 0.05) 2px),
-                linear-gradient(110deg, #999 0%, #ddd 20%, #bbb 40%, #fff 50%, #bbb 60%, #ddd 80%, #999 100%);
-            background-size: 200% 200%;
+                /* 1. 細かいヘアライン（横縞） */
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 1px,
+                    rgba(255, 255, 255, 0.08) 1px,
+                    rgba(255, 255, 255, 0.08) 2px
+                ),
+                /* 2. 金属特有の乱反射（縦の光沢） */
+                linear-gradient(
+                    90deg, 
+                    #999 0%, 
+                    #ddd 15%, 
+                    #bbb 30%, 
+                    #eee 50%, 
+                    #bbb 70%, 
+                    #ddd 85%, 
+                    #999 100%
+                );
             background-blend-mode: overlay;
-            background-attachment: fixed;
-            animation: metalShine 15s ease infinite alternate; /* 背景がゆっくり輝く */
-            overflow-x: hidden;
-            cursor: none; /* カスタムカーソルのためデフォルトを消す */
+            background-attachment: fixed; /* スクロール時に背景を固定して金属板の重量感を出す */
+            color: #1a1a1a;
         }
-        
-        /* カスタムカーソル */
-        #cursor-glow {
-            position: fixed;
-            top: 0; left: 0;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: screen;
-            transition: width 0.3s, height 0.3s;
-        }
-        #cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 8px; height: 8px;
-            background-color: var(--gold-light);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 10000;
-            box-shadow: 0 0 10px var(--gold-primary);
-        }
-
-        @keyframes metalShine {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
         .font-serif { font-family: 'Noto Serif JP', serif; }
         .font-sans { font-family: 'Noto Sans JP', sans-serif; }
         
-        /* フェードイン＆ズームアップアニメーション */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        /* モーダル表示時のアニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+        .modal-animate {
+            animation: fadeIn 0.3s ease-out;
         }
 
-        /* --- 究極のピアノブラック・ガラスコーティングパネル（派手Ver） --- */
+        /* --- ステンレス・メタリックデザイン --- */
+
+        /* 1. 黒の光沢ボード（パネル） */
         .glossy-black-panel {
+            /* ベース：漆黒 */
             background-color: #000000;
-            background-image: linear-gradient(160deg, #1a1a1a 0%, #000000 100%);
+            
+            /* 映り込みの表現：上部は空の反射で少し明るく、下部は暗く */
+            background-image: linear-gradient(180deg, rgba(40,40,40,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
+            
             position: relative;
             overflow: hidden;
             border-radius: 12px;
-            /* 輝く枠線 */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            /* ガラスの厚みとエッジの光沢 */
+            border: 1px solid #111; /* 黒い枠 */
             box-shadow: 
-                0 20px 50px rgba(0,0,0,0.8),
-                inset 0 1px 0 rgba(255,255,255,0.3),
-                0 0 0 1px rgba(0,0,0,1); /* 二重枠 */
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                0 20px 50px rgba(0,0,0,0.8),      /* 深いドロップシャドウ */
+                inset 0 1px 0 rgba(255,255,255,0.5), /* 上辺の鋭いハイライト（エッジ） */
+                inset 0 0 0 1px rgba(255,255,255,0.05); /* 全体の微かなフチ */
+                
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
         }
 
-        /* パネル表面の流れる光沢 */
+        /* パネル表面の強い光沢（テカり） */
         .glossy-black-panel::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-25deg);
-            transition: 0.5s;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%; /* 上部に強い光沢 */
+            background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.01) 100%);
+            border-radius: 12px 12px 60% 60% / 10px 10px 15px 15px; /* 湾曲した光 */
             pointer-events: none;
         }
 
-        /* ホバー時のド派手な演出 */
-        .glossy-black-panel:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--gold-primary);
-            box-shadow: 
-                0 30px 70px rgba(0,0,0,0.9),
-                0 0 30px rgba(197, 160, 89, 0.4), /* ゴールドのグロー */
-                inset 0 0 20px rgba(197, 160, 89, 0.2);
-        }
-        .glossy-black-panel:hover::after {
-            left: 200%; /* 光が走る */
-            transition: 0.7s ease-in-out;
-        }
-
-        /* --- メタルプレート（ヘッダー・フッター） --- */
-        .metal-plate {
-            background: linear-gradient(180deg, #f8f8f8 0%, #d0d0d0 49%, #a8a8a8 50%, #d8d8d8 100%);
-            border-top: 1px solid #fff;
-            border-bottom: 2px solid #555;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            color: #1a1a1a;
-            position: relative;
-        }
-        /* プレートの反射 */
-        .metal-plate::before {
+        /* 斜めの走る光（フレア） */
+        .glossy-black-panel::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
-            background-size: 200% 100%;
-            animation: metalShine 8s linear infinite;
+            top: -50%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            /* 鋭い光の帯 */
+            background: linear-gradient(
+                115deg, 
+                transparent 40%, 
+                rgba(255,255,255,0.3) 45%, 
+                rgba(255,255,255,0.6) 50%, 
+                rgba(255,255,255,0.3) 55%, 
+                transparent 60%
+            );
             pointer-events: none;
-            opacity: 0.3;
+            opacity: 0.0; /* 通常時は非表示 */
+            transition: opacity 0.3s, left 0.7s ease; 
+        }
+
+        /* ホバー時の挙動 */
+        .glossy-black-panel:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.9),
+                inset 0 1px 0 rgba(255,255,255,0.7); /* ハイライト強化 */
+        }
+        .glossy-black-panel:hover::before {
+            opacity: 0.5;
+            left: 100%; /* 光が右へ抜ける */
+        }
+
+        /* --- 燻製商品カード専用のホバーアクション --- */
+        .kunsei-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .kunsei-card:hover {
+            border-color: #C5A059 !important; /* 枠線をゴールドに */
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.8),
+                0 0 20px rgba(197, 160, 89, 0.4), /* 外側にゴールドのグロー */
+                inset 0 0 30px rgba(197, 160, 89, 0.1) !important;
+            transform: translateY(-7px) scale(1.02) !important;
+        }
+        
+        /* 矢印エリアのアニメーション */
+        .kunsei-card .arrow-area {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .kunsei-card:hover .arrow-area {
+            transform: translateX(10px); /* 右にスライド */
+            color: #C5A059 !important; /* ゴールドに変化 */
+        }
+        
+        /* アイコンのアニメーション */
+        .kunsei-card .main-icon {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+        }
+        .kunsei-card:hover .main-icon {
+            transform: scale(1.2) rotate(15deg); /* 拡大して回転 */
+            color: #C5A059 !important;
+            filter: drop-shadow(0 0 10px rgba(197,160,89,0.7)); /* アイコン自体も発光 */
+        }
+        /* タイトルの色変化 */
+        .kunsei-card:hover h2 {
+            color: #C5A059;
+            transition: color 0.3s ease;
+        }
+
+        /* --- ヘッダー・フッター用メタルプレート --- */
+        .metal-plate {
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 49%, #a0a0a0 50%, #d0d0d0 100%);
+            border-top: 1px solid #fff;
+            border-bottom: 1px solid #666;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            color: #1a1a1a;
         }
 
         /* --- リアル・ステンレスボタン --- */
         .metal-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: linear-gradient(180deg, #fff 0%, #e0e0e0 49%, #b0b0b0 50%, #d0d0d0 100%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            /* クロムメッキのような強い反射 */
+            background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 49%, #a0a0a0 50%, #cecece 100%);
             color: #000 !important;
-            padding: 12px 30px; border-radius: 4px; border: 1px solid #666;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 1px 0 #fff;
-            font-weight: 900; text-decoration: none;
-            font-family: 'Noto Serif JP', serif; font-size: 0.95rem; letter-spacing: 0.1em;
-            position: relative; overflow: hidden;
-            transition: all 0.2s;
-        }
-        .metal-btn::after {
-            content: '';
-            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(transparent, rgba(255,255,255,0.8), transparent);
-            transform: rotate(45deg);
-            transition: 0.5s;
-            opacity: 0;
-        }
-        .metal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4), 0 0 15px rgba(255,255,255,0.6);
-            border-color: #999;
-        }
-        .metal-btn:hover::after {
-            opacity: 1; left: 100%;
-        }
-
-        /* --- ゴールドボタン（鏡面・発光） --- */
-        .gold-metal-btn {
-            background: linear-gradient(180deg, #fff8db 0%, #f0c350 49%, #c59237 50%, #e6be6d 100%);
-            border: 1px solid #b8860b;
-            color: #3e2723 !important;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+            padding: 10px 28px;
+            border-radius: 4px;
+            border: 1px solid #666;
+            /* 押し出し感 */
             box-shadow: 
-                0 4px 10px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.8),
-                0 0 15px rgba(197, 160, 89, 0.4); /* 常時発光 */
-            font-weight: 900;
-        }
-        .gold-metal-btn:hover {
-            background: linear-gradient(180deg, #fff 0%, #ffd700 49%, #daa520 50%, #f0e68c 100%);
-            box-shadow: 
-                0 6px 20px rgba(0,0,0,0.4),
                 inset 0 1px 0 rgba(255,255,255,1),
-                0 0 30px rgba(255, 215, 0, 0.8); /* 強烈な発光 */
-            transform: scale(1.05);
-        }
-
-        /* --- タイトル文字デザイン（派手） --- */
-        .glass-navy-text {
-            background: linear-gradient(135deg, #a0c0ff 0%, #203060 50%, #000033 51%, #405080 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            /* ゴールドの縁取り + 影 */
-            filter: drop-shadow(0 0 2px rgba(197, 160, 89, 0.8)) drop-shadow(0 5px 10px rgba(0,0,0,0.5));
-            -webkit-text-stroke: 1px rgba(197, 160, 89, 0.8);
+                0 2px 5px rgba(0,0,0,0.5);
+            text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.1s ease;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+            cursor: pointer;
             position: relative;
-            z-index: 10;
+            overflow: hidden;
         }
         
-        .title-glow {
+        .metal-btn:hover {
+            /* より明るく、青白い光沢 */
+            background: linear-gradient(180deg, #ffffff 0%, #eeeeee 49%, #c0c0c0 50%, #e0e0e0 100%);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,1),
+                0 0 10px rgba(255,255,255,0.8), /* 発光 */
+                0 3px 6px rgba(0,0,0,0.6);
+            transform: translateY(-1px);
+            border-color: #888;
+        }
+        
+        .metal-btn:active {
+            background: linear-gradient(180deg, #999 0%, #bbb 100%);
+            box-shadow: inset 0 3px 8px rgba(0,0,0,0.6);
+            transform: translateY(1px);
+            border-color: #333;
+        }
+
+        /* --- ゴールドボタン（鏡面仕上げ） --- */
+        .gold-metal-btn {
+            background: linear-gradient(180deg, #fffcdb 0%, #f3d77e 49%, #c5a059 50%, #e6cf8b 100%);
+            border: 1px solid #8a6e3e;
+            color: #3e2723 !important;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.8),
+                0 2px 5px rgba(0,0,0,0.4),
+                0 0 0 2px rgba(197, 160, 89, 0.3); /* 外側のグロー */
+        }
+        .gold-metal-btn:hover {
+            background: linear-gradient(180deg, #fff 0%, #ffeaa7 49%, #d4af37 50%, #f5e0a0 100%);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,1),
+                0 0 20px rgba(255, 215, 0, 0.6),
+                0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        /* --- パスワード入力フィールド（ハイテク黒） --- */
+        .password-input {
+            background: #000;
+            border: 1px solid #444;
+            border-bottom: 2px solid #C5A059; /* ゴールドのライン */
+            color: #C5A059;
+            padding: 12px 15px;
+            border-radius: 4px;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s;
+            text-align: center;
+            letter-spacing: 0.3em;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace; /* デジタル感 */
+            box-shadow: inset 0 0 20px rgba(0,0,0,1);
+        }
+        .password-input:focus {
+            border-color: #fff;
+            box-shadow: 
+                inset 0 0 20px rgba(0,0,0,1),
+                0 0 15px rgba(197,160,89,0.5);
             color: #fff;
-            text-shadow: 
-                0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(197, 160, 89, 0.6),
-                0 0 40px rgba(197, 160, 89, 0.4);
-            animation: pulseGlow 3s infinite alternate;
         }
-
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(197,160,89,0.6); }
-            100% { text-shadow: 0 0 20px rgba(255,255,255,1), 0 0 40px rgba(197,160,89,1), 0 0 60px rgba(197,160,89,0.6); }
-        }
-
-        /* --- テキストエフェクト --- */
-        .text-engrave {
+        .password-input::placeholder {
             color: #333;
-            background-color: #555;
+            letter-spacing: normal;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+
+        /* --- 特設ページオーバーレイ（漆黒） --- */
+        #secret-overlay {
+            background-color: #050505;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 70%);
+            color: white;
+        }
+
+        /* --- 燻製商品オーバーレイ（ステンレス） --- */
+        #kunsei-overlay {
+            /* bodyと同じステンレス背景を適用 */
+            background-color: #8a8a8a;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent 0px, transparent 1px, rgba(255, 255, 255, 0.08) 1px, rgba(255, 255, 255, 0.08) 2px),
+                linear-gradient(90deg, #999 0%, #ddd 15%, #bbb 30%, #eee 50%, #bbb 70%, #ddd 85%, #999 100%);
+            background-blend-mode: overlay;
+            background-attachment: fixed;
+            color: #1a1a1a;
+        }
+
+        /* --- カタログページオーバーレイ（共通） --- */
+        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay, #manga-overlay {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .catalog-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .catalog-page {
+            display: block;
+            width: 100%;
+            height: auto;
+            font-size: 0;
+        }
+        .catalog-page img {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0; /* ページの境目 */
+        }
+        /* 最後の画像の下線は消す */
+        .catalog-page:last-child img {
+            border-bottom: none;
+        }
+
+        /* テキストエフェクト */
+        .text-engrave {
+            color: rgba(0,0,0,0.75);
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.6); /* 彫り込み効果 */
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+        .text-shadow-strong {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* --- タイトル文字デザイン --- */
+        /* 紺色のガラスコーティング + ゴールド縁取り */
+        .glass-navy-text {
+            /* ベースの紺色グラデーション（ガラスの光沢感） */
+            background: linear-gradient(
+                135deg, 
+                #405080 0%, 
+                #1a2a50 50%, 
+                #000033 51%, 
+                #203060 100%
+            );
             -webkit-background-clip: text;
-            -moz-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
             color: transparent;
-            text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
-        }
-
-        /* --- ローディング演出 --- */
-        #loading-screen {
-            position: fixed; inset: 0; background: #000; z-index: 99999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease;
-        }
-        .loader-logo {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 3rem; font-weight: 900; color: transparent;
-            background: linear-gradient(90deg, #8B6508 0%, #FFD700 50%, #8B6508 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            animation: shineText 2s linear infinite;
-        }
-        @keyframes shineText { to { background-position: 200% center; } }
-
-        /* オーバーレイ共通 */
-        .overlay-base {
-            background-color: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
+            
+            /* ゴールドの縁取り */
+            -webkit-text-stroke: 1.5px #C5A059;
+            
+            /* ガラスの厚みを感じさせるドロップシャドウ */
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
         }
     </style>
 </head>
 <body>
 
-    <!-- カスタムカーソル -->
-    <div id="cursor-glow"></div>
-    <div id="cursor-dot"></div>
-
-    <!-- ローディング画面 -->
-    <div id="loading-screen">
-        <div class="text-center">
-            <div class="loader-logo">KAWAGOEYA</div>
-            <p class="text-[#C5A059] mt-2 tracking-[0.5em] text-sm animate-pulse">PREMIUM NUTS FACTORY</p>
-        </div>
-    </div>
-
     <!-- アプリケーションのコンテナ -->
-    <div id="app"></div>
+    <div id="app">
+        <!-- コンテンツはJavaScriptによってここに描画されます -->
+    </div>
 
     <!-- JavaScript Logic -->
     <script>
-        // カーソル追従ロジック
-        document.addEventListener('mousemove', (e) => {
-            const glow = document.getElementById('cursor-glow');
-            const dot = document.getElementById('cursor-dot');
-            
-            // 少し遅延させる
-            setTimeout(() => {
-                glow.style.left = e.clientX + 'px';
-                glow.style.top = e.clientY + 'px';
-            }, 50);
-
-            dot.style.left = e.clientX + 'px';
-            dot.style.top = e.clientY + 'px';
-        });
-
-        // ホバー時にカーソルを大きくする
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.glossy-black-panel')) {
-                document.getElementById('cursor-glow').style.width = '150px';
-                document.getElementById('cursor-glow').style.height = '150px';
-                document.getElementById('cursor-glow').style.background = 'radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%)';
-            } else {
-                document.getElementById('cursor-glow').style.width = '400px';
-                document.getElementById('cursor-glow').style.height = '400px';
-                document.getElementById('cursor-glow').style.background = 'radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%)';
-            }
-        });
-
         const BRAND_COLORS = {
             primary: '#4B2E1E',
             gold: '#C5A059',
@@ -311,7 +374,7 @@
 
         const BASE_URL = 'https://rasuta55.github.io/kawagoeya';
 
-        window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='transparent'/><text x='100' y='40' font-family='Noto Serif JP, serif' font-weight='900' font-size='28' text-anchor='middle' fill='%231a1a1a' stroke='%23fff' stroke-width='1.5' filter='drop-shadow(2px 2px 2px rgba(0,0,0,0.3))'>KAWAGOEYA</text></svg>`;
+        window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='transparent'/><text x='100' y='40' font-family='Noto Serif JP, serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%231a1a1a' stroke='%23fff' stroke-width='1'>KAWAGOEYA</text></svg>`;
         window.PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像</text></svg>`;
 
         const PAGE_CONTENT = {
@@ -340,6 +403,7 @@
                 description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。",
                 icon: "truck", 
                 image: `${BASE_URL}/step1.png`
+                // 動画なし（画像のみ）
             },
             {
                 id: 2,
@@ -348,7 +412,7 @@
                 description: "最新鋭の選別機と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。",
                 icon: "check-circle", 
                 image: `${BASE_URL}/step2.png`,
-                video: `${BASE_URL}/senbetu.mp4` 
+                video: `${BASE_URL}/senbetu.mp4` // 追加: 動画
             },
             {
                 id: 3,
@@ -357,7 +421,7 @@
                 description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。",
                 icon: "flame",
                 image: `${BASE_URL}/step3.jpg`,
-                video: `${BASE_URL}/baisen.mp4` 
+                video: `${BASE_URL}/baisen.mp4` // 追加: 動画
             },
             {
                 id: 4,
@@ -366,7 +430,7 @@
                 description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。",
                 icon: "droplets",
                 image: `${BASE_URL}/step4.jpg`,
-                video: `${BASE_URL}/ajitsuke.mp4` 
+                video: `${BASE_URL}/ajitsuke.mp4` // 追加: 動画
             },
             {
                 id: 5,
@@ -375,7 +439,7 @@
                 description: "きな粉、ラズベリーなど、多彩なフレーバーを纏わせます。素材の風味を損なわないよう、パウダーはたっぷり使い、職人の目で確かめながら作業しています。",
                 icon: "utensils",
                 image: `${BASE_URL}/step5.jpg`,
-                video: `${BASE_URL}/konagake.mp4` 
+                video: `${BASE_URL}/konagake.mp4` // 追加: 動画
             },
             {
                 id: 6,
@@ -384,7 +448,7 @@
                 description: "正確、丁寧をモットーに真心こめてパッキングしています。金属探知機による最終検査を経て、皆様のもとへ出荷されます。",
                 icon: "gift",
                 image: `${BASE_URL}/step6.jpg`,
-                video: `${BASE_URL}/sio.mp4` 
+                video: `${BASE_URL}/sio.mp4` // 追加: 動画
             }
         ];
 
@@ -486,67 +550,157 @@
             document.body.style.overflow = '';
         }
 
-        /* === 各種オーバーレイ制御 === */
+        /* === 燻製商品オーバーレイ制御 === */
         window.openKunsei = function() {
-            document.getElementById('kunsei-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('kunsei-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.8s ease';
+                overlay.style.opacity = '1';
+            }, 10);
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
+
         window.closeKunsei = function() {
-            document.getElementById('kunsei-overlay').classList.add('hidden');
+            const overlay = document.getElementById('kunsei-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 800);
             document.body.style.overflow = '';
         }
 
+        /* === カタログモーダル制御 === */
         window.openCatalog = function() {
-            document.getElementById('catalog-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('catalog-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
+
         window.closeCatalog = function() {
-            document.getElementById('catalog-overlay').classList.add('hidden');
+            const overlay = document.getElementById('catalog-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
             document.body.style.overflow = '';
         }
 
+        /* === スモークナッツ資料モーダル制御 === */
         window.openSmokeNutsDoc = function() {
-            document.getElementById('smoke-nuts-doc-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('smoke-nuts-doc-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
+
         window.closeSmokeNutsDoc = function() {
-            document.getElementById('smoke-nuts-doc-overlay').classList.add('hidden');
+            const overlay = document.getElementById('smoke-nuts-doc-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
             document.body.style.overflow = '';
         }
 
+        /* === NB商品リストモーダル制御 === */
         window.openNbList = function() {
-            document.getElementById('nb-list-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('nb-list-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
+
         window.closeNbList = function() {
-            document.getElementById('nb-list-overlay').classList.add('hidden');
+            const overlay = document.getElementById('nb-list-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
             document.body.style.overflow = '';
         }
 
+        /* === スナハラ燻製所（燻製珍味）資料モーダル制御 === */
         window.openSmokeTinmiDoc = function() {
-            document.getElementById('smoke-tinmi-doc-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('smoke-tinmi-doc-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
+
         window.closeSmokeTinmiDoc = function() {
-            document.getElementById('smoke-tinmi-doc-overlay').classList.add('hidden');
+            const overlay = document.getElementById('smoke-tinmi-doc-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
             document.body.style.overflow = '';
         }
 
+        /* === スナハラ燻製工房（会社概要）資料モーダル制御 === */
         window.openSunaharaCompanyDoc = function() {
-            document.getElementById('sunahara-company-doc-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('sunahara-company-doc-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
+
         window.closeSunaharaCompanyDoc = function() {
-            document.getElementById('sunahara-company-doc-overlay').classList.add('hidden');
+            const overlay = document.getElementById('sunahara-company-doc-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
             document.body.style.overflow = '';
         }
 
+        /* === マンガオーバーレイ制御 === */
         window.openManga = function() {
-            document.getElementById('manga-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('manga-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
+
         window.closeManga = function() {
-            document.getElementById('manga-overlay').classList.add('hidden');
+            const overlay = document.getElementById('manga-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
             document.body.style.overflow = '';
         }
 
@@ -555,13 +709,6 @@
         function renderApp() {
             const app = document.getElementById('app');
             
-            // ローディング画面を消す
-            setTimeout(() => {
-                const loader = document.getElementById('loading-screen');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 800);
-            }, 1500);
-
             const NAV_LINKS = [
                 { label: 'ホーム', href: './index.html' },
                 { label: '加工場設備', href: './factory.html' },
@@ -569,6 +716,7 @@
                 { label: '燻製商品', href: '#', onclick: 'openKunsei(); return false;' }
             ];
 
+            // ナビゲーションアイテム（メタルボタン）
             const navItems = NAV_LINKS.map(item => {
                 const onclickAttr = item.onclick ? `onclick="${item.onclick}"` : '';
                 return `<a href="${item.href}" ${onclickAttr} class="metal-btn">${item.label}</a>`;
@@ -579,46 +727,56 @@
                 return `<a href="${item.href}" ${onclickAttr} class="metal-btn text-lg py-3 px-8 w-64 text-center">${item.label}</a>`;
             }).join('');
 
+            // 黒光沢パネルカード（工程表）
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
                 const stepNum = String(index + 1).padStart(2, '0');
+                
+                // 動画がある場合はクリックイベントとオーバーレイを設定
                 const hasVideo = !!step.video;
-                const isComingSoon = step.id === 1; 
+                const isComingSoon = step.id === 1; // 原料入荷判定
+                
                 const clickAttr = hasVideo ? `onclick="openVideoModal('${step.video}')" style="cursor: pointer;"` : '';
                 
                 let overlayContent = '';
                 if (hasVideo) {
                     overlayContent = `
-                        <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_20px_#C5A059] animate-pulse">
+                        <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
                             <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
                         </div>
                     `;
                 } else if (isComingSoon) {
+                    // 赤く光るComing Soonテキスト
                     overlayContent = `
-                        <span class="text-3xl font-black tracking-widest text-[#D14658] uppercase drop-shadow-[0_0_15px_rgba(209,70,88,1)] animate-pulse" style="text-shadow: 0 0 20px #D14658; transform: rotate(-5deg);">
+                        <span class="text-3xl font-bold tracking-widest text-[#D14658] uppercase drop-shadow-[0_0_10px_rgba(209,70,88,0.8)] animate-pulse" style="text-shadow: 0 0 20px #D14658;">
                             Coming Soon
                         </span>
                     `;
                 }
 
                 const playOverlay = overlayContent ? `
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none ${isComingSoon ? 'bg-black/70 backdrop-blur-sm' : ''}">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none ${isComingSoon ? 'bg-black/50 backdrop-blur-sm' : ''}">
                         ${overlayContent}
                     </div>
                 ` : '';
 
                 return `
-                <div class="group relative glossy-black-panel fade-in-up" ${clickAttr}>
+                <div class="group relative glossy-black-panel" ${clickAttr}>
                     <div class="relative h-64 overflow-hidden border-b border-gray-800">
                         <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10 pointer-events-none"></div>
+                        
+                        <!-- ここを修正：常に画像を表示 -->
                         <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
+                        
                         ${playOverlay}
+
                         <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-black/80 backdrop-blur rounded-full shadow-lg border border-gray-600">
                             <span class="font-serif text-xl font-bold text-white text-glow">${stepNum}</span>
                         </div>
                     </div>
                     <div class="p-8 relative z-20">
                         <div class="flex items-center gap-3 mb-4">
+                            <!-- アイコン色：ワインレッド(#D14658)固定 -->
                             <div class="p-2 rounded-full bg-gradient-to-br from-white/20 to-transparent border border-white/10 shadow-inner" style="color: #D14658;">
                                 <i data-lucide="${step.icon}" class="w-6 h-6"></i>
                             </div>
@@ -642,14 +800,14 @@
                     ${mobileNavItems}
                 </div>
 
-                <!-- Video Modal -->
-                <div id="videoModal" class="hidden fixed inset-0 z-[250] items-center justify-center bg-black/90 backdrop-blur-sm modal-animate overlay-base" onclick="closeVideoModal()">
-                    <div class="relative w-full max-w-5xl mx-4" onclick="event.stopPropagation()">
+                <!-- Video Modal (最前面) -->
+                <div id="videoModal" class="hidden fixed inset-0 z-[250] items-center justify-center bg-black/90 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
+                    <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
                         <button onclick="closeVideoModal()" class="absolute -top-12 right-0 text-white hover:text-orange-400 transition-colors flex items-center gap-2">
-                            <span class="text-sm font-bold text-glow">CLOSE</span>
+                            <span class="text-sm font-bold">CLOSE</span>
                             <i data-lucide="x" class="w-8 h-8"></i>
                         </button>
-                        <div class="aspect-video bg-black rounded-lg shadow-[0_0_50px_rgba(0,0,0,1)] overflow-hidden flex items-center justify-center relative border border-[#333]">
+                        <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden flex items-center justify-center relative border-2 border-[#333] shadow-[0_0_50px_rgba(0,0,0,1)]">
                             <video id="promoVideo" controls class="w-full h-full object-contain">
                                 <source src="${PAGE_CONTENT.footerVideo}" type="video/mp4">
                                 <p class="text-white text-center p-4">動画を再生できません。</p>
@@ -659,11 +817,12 @@
                 </div>
 
                 <!-- Password Entry Modal -->
-                <div id="passwordModal" class="hidden fixed inset-0 z-[150] items-center justify-center bg-black/90 backdrop-blur-md modal-animate overlay-base" onclick="closePasswordModal()">
+                <div id="passwordModal" class="hidden fixed inset-0 z-[150] items-center justify-center bg-black/90 backdrop-blur-md modal-animate" onclick="closePasswordModal()">
                     <div class="relative w-full max-w-md mx-4 glossy-black-panel p-10" onclick="event.stopPropagation()">
                         <button onclick="closePasswordModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors z-20">
                             <i data-lucide="x" class="w-6 h-6"></i>
                         </button>
+                        
                         <div class="text-center mb-8 relative z-10">
                             <div class="w-16 h-16 bg-black/80 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-[#C5A059] shadow-[0_0_20px_rgba(197,160,89,0.3)]">
                                 <i data-lucide="lock" class="w-8 h-8 text-[#C5A059]"></i>
@@ -671,6 +830,7 @@
                             <h3 class="text-2xl font-serif text-white mb-2 text-glow">Members Only</h3>
                             <p class="text-gray-400 text-sm">特設ページへのアクセスには<br>パスワードが必要です</p>
                         </div>
+                        
                         <div class="space-y-6 relative z-10">
                             <input type="password" id="secretPassword" class="password-input" placeholder="PASSWORD">
                             <button onclick="checkPassword()" class="w-full gold-metal-btn font-bold py-3 rounded tracking-widest text-lg">
@@ -691,10 +851,12 @@
                         <i data-lucide="log-out" class="w-5 h-5"></i>
                         ログアウト
                     </button>
+
                     <div class="min-h-screen flex flex-col items-center justify-center py-20 px-6">
-                        <div class="text-center max-w-6xl mx-auto w-full fade-in-up visible">
+                        <div class="text-center max-w-6xl mx-auto w-full">
                             <span class="text-[#C5A059] text-xl tracking-[0.5em] block mb-4 font-bold text-glow" style="text-shadow: 0 0 20px rgba(197,160,89,0.8);">EXCLUSIVE CONTENTS</span>
                             <h1 class="text-4xl md:text-7xl font-serif text-white mb-16 text-glow">視聴者限定 特設ページ</h1>
+                            
                             <div class="glossy-black-panel p-8 md:p-16 backdrop-blur-xl border border-white/10">
                                 <div class="w-24 h-24 bg-black/80 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.4)]">
                                     <i data-lucide="gift" class="w-12 h-12 text-[#C5A059]"></i>
@@ -734,8 +896,227 @@
                     </div>
                 </div>
 
-                <!-- KUNSEI PRODUCTS OVERLAY -->
-                <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto overlay-base">
+                <!-- CATALOG OVERLAY -->
+                <!-- 修正: z-indexを220にして燻製商品(200)より上にする -->
+                <div id="catalog-overlay" class="hidden fixed inset-0 z-[220] overflow-y-auto">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeCatalog()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        カタログを閉じる
+                    </button>
+
+                    <div class="catalog-container pt-20">
+                        <!-- 1ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0001.jpg" alt="カタログ 1ページ目" loading="eager">
+                        </div>
+                        
+                        <!-- 2ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0002.jpg" alt="カタログ 2ページ目" loading="lazy">
+                        </div>
+
+                        <!-- 3ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0003.jpg" alt="カタログ 3ページ目" loading="lazy">
+                        </div>
+
+                        <!-- 4ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0004.jpg" alt="カタログ 4ページ目" loading="lazy">
+                        </div>
+
+                        <!-- 5ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0005.jpg" alt="カタログ 5ページ目" loading="lazy">
+                        </div>
+
+                        <!-- 6ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0006.jpg" alt="カタログ 6ページ目" loading="lazy">
+                        </div>
+
+                        <!-- 7ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0007.jpg" alt="カタログ 7ページ目" loading="lazy">
+                        </div>
+
+                        <!-- 8ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/最新カタログ2025_page-0008.jpg" alt="カタログ 8ページ目" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Catalog Viewer
+                    </div>
+                </div>
+
+                <!-- SMOKE NUTS DOCUMENT OVERLAY -->
+                <!-- 修正: z-indexを220にして燻製商品(200)より上にする -->
+                <div id="smoke-nuts-doc-overlay" class="hidden fixed inset-0 z-[220] overflow-y-auto">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeSmokeNutsDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        資料を閉じる
+                    </button>
+
+                    <div class="catalog-container pt-20">
+                        <!-- Page 1 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0001.jpg" alt="スモークナッツ 表紙" loading="eager">
+                        </div>
+
+                        <!-- Page 2 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0002.jpg" alt="燻製市場について" loading="lazy">
+                        </div>
+
+                        <!-- Page 3 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0003.jpg" alt="燻製に合うナッツと国産桜チップ" loading="lazy">
+                        </div>
+
+                        <!-- Page 4 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0004.jpg" alt="チップの煙だけで燻した本格燻製" loading="lazy">
+                        </div>
+
+                        <!-- Page 5 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0005.jpg" alt="深く染み込んだ自慢の強燻製" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Smoke Nuts Doc Viewer
+                    </div>
+                </div>
+
+                <!-- NB LIST OVERLAY -->
+                <div id="nb-list-overlay" class="hidden fixed inset-0 z-[220] overflow-y-auto" style="background-color: #f5f5f5; color: #333;">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeNbList()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        リストを閉じる
+                    </button>
+
+                    <div class="container mx-auto max-w-4xl px-4 flex flex-col items-center gap-8 pt-20">
+                        <!-- 1枚目の画像 -->
+                        <div class="w-full bg-white shadow-lg">
+                            <img src="${BASE_URL}/NB商品リスト改訂260129_page-0001.jpg" alt="商品リスト 1ページ目" class="w-full h-auto block" loading="eager">
+                        </div>
+                        <!-- 2枚目の画像 -->
+                        <div class="w-full bg-white shadow-lg">
+                            <img src="${BASE_URL}/NB商品リスト改訂260129_page-0002.jpg" alt="商品リスト 2ページ目" class="w-full h-auto block" loading="lazy">
+                        </div>
+                    </div>
+                    
+                    <div class="text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Product List Viewer
+                    </div>
+                </div>
+
+                <!-- SMOKE TINMI DOCUMENT OVERLAY -->
+                <!-- 修正: z-indexを230にして、確実に最前面に来るようにする -->
+                <div id="smoke-tinmi-doc-overlay" class="hidden fixed inset-0 z-[230] overflow-y-auto">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeSmokeTinmiDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        資料を閉じる
+                    </button>
+
+                    <div class="catalog-container pt-20">
+                        <!-- 1.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/1.png" alt="スナハラ燻製所 表紙" loading="eager">
+                        </div>
+                        <!-- 2.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/2.png" alt="スナハラ燻製所とは" loading="lazy">
+                        </div>
+                        <!-- 3.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/3.png" alt="燻製焼あじ紹介" loading="lazy">
+                        </div>
+                        <!-- 4.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/4.png" alt="燻製焼あじ商品詳細" loading="lazy">
+                        </div>
+                        <!-- 5.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/5.png" alt="燻製貝ひも紹介" loading="lazy">
+                        </div>
+                        <!-- 6.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/6.png" alt="燻製貝ひも商品詳細" loading="lazy">
+                        </div>
+                        <!-- 7.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/7.png" alt="燻製炙り小いわし紹介" loading="lazy">
+                        </div>
+                        <!-- 8.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/8.png" alt="燻製炙り小いわし商品詳細" loading="lazy">
+                        </div>
+                        <!-- 9.png -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/9.png" alt="その他・業務用案内" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Smoke Tinmi Doc Viewer
+                    </div>
+                </div>
+
+                <!-- SUNAHARA COMPANY DOCUMENT OVERLAY (NEW) -->
+                <!-- 修正: z-indexを230にして、確実に最前面に来るようにする -->
+                <div id="sunahara-company-doc-overlay" class="hidden fixed inset-0 z-[230] overflow-y-auto">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeSunaharaCompanyDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        資料を閉じる
+                    </button>
+
+                    <div class="catalog-container pt-20">
+                        <!-- 1ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/会社概要_page-0001.jpg" alt="会社概要 1ページ目" loading="eager">
+                        </div>
+                        <!-- 2ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/会社概要_page-0002.jpg" alt="会社概要 2ページ目" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Sunahara Smoke Factory Doc Viewer
+                    </div>
+                </div>
+
+                <!-- MANGA OVERLAY -->
+                <div id="manga-overlay" class="hidden fixed inset-0 z-[230] overflow-y-auto bg-gray-100">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeManga()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        マンガを閉じる
+                    </button>
+
+                    <div class="max-w-4xl mx-auto bg-white shadow-xl min-h-screen pt-20">
+                        <img src="${BASE_URL}/スナハラマンガ_page-0001.jpg" 
+                             alt="スナハラマンガ Page 1" 
+                             class="w-full h-auto block"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-10 text-center text-gray-500\'>画像が表示されません。<br>HTMLファイルと同じフォルダに<br><strong>スナハラマンガ_page-0001.jpg</strong><br>があるか確認してください。</div>'">
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Manga Viewer
+                    </div>
+                </div>
+
+                <!-- KUNSEI PRODUCTS OVERLAY (Integrated content from products_kunsei.html) -->
+                <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <!-- Header -->
                     <header class="fixed w-full z-50 py-3 metal-plate">
                         <div class="container mx-auto px-6 flex justify-between items-center">
@@ -754,14 +1135,16 @@
                     <!-- Main Content -->
                     <main class="pt-32 pb-20 px-6 min-h-screen">
                         <div class="container mx-auto max-w-6xl">
-                            <div class="text-center mb-16 fade-in-up visible">
+                            
+                            <div class="text-center mb-16 fade-in">
                                 <span class="text-[#1a1a1a] text-sm tracking-[0.3em] block mb-2 font-bold opacity-70">PREMIUM SELECTION</span>
                                 <h1 class="text-4xl md:text-5xl font-serif font-bold text-[#1a1a1a] text-engrave">これが、本物の燻製だ！！</h1>
                                 <div class="w-20 h-1 bg-[#1a1a1a] mx-auto mt-6 rounded-full opacity-30"></div>
                             </div>
 
                             <!-- Grid Layout -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 fade-in-up visible" style="transition-delay: 0.1s;">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 fade-in" style="animation-delay: 0.2s;">
+
                                 <!-- ① 燻製ナッツとは… -->
                                 <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px] kunsei-card" onclick="openSmokeNutsDoc()">
                                     <div>
@@ -836,7 +1219,7 @@
                                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                                     </div>
                                 </div>
-                                
+
                                 <!-- ⑤ 小ロットでオリジナル！（マンガ） -->
                                 <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px] kunsei-card" onclick="openManga()">
                                     <div>
@@ -854,6 +1237,7 @@
                                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </main>
@@ -866,49 +1250,6 @@
                             </p>
                         </div>
                     </footer>
-                </div>
-
-                <!-- OVERLAYS FOR DOCS -->
-                <div id="catalog-overlay" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
-                    <button onclick="closeCatalog()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
-                    <div class="catalog-container pt-20">
-                        ${[1,2,3,4,5,6,7,8].map(i => `<div class="catalog-page"><img src="${BASE_URL}/最新カタログ2025_page-000${i}.jpg" loading="lazy"></div>`).join('')}
-                    </div>
-                </div>
-
-                <div id="smoke-nuts-doc-overlay" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
-                    <button onclick="closeSmokeNutsDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
-                    <div class="catalog-container pt-20">
-                        ${[1,2,3,4,5].map(i => `<div class="catalog-page"><img src="${BASE_URL}/スモークナッツ_page-000${i}.jpg" loading="lazy"></div>`).join('')}
-                    </div>
-                </div>
-
-                <div id="nb-list-overlay" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
-                    <button onclick="closeNbList()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
-                    <div class="catalog-container pt-20">
-                        ${[1,2].map(i => `<div class="catalog-page"><img src="${BASE_URL}/NB商品リスト改訂260129_page-000${i}.jpg" loading="lazy"></div>`).join('')}
-                    </div>
-                </div>
-
-                <div id="smoke-tinmi-doc-overlay" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
-                    <button onclick="closeSmokeTinmiDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
-                    <div class="catalog-container pt-20">
-                        ${[1,2,3,4,5,6,7,8,9].map(i => `<div class="catalog-page"><img src="${BASE_URL}/${i}.png" loading="lazy"></div>`).join('')}
-                    </div>
-                </div>
-
-                <div id="sunahara-company-doc-overlay" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
-                    <button onclick="closeSunaharaCompanyDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
-                    <div class="catalog-container pt-20">
-                        ${[1,2].map(i => `<div class="catalog-page"><img src="${BASE_URL}/会社概要_page-000${i}.jpg" loading="lazy"></div>`).join('')}
-                    </div>
-                </div>
-
-                <div id="manga-overlay" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
-                    <button onclick="closeManga()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
-                    <div class="catalog-container pt-20">
-                        <div class="catalog-page"><img src="${BASE_URL}/スナハラマンガ_page-0001.jpg" loading="lazy"></div>
-                    </div>
                 </div>
 
                 <!-- Header (Metal Plate) -->
@@ -957,6 +1298,7 @@
                 <!-- Intro Section -->
                 <section class="py-20 md:py-32 px-6">
                     <div class="container mx-auto max-w-4xl text-center text-stainless">
+                        <!-- イラスト削除 -->
                         <h2 class="text-3xl md:text-4xl font-serif font-bold mb-10 text-[#1a1a1a] text-engrave">
                             ${PAGE_CONTENT.intro.title}
                         </h2>
@@ -1072,11 +1414,14 @@
 
             // Lucideアイコンの初期化
             lucide.createIcons();
-            
-            // スクロールイベント
+
+            // スクロールイベントの設定
             const scrollBtn = document.getElementById('scrollToTop');
+
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
+                const scrolled = window.scrollY > 50;
+                
+                if (scrolled) {
                     scrollBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
                     scrollBtn.classList.add('opacity-100', 'translate-y-0');
                 } else {
@@ -1084,15 +1429,19 @@
                     scrollBtn.classList.remove('opacity-100', 'translate-y-0');
                 }
             });
+
+            // トップへ戻るボタン
             scrollBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
             
-            // Password input
+            // Password input Enter key support
             const passInput = document.getElementById('secretPassword');
             if(passInput) {
                 passInput.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') checkPassword();
+                    if (e.key === 'Enter') {
+                        checkPassword();
+                    }
                 });
             }
         }
