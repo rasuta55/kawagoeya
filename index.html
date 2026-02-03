@@ -253,8 +253,8 @@
         }
 
         /* --- カタログページオーバーレイ（共通） --- */
-        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay {
-            background-color: #525659; /* PDFビューワー風の背景色 */
+        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay, #manga-overlay {
+            background-color: #f5f5f5;
             color: #333;
         }
         .catalog-container {
@@ -638,6 +638,28 @@
 
         window.closeSunaharaCompanyDoc = function() {
             const overlay = document.getElementById('sunahara-company-doc-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
+            document.body.style.overflow = '';
+        }
+
+        /* === マンガオーバーレイ制御 === */
+        window.openManga = function() {
+            const overlay = document.getElementById('manga-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        window.closeManga = function() {
+            const overlay = document.getElementById('manga-overlay');
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.classList.add('hidden');
@@ -1036,6 +1058,26 @@
                     </div>
                 </div>
 
+                <!-- MANGA OVERLAY -->
+                <div id="manga-overlay" class="hidden fixed inset-0 z-[230] overflow-y-auto bg-gray-100">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeManga()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        マンガを閉じる
+                    </button>
+
+                    <div class="max-w-4xl mx-auto bg-white shadow-xl min-h-screen pt-20">
+                        <img src="${BASE_URL}/スナハラマンガ_page-0001.jpg" 
+                             alt="スナハラマンガ Page 1" 
+                             class="w-full h-auto block"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-10 text-center text-gray-500\'>画像が表示されません。<br>HTMLファイルと同じフォルダに<br><strong>スナハラマンガ_page-0001.jpg</strong><br>があるか確認してください。</div>'">
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Manga Viewer
+                    </div>
+                </div>
+
                 <!-- KUNSEI PRODUCTS OVERLAY (Integrated content from products_kunsei.html) -->
                 <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <!-- Header -->
@@ -1075,8 +1117,7 @@
                                         </div>
                                         <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">燻製ナッツとは…</h2>
                                         <p class="text-gray-400 text-sm leading-relaxed">
-                                            桜のチップを使用し、低温でじっくりと時間をかけて燻す伝統的な製法。<br>
-                                            香りの深さと、ナッツ本来の甘みが調和した至高の味わいについて。
+                                            桜の煙はナッツとの相性が良く、ナッツを燻製すると香ばしさはもとよりナッツ本来の旨味を引き立たせます。
                                         </p>
                                     </div>
                                     <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors">
@@ -1085,16 +1126,16 @@
                                     </div>
                                 </div>
 
-                                <!-- ② 燻製ナッツNBリスト -->
+                                <!-- ② 燻製ナッツ商品リスト -->
                                 <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="openNbList()">
                                     <div>
                                         <div class="flex justify-between items-start mb-6">
                                             <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">PRODUCT LIST</span>
                                             <i data-lucide="list" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors"></i>
                                         </div>
-                                        <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">燻製ナッツNBリスト</h2>
+                                        <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">燻製ナッツ商品リスト</h2>
                                         <p class="text-gray-400 text-sm leading-relaxed">
-                                            現在お取り扱い可能なナショナルブランド（NB）商品の全リスト。<br>
+                                            現在お取り扱い可能なナショナルブランド（NB）、およびバルク商品の全リスト。<br>
                                             アーモンド、カシューナッツ、ピスタチオなど、多彩なラインナップをご確認いただけます。
                                         </p>
                                     </div>
@@ -1132,12 +1173,30 @@
                                         </div>
                                         <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">スナハラ燻製工房</h2>
                                         <p class="text-gray-400 text-sm leading-relaxed">
-                                            広島県・宮島の地で、職人が手作業で仕上げる燻製の技。<br>
-                                            「スナハラ燻製工房」とのコラボレーションにより生まれた、本物の味の秘密。
+                                            島根県・松江の地で、職人が手作業で仕上げる燻製の技。<br>
+                                            「スナハラ燻製工房」が本気で手掛ける「強燻製」の秘密。
                                         </p>
                                     </div>
                                     <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors">
                                         <span>Visit Factory Info</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+
+                                <!-- ⑤ 小ロットでオリジナル！（マンガ） -->
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="openManga()">
+                                    <div>
+                                        <div class="flex justify-between items-start mb-6">
+                                            <span class="text-xs font-bold text-white bg-blue-600 px-2 py-1 rounded shadow-[0_0_10px_#2563eb]">COMIC</span>
+                                            <i data-lucide="book-open" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors"></i>
+                                        </div>
+                                        <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">小ロットでオリジナル！</h2>
+                                        <p class="text-gray-400 text-sm leading-relaxed">
+                                            初めての方でも安心。小ロットから始められるオリジナル商品開発の流れを、分かりやすいマンガでご紹介します。
+                                        </p>
+                                    </div>
+                                    <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors">
+                                        <span>Read Comic</span>
                                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                                     </div>
                                 </div>
