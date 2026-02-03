@@ -204,11 +204,26 @@
             }
         }
 
-        /* === 動画モーダル制御 === */
-        window.openVideoModal = function() {
+        /* === 動画モーダル制御（拡張版） === */
+        window.openVideoModal = function(videoSrc) {
             const modal = document.getElementById('videoModal');
             const video = document.getElementById('promoVideo');
             if(modal && video) {
+                // 引数がある場合はその動画を、なければデフォルト（フッター動画）を使用
+                const src = videoSrc || PAGE_CONTENT.footerVideo;
+                
+                // 既存のsourceタグを探すか、なければ作成
+                let sourceTag = video.querySelector('source');
+                if (!sourceTag) {
+                    sourceTag = document.createElement('source');
+                    sourceTag.type = 'video/mp4';
+                    video.appendChild(sourceTag);
+                }
+                
+                // ソースを更新してロード
+                sourceTag.src = src;
+                video.load();
+
                 modal.classList.remove('hidden');
                 modal.classList.add('flex'); 
                 video.play().catch(e => console.log('Auto-play prevented:', e));
@@ -405,10 +420,15 @@
                                     ここは限られた方のみがアクセスできる特別なエリアです。
                                 </p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                                    <div class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
+                                    <!-- ★ここを変更：クリックでmembers.mp4を再生 -->
+                                    <div onclick="openVideoModal('${BASE_URL}/members.mp4')" class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
                                          <span class="text-[#C5A059] text-xs font-bold tracking-widest mb-2 block">Recruiting members</span>
                                          <h3 class="text-lg font-bold text-white group-hover:text-[#C5A059] transition-colors">発行準備中：新メンバーカード</h3>
                                          <p class="text-xs text-gray-500 mt-2">応募条件についてはお問い合わせください。</p>
+                                         <!-- 再生アイコン的なものを追加して動画であることを示唆 -->
+                                         <div class="mt-4 flex items-center gap-2 text-xs text-white/50 group-hover:text-[#C5A059] transition-colors">
+                                            <i data-lucide="play-circle" class="w-4 h-4"></i> Watch Video
+                                         </div>
                                     </div>
                                     <div class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
                                          <span class="text-[#C5A059] text-xs font-bold tracking-widest mb-2 block">Amazon Prime Video</span>
