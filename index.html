@@ -76,9 +76,8 @@
                 0 20px 50px rgba(0,0,0,0.8),      /* 深いドロップシャドウ */
                 inset 0 1px 0 rgba(255,255,255,0.5), /* 上辺の鋭いハイライト（エッジ） */
                 inset 0 0 0 1px rgba(255,255,255,0.05); /* 全体の微かなフチ */
-            
+                
             transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
-            cursor: pointer; /* クリックできることを示す */
         }
 
         /* パネル表面の強い光沢（テカり） */
@@ -254,21 +253,21 @@
         }
 
         /* --- カタログページオーバーレイ（共通） --- */
-        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay {
-            background-color: #f5f5f5;
+        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay {
+            background-color: #525659; /* PDFビューワー風の背景色 */
             color: #333;
         }
         .catalog-container {
+            width: 100%;
             max-width: 1000px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            background-color: transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         .catalog-page {
             display: block;
             width: 100%;
             height: auto;
-            border-bottom: 1px solid #eee;
             font-size: 0;
         }
         .catalog-page img {
@@ -277,6 +276,12 @@
             display: block;
             pointer-events: none;
             user-select: none;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0; /* ページの境目 */
+        }
+        /* 最後の画像の下線は消す */
+        .catalog-page:last-child img {
+            border-bottom: none;
         }
 
         /* テキストエフェクト */
@@ -611,6 +616,28 @@
 
         window.closeSmokeTinmiDoc = function() {
             const overlay = document.getElementById('smoke-tinmi-doc-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
+            document.body.style.overflow = '';
+        }
+
+        /* === スナハラ燻製工房（会社概要）資料モーダル制御 === */
+        window.openSunaharaCompanyDoc = function() {
+            const overlay = document.getElementById('sunahara-company-doc-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        window.closeSunaharaCompanyDoc = function() {
+            const overlay = document.getElementById('sunahara-company-doc-overlay');
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.classList.add('hidden');
@@ -984,6 +1011,31 @@
                     </div>
                 </div>
 
+                <!-- SUNAHARA COMPANY DOCUMENT OVERLAY (NEW) -->
+                <!-- 修正: z-indexを230にして、確実に最前面に来るようにする -->
+                <div id="sunahara-company-doc-overlay" class="hidden fixed inset-0 z-[230] overflow-y-auto">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeSunaharaCompanyDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        資料を閉じる
+                    </button>
+
+                    <div class="catalog-container pt-20">
+                        <!-- 1ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/会社概要_page-0001.jpg" alt="会社概要 1ページ目" loading="eager">
+                        </div>
+                        <!-- 2ページ目 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/会社概要_page-0002.jpg" alt="会社概要 2ページ目" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Sunahara Smoke Factory Doc Viewer
+                    </div>
+                </div>
+
                 <!-- KUNSEI PRODUCTS OVERLAY (Integrated content from products_kunsei.html) -->
                 <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <!-- Header -->
@@ -1072,7 +1124,7 @@
                                 </div>
 
                                 <!-- ④ スナハラ燻製工房 -->
-                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('工房紹介ページを開きます（実装予定）')">
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="openSunaharaCompanyDoc()">
                                     <div>
                                         <div class="flex justify-between items-start mb-6">
                                             <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">FACTORY</span>
