@@ -18,9 +18,34 @@
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #F9F7F2;
-            color: #2C2C2C;
+            color: #1a1a1a;
+            
+            /* --- リアルステンレス背景 --- */
+            background-color: #8a8a8a; /* ベースの金属色 */
+            background-image: 
+                /* 1. 細かいヘアライン（横縞） */
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 1px,
+                    rgba(255, 255, 255, 0.08) 1px,
+                    rgba(255, 255, 255, 0.08) 2px
+                ),
+                /* 2. 金属特有の乱反射（縦の光沢） */
+                linear-gradient(
+                    90deg, 
+                    #999 0%, 
+                    #ddd 15%, 
+                    #bbb 30%, 
+                    #eee 50%, 
+                    #bbb 70%, 
+                    #ddd 85%, 
+                    #999 100%
+                );
+            background-blend-mode: overlay;
+            background-attachment: fixed; /* スクロール時に背景を固定して金属板の重量感を出す */
         }
+        
         .font-serif { font-family: 'Noto Serif JP', serif; }
         .font-sans { font-family: 'Noto Sans JP', sans-serif; }
         
@@ -33,72 +58,198 @@
             animation: fadeIn 0.3s ease-out;
         }
 
-        /* メタル風ボタンのスタイル */
-        .metal-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #d0d0d0 51%, #e0e0e0 100%);
-            color: #333 !important;
-            padding: 8px 24px;
-            border-radius: 4px;
-            border: 1px solid #999;
+        /* --- 究極のピアノブラック・ガラスコーティングパネル --- */
+        .glossy-black-panel {
+            /* ベース：漆黒 */
+            background-color: #000000;
+            
+            /* 映り込みの表現：上部は空の反射で少し明るく、下部は暗く */
+            background-image: linear-gradient(180deg, rgba(40,40,40,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
+            
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            
+            /* ガラスの厚みとエッジの光沢 */
+            border: 1px solid #111; /* 黒い枠 */
             box-shadow: 
-                inset 0 1px 0 rgba(255,255,255,0.8),
-                0 2px 3px rgba(0,0,0,0.3);
+                0 20px 50px rgba(0,0,0,0.8),      /* 深いドロップシャドウ */
+                inset 0 1px 0 rgba(255,255,255,0.5), /* 上辺の鋭いハイライト（エッジ） */
+                inset 0 0 0 1px rgba(255,255,255,0.05); /* 全体の微かなフチ */
+                
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+        }
+
+        /* パネル表面の強い光沢（テカり） */
+        .glossy-black-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%; /* 上部に強い光沢 */
+            background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.01) 100%);
+            border-radius: 12px 12px 60% 60% / 10px 10px 15px 15px; /* 湾曲した光 */
+            pointer-events: none;
+        }
+
+        /* 斜めの走る光（フレア） */
+        .glossy-black-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            /* 鋭い光の帯 */
+            background: linear-gradient(
+                115deg, 
+                transparent 40%, 
+                rgba(255,255,255,0.3) 45%, 
+                rgba(255,255,255,0.6) 50%, 
+                rgba(255,255,255,0.3) 55%, 
+                transparent 60%
+            );
+            pointer-events: none;
+            opacity: 0.0; /* 通常時は非表示 */
+            transition: opacity 0.3s, left 0.7s ease; 
+        }
+
+        /* ホバー時の挙動 */
+        .glossy-black-panel:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.9),
+                inset 0 1px 0 rgba(255,255,255,0.7); /* ハイライト強化 */
+        }
+        .glossy-black-panel:hover::before {
+            opacity: 0.5;
+            left: 100%; /* 光が右へ抜ける */
+        }
+
+        /* --- ヘッダー・フッター用メタルプレート --- */
+        .metal-plate {
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 49%, #a0a0a0 50%, #d0d0d0 100%);
+            border-top: 1px solid #fff;
+            border-bottom: 1px solid #666;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            color: #1a1a1a;
+        }
+
+        /* --- リアル・ステンレスボタン --- */
+        .metal-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            /* クロムメッキのような強い反射 */
+            background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 49%, #a0a0a0 50%, #cecece 100%);
+            color: #000 !important;
+            padding: 10px 28px;
+            border-radius: 4px;
+            border: 1px solid #666;
+            /* 押し出し感 */
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,1),
+                0 2px 5px rgba(0,0,0,0.5);
             text-shadow: 0 1px 0 rgba(255,255,255,0.8);
             font-weight: bold;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.1s ease;
             font-family: 'Noto Serif JP', serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             letter-spacing: 0.1em;
             white-space: nowrap;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
         .metal-btn:hover {
-            background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 50%, #e0e0e0 51%, #f0f0f0 100%);
+            /* より明るく、青白い光沢 */
+            background: linear-gradient(180deg, #ffffff 0%, #eeeeee 49%, #c0c0c0 50%, #e0e0e0 100%);
             box-shadow: 
-                inset 0 1px 0 rgba(255,255,255,0.9),
-                0 0 10px rgba(255,255,255,0.5),
-                0 3px 6px rgba(0,0,0,0.4);
+                inset 0 1px 0 rgba(255,255,255,1),
+                0 0 10px rgba(255,255,255,0.8), /* 発光 */
+                0 3px 6px rgba(0,0,0,0.6);
             transform: translateY(-1px);
-            color: #000 !important;
+            border-color: #888;
         }
         
         .metal-btn:active {
-            background: linear-gradient(135deg, #d0d0d0 0%, #e0e0e0 50%, #c0c0c0 51%, #d0d0d0 100%);
-            box-shadow: 
-                inset 0 2px 5px rgba(0,0,0,0.2);
+            background: linear-gradient(180deg, #999 0%, #bbb 100%);
+            box-shadow: inset 0 3px 8px rgba(0,0,0,0.6);
             transform: translateY(1px);
+            border-color: #333;
         }
 
-        /* パスワード入力フィールドのスタイル */
+        /* --- ゴールドボタン（鏡面仕上げ） --- */
+        .gold-metal-btn {
+            background: linear-gradient(180deg, #fffcdb 0%, #f3d77e 49%, #c5a059 50%, #e6cf8b 100%);
+            border: 1px solid #8a6e3e;
+            color: #3e2723 !important;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.8),
+                0 2px 5px rgba(0,0,0,0.4),
+                0 0 0 2px rgba(197, 160, 89, 0.3); /* 外側のグロー */
+        }
+        .gold-metal-btn:hover {
+            background: linear-gradient(180deg, #fff 0%, #ffeaa7 49%, #d4af37 50%, #f5e0a0 100%);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,1),
+                0 0 20px rgba(255, 215, 0, 0.6),
+                0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        /* --- パスワード入力フィールド（ハイテク黒） --- */
         .password-input {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
+            background: #000;
+            border: 1px solid #444;
+            border-bottom: 2px solid #C5A059; /* ゴールドのライン */
+            color: #C5A059;
             padding: 12px 15px;
             border-radius: 4px;
             width: 100%;
             outline: none;
             transition: all 0.3s;
             text-align: center;
-            letter-spacing: 0.2em;
-            font-size: 1.1rem;
+            letter-spacing: 0.3em;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace; /* デジタル感 */
+            box-shadow: inset 0 0 20px rgba(0,0,0,1);
         }
         .password-input:focus {
-            background: rgba(255,255,255,0.15);
-            border-color: #C5A059;
+            border-color: #fff;
+            box-shadow: 
+                inset 0 0 20px rgba(0,0,0,1),
+                0 0 15px rgba(197,160,89,0.5);
+            color: #fff;
         }
         .password-input::placeholder {
-            color: rgba(255,255,255,0.3);
+            color: #333;
             letter-spacing: normal;
             font-size: 0.9rem;
+            font-family: sans-serif;
         }
 
-        /* 特設ページオーバーレイのスタイル */
+        /* --- 特設ページオーバーレイ（漆黒） --- */
         #secret-overlay {
-            background-color: #1a1a1a;
+            background-color: #050505;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 70%);
             color: white;
+        }
+
+        /* テキストエフェクト */
+        .text-engrave {
+            color: rgba(0,0,0,0.75);
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.6); /* 彫り込み効果 */
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+        .text-shadow-strong {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
     </style>
 </head>
@@ -113,14 +264,13 @@
     <script>
         const BRAND_COLORS = {
             primary: '#4B2E1E',
+            gold: '#C5A059',
             bg: '#F9F7F2',
         };
 
-        // ★修正点: 実際のサイトのURLベース
         const BASE_URL = 'https://rasuta55.github.io/kawagoeya';
 
-        // ★プレビュー用の仮画像データ
-        window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='transparent'/><text x='100' y='40' font-family='Noto Serif JP, serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%234B2E1E'>KAWAGOEYA</text></svg>`;
+        window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='transparent'/><text x='100' y='40' font-family='Noto Serif JP, serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%231a1a1a' stroke='%23fff' stroke-width='1'>KAWAGOEYA</text></svg>`;
         window.PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像</text></svg>`;
 
         const PAGE_CONTENT = {
@@ -204,26 +354,20 @@
             }
         }
 
-        /* === 動画モーダル制御（拡張版） === */
+        /* === 動画モーダル制御 === */
         window.openVideoModal = function(videoSrc) {
             const modal = document.getElementById('videoModal');
             const video = document.getElementById('promoVideo');
             if(modal && video) {
-                // 引数がある場合はその動画を、なければデフォルト（フッター動画）を使用
                 const src = videoSrc || PAGE_CONTENT.footerVideo;
-                
-                // 既存のsourceタグを探すか、なければ作成
                 let sourceTag = video.querySelector('source');
                 if (!sourceTag) {
                     sourceTag = document.createElement('source');
                     sourceTag.type = 'video/mp4';
                     video.appendChild(sourceTag);
                 }
-                
-                // ソースを更新してロード
                 sourceTag.src = src;
                 video.load();
-
                 modal.classList.remove('hidden');
                 modal.classList.add('flex'); 
                 video.play().catch(e => console.log('Auto-play prevented:', e));
@@ -249,8 +393,8 @@
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            input.value = ''; // 入力をリセット
-            error.classList.add('hidden'); // エラー表示をリセット
+            input.value = ''; 
+            error.classList.add('hidden'); 
             setTimeout(() => input.focus(), 100);
         }
 
@@ -265,7 +409,6 @@
             const error = document.getElementById('passwordError');
             const password = input.value.toLowerCase().trim();
             
-            // パスワード: neomoro
             if (password === 'neomoro') {
                 closePasswordModal();
                 openSecretPage();
@@ -308,38 +451,40 @@
                 { label: '商品一覧', href: './products.html' }
             ];
 
+            // ナビゲーションアイテム（メタルボタン）
             const navItems = NAV_LINKS.map(item => 
                 `<a href="${item.href}" class="metal-btn">${item.label}</a>`
             ).join('');
 
-            // スマホ用メニューアイテム (メタルボタンクラス付き)
             const mobileNavItems = NAV_LINKS.map(item => 
                 `<a href="${item.href}" class="metal-btn text-lg py-3 px-8 w-64 text-center">${item.label}</a>`
             ).join('');
 
+            // 黒光沢パネルカード（工程表）
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
                 const stepNum = String(index + 1).padStart(2, '0');
                 return `
-                <div class="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border-b-4" style="border-color: ${BRAND_COLORS.primary}">
-                    <div class="relative h-64 overflow-hidden">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10"></div>
+                <div class="group relative glossy-black-panel">
+                    <div class="relative h-64 overflow-hidden border-b border-gray-800">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10"></div>
                         <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
-                        <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-white/90 backdrop-blur rounded-full shadow-lg">
-                            <span class="font-serif text-xl font-bold" style="color: ${BRAND_COLORS.primary}">${stepNum}</span>
+                        <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-black/80 backdrop-blur rounded-full shadow-lg border border-gray-600">
+                            <span class="font-serif text-xl font-bold text-white text-glow">${stepNum}</span>
                         </div>
                     </div>
-                    <div class="p-8">
+                    <div class="p-8 relative z-20">
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="p-2 rounded-full bg-orange-50 text-orange-800">
-                                <i data-lucide="${step.icon}" class="w-8 h-8"></i>
+                            <!-- ★ここに修正適用：アイコン色をワインレッド(#D14658)に固定 -->
+                            <div class="p-2 rounded-full bg-gradient-to-br from-white/20 to-transparent border border-white/10 shadow-inner" style="color: #D14658;">
+                                <i data-lucide="${step.icon}" class="w-6 h-6"></i>
                             </div>
                             <div>
-                                <span class="block text-xs uppercase tracking-widest text-gray-500 mb-1">${step.engTitle}</span>
-                                <h3 class="text-2xl font-serif font-bold" style="color: ${BRAND_COLORS.primary}">${step.title}</h3>
+                                <span class="block text-xs uppercase tracking-widest text-gray-400 mb-1">${step.engTitle}</span>
+                                <h3 class="text-2xl font-serif font-bold text-white text-shadow-strong">${step.title}</h3>
                             </div>
                         </div>
-                        <p class="text-gray-600 leading-relaxed text-sm lg:text-base">${step.description}</p>
+                        <p class="text-gray-300 leading-relaxed text-sm lg:text-base font-light">${step.description}</p>
                     </div>
                 </div>
                 `;
@@ -347,22 +492,21 @@
 
             app.innerHTML = `
                 <!-- Mobile Menu Overlay -->
-                <div id="mobileMenu" class="fixed inset-0 z-[60] bg-white/95 backdrop-blur-md flex flex-col justify-center items-center space-y-8 transition-transform duration-300 translate-x-full md:hidden">
-                    <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-gray-800 p-2">
+                <div id="mobileMenu" class="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md flex flex-col justify-center items-center space-y-8 transition-transform duration-300 translate-x-full md:hidden">
+                    <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white p-2">
                         <i data-lucide="x" class="w-10 h-10"></i>
                     </button>
                     ${mobileNavItems}
                 </div>
 
-                <!-- Video Modal -->
-                <!-- 修正: z-indexを[100]から[250]に変更し、特設ページ(z-[200])より手前に表示させる -->
-                <div id="videoModal" class="hidden fixed inset-0 z-[250] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
+                <!-- Video Modal (最前面) -->
+                <div id="videoModal" class="hidden fixed inset-0 z-[250] items-center justify-center bg-black/90 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
                     <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
                         <button onclick="closeVideoModal()" class="absolute -top-12 right-0 text-white hover:text-orange-400 transition-colors flex items-center gap-2">
                             <span class="text-sm font-bold">CLOSE</span>
                             <i data-lucide="x" class="w-8 h-8"></i>
                         </button>
-                        <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden flex items-center justify-center relative">
+                        <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden flex items-center justify-center relative border-2 border-[#333] shadow-[0_0_50px_rgba(0,0,0,1)]">
                             <video id="promoVideo" controls class="w-full h-full object-contain">
                                 <source src="${PAGE_CONTENT.footerVideo}" type="video/mp4">
                                 <p class="text-white text-center p-4">動画を再生できません。</p>
@@ -373,72 +517,76 @@
 
                 <!-- Password Entry Modal -->
                 <div id="passwordModal" class="hidden fixed inset-0 z-[150] items-center justify-center bg-black/90 backdrop-blur-md modal-animate" onclick="closePasswordModal()">
-                    <div class="relative w-full max-w-md mx-4 bg-[#2C2C2C] border border-white/10 p-8 rounded-lg shadow-2xl" onclick="event.stopPropagation()">
-                        <button onclick="closePasswordModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                    <div class="relative w-full max-w-md mx-4 glossy-black-panel p-10" onclick="event.stopPropagation()">
+                        <button onclick="closePasswordModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors z-20">
                             <i data-lucide="x" class="w-6 h-6"></i>
                         </button>
                         
-                        <div class="text-center mb-8">
-                            <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#C5A059]/30">
+                        <div class="text-center mb-8 relative z-10">
+                            <div class="w-16 h-16 bg-black/80 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-[#C5A059] shadow-[0_0_20px_rgba(197,160,89,0.3)]">
                                 <i data-lucide="lock" class="w-8 h-8 text-[#C5A059]"></i>
                             </div>
-                            <h3 class="text-2xl font-serif text-white mb-2">Members Only</h3>
+                            <h3 class="text-2xl font-serif text-white mb-2 text-glow">Members Only</h3>
                             <p class="text-gray-400 text-sm">特設ページへのアクセスには<br>パスワードが必要です</p>
                         </div>
                         
-                        <div class="space-y-4">
-                            <input type="password" id="secretPassword" class="password-input font-serif" placeholder="PASSWORD">
-                            <button onclick="checkPassword()" class="w-full bg-[#C5A059] text-[#2C2C2C] font-bold py-3 rounded hover:bg-white transition-colors tracking-widest">
+                        <div class="space-y-6 relative z-10">
+                            <input type="password" id="secretPassword" class="password-input" placeholder="PASSWORD">
+                            <button onclick="checkPassword()" class="w-full gold-metal-btn font-bold py-3 rounded tracking-widest text-lg">
                                 ENTER
                             </button>
-                            <p id="passwordError" class="text-red-500 text-xs text-center hidden">パスワードが間違っています</p>
+                            <p id="passwordError" class="text-red-500 text-xs text-center hidden font-bold">パスワードが間違っています</p>
                         </div>
-                        <div class="mt-6 text-center">
+                        <div class="mt-6 text-center relative z-10">
                              <p class="text-xs text-gray-600">Hint: neomoro</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- SECRET CONTENT OVERLAY -->
-                <div id="secret-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto bg-[#2C2C2C]">
+                <div id="secret-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <!-- 戻るボタン -->
-                    <button onclick="closeSecretPage()" class="fixed top-6 left-6 z-50 flex items-center gap-2 bg-[#C5A059] text-[#2C2C2C] px-6 py-2 rounded-full font-bold shadow-lg hover:bg-white transition-colors">
+                    <button onclick="closeSecretPage()" class="fixed top-6 left-6 z-50 flex items-center gap-2 gold-metal-btn px-6 py-2 rounded-full font-bold shadow-lg">
                         <i data-lucide="log-out" class="w-5 h-5"></i>
                         ログアウト
                     </button>
 
                     <div class="min-h-screen flex flex-col items-center justify-center py-20 px-6">
-                        <div class="text-center max-w-4xl mx-auto">
-                            <span class="text-[#C5A059] text-xl tracking-[0.3em] block mb-4 font-bold">EXCLUSIVE CONTENTS</span>
-                            <h1 class="text-4xl md:text-6xl font-serif text-white mb-12">視聴者限定 特設ページ</h1>
+                        <div class="text-center max-w-6xl mx-auto w-full">
+                            <span class="text-[#C5A059] text-xl tracking-[0.5em] block mb-4 font-bold text-glow" style="text-shadow: 0 0 20px rgba(197,160,89,0.8);">EXCLUSIVE CONTENTS</span>
+                            <h1 class="text-4xl md:text-7xl font-serif text-white mb-16 text-glow">視聴者限定 特設ページ</h1>
                             
-                            <div class="bg-white/5 border border-white/10 p-12 rounded-lg backdrop-blur-sm shadow-2xl">
-                                <div class="w-20 h-20 bg-[#C5A059]/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <i data-lucide="gift" class="w-10 h-10 text-[#C5A059]"></i>
+                            <div class="glossy-black-panel p-8 md:p-16 backdrop-blur-xl border border-white/10">
+                                <div class="w-24 h-24 bg-black/80 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.4)]">
+                                    <i data-lucide="gift" class="w-12 h-12 text-[#C5A059]"></i>
                                 </div>
-                                <h2 class="text-2xl font-bold mb-4 text-white">パスワード認証ありがとうございます。</h2>
-                                <p class="text-gray-300 leading-relaxed mb-8">
+                                <h2 class="text-3xl font-bold mb-6 text-white text-glow">パスワード認証ありがとうございます。</h2>
+                                <p class="text-gray-400 leading-relaxed mb-12 text-lg">
                                     ここは限られた方のみがアクセスできる特別なエリアです。
                                 </p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                                    <!-- ★ここを変更：クリックでmembers.mp4を再生 -->
-                                    <div onclick="openVideoModal('${BASE_URL}/members.mp4')" class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
-                                         <span class="text-[#C5A059] text-xs font-bold tracking-widest mb-2 block">Recruiting members</span>
-                                         <h3 class="text-lg font-bold text-white group-hover:text-[#C5A059] transition-colors">発行準備中：新メンバーカード</h3>
-                                         <p class="text-xs text-gray-500 mt-2">応募条件についてはお問い合わせください。</p>
-                                         <!-- 再生アイコン的なものを追加して動画であることを示唆 -->
-                                         <div class="mt-4 flex items-center gap-2 text-xs text-white/50 group-hover:text-[#C5A059] transition-colors">
-                                            <i data-lucide="play-circle" class="w-4 h-4"></i> Watch Video
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
+                                    <div onclick="openVideoModal('${BASE_URL}/members.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
+                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
+                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
+                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
+                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors">
+                                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors">
+                                                <i data-lucide="play" class="w-5 h-5 ml-1"></i>
+                                            </div>
+                                            <span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span>
                                          </div>
                                     </div>
-                                    <!-- ★ここを変更：クリックでNEOMOROPV.mp4を再生 -->
-                                    <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
-                                         <span class="text-[#C5A059] text-xs font-bold tracking-widest mb-2 block">Amazon Prime Video</span>
-                                         <h3 class="text-lg font-bold text-white group-hover:text-[#C5A059] transition-colors">映画：NEOMORO公開記念PV</h3>
-                                         <p class="text-xs text-gray-500 mt-2">何故、人々は熱狂するのか</p>
-                                         <!-- 再生アイコン的なものを追加して動画であることを示唆 -->
-                                         <div class="mt-4 flex items-center gap-2 text-xs text-white/50 group-hover:text-[#C5A059] transition-colors">
-                                            <i data-lucide="play-circle" class="w-4 h-4"></i> Watch Video
+                                    <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
+                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
+                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
+                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
+                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors">
+                                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors">
+                                                <i data-lucide="play" class="w-5 h-5 ml-1"></i>
+                                            </div>
+                                            <span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span>
                                          </div>
                                     </div>
                                 </div>
@@ -447,72 +595,73 @@
                     </div>
                 </div>
 
-                <!-- Header -->
-                <header id="main-header" class="absolute w-full z-50 py-4">
+                <!-- Header (Metal Plate) -->
+                <header id="main-header" class="absolute w-full z-50 py-3 metal-plate">
                     <div class="container mx-auto px-6 flex justify-between items-center">
                         <div class="flex items-center">
-                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
+                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
                         </div>
                         <nav class="hidden md:flex gap-4">
                             ${navItems}
                         </nav>
-                        <button class="md:hidden text-gray-800 bg-white/80 p-2 rounded-full backdrop-blur-sm" onclick="toggleMobileMenu()">
+                        <button class="md:hidden text-gray-800 p-2 rounded hover:bg-gray-200" onclick="toggleMobileMenu()">
                             <i data-lucide="menu" class="w-6 h-6"></i>
                         </button>
                     </div>
                 </header>
 
                 <!-- Hero Section -->
-                <section class="relative h-[65vh] lg:h-[85vh] flex items-center justify-center overflow-hidden bg-[#4B2E1E]">
+                <section class="relative h-[65vh] lg:h-[85vh] flex items-center justify-center overflow-hidden bg-[#222]">
                     <div class="absolute inset-0 z-0">
                         <img 
                             src="${PAGE_CONTENT.hero.bgImage}" 
                             alt="Background" 
-                            class="w-full h-full object-cover object-top opacity-90" 
+                            class="w-full h-full object-cover object-top opacity-80" 
                             onerror="this.onerror=null; this.src='${PAGE_CONTENT.hero.fallbackBgImage}';"
                         >
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20"></div>
+                        <!-- コントラストを高めるグラデーション -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-[#8a8a8a]"></div>
                     </div>
                     <div class="relative z-10 container mx-auto px-6 text-center text-white">
-                        <span class="inline-block py-1 px-3 border border-white/30 rounded-full text-xs tracking-[0.2em] mb-6 backdrop-blur-sm">
+                        <span class="inline-block py-1 px-4 border border-white/50 bg-black/40 backdrop-blur-md rounded text-xs tracking-[0.2em] mb-6 shadow-lg text-shadow">
                             MANUFACTURING PROCESS
                         </span>
-                        <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-wide drop-shadow-lg">
+                        <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-wide text-glow">
                             ${PAGE_CONTENT.hero.title}
                         </h1>
                         <p class="text-xl md:text-2xl font-light tracking-wider opacity-90 mb-8 font-serif drop-shadow-md">
                             ${PAGE_CONTENT.hero.subtitle}
                         </p>
-                        <div class="w-24 h-1 bg-orange-400 mx-auto rounded-full"></div>
+                        <div class="w-24 h-1 bg-[#C5A059] mx-auto rounded-full shadow-[0_0_15px_#C5A059]"></div>
                     </div>
                 </section>
 
                 <!-- Intro Section -->
                 <section class="py-20 md:py-32 px-6">
-                    <div class="container mx-auto max-w-4xl text-center">
-                        <div class="mb-8 flex justify-center">
-                             <div class="w-16 h-16 opacity-20 bg-center bg-no-repeat bg-contain" style="background-image: url('https://cdn-icons-png.flaticon.com/512/2619/2619528.png'); filter: sepia(1);"></div>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-serif font-bold mb-10 text-gray-800">
+                    <div class="container mx-auto max-w-4xl text-center text-stainless">
+                        <!-- ★ここに修正適用：イラストを削除（コメントアウトまたは削除） -->
+                        <!-- <div class="mb-8 flex justify-center">...</div> -->
+                        
+                        <h2 class="text-3xl md:text-4xl font-serif font-bold mb-10 text-[#1a1a1a] text-engrave">
                             ${PAGE_CONTENT.intro.title}
                         </h2>
-                        <p class="text-lg leading-loose text-gray-600 font-medium">
+                        <p class="text-lg leading-loose text-gray-800 font-medium font-serif" style="text-shadow: 0 1px 0 rgba(255,255,255,0.4);">
                             ${PAGE_CONTENT.intro.text}
                         </p>
                     </div>
                 </section>
 
                 <!-- Process Grid -->
-                <section class="py-20 px-6 bg-white">
+                <section class="py-20 px-6">
                     <div class="container mx-auto">
-                        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b pb-6 border-gray-100">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-gray-500 pb-6 shadow-[0_1px_0_rgba(255,255,255,0.3)]">
                             <div>
-                                <span class="text-orange-600 font-bold tracking-widest text-sm block mb-2">THE PROCESS</span>
-                                <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-800">
+                                <span class="text-[#C5A059] font-bold tracking-widest text-sm block mb-2" style="text-shadow: 0 1px 0 rgba(0,0,0,0.5);">THE PROCESS</span>
+                                <h2 class="text-3xl md:text-4xl font-serif font-bold text-[#1a1a1a] text-engrave">
                                     美味しさを創る6つの工程
                                 </h2>
                             </div>
-                            <p class="text-gray-500 mt-4 md:mt-0 max-w-md text-sm">
+                            <p class="text-gray-800 mt-4 md:mt-0 max-w-md text-sm font-medium" style="text-shadow: 0 1px 0 rgba(255,255,255,0.3);">
                                 一つひとつの工程に妥協せず、素材のポテンシャルを最大限に引き出す。それが川越屋のスタンダードです。
                             </p>
                         </div>
@@ -523,83 +672,83 @@
                 </section>
 
                 <!-- OEM / Contact -->
-                <section class="py-24 px-6 relative overflow-hidden text-white" style="background-color: ${BRAND_COLORS.primary}">
+                <section class="py-24 px-6 relative overflow-hidden text-white" style="background: linear-gradient(135deg, #222 0%, #000 100%); border-top: 1px solid #555; border-bottom: 1px solid #555;">
                     <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
                         <div class="w-96 h-96 rounded-full bg-white absolute -top-20 -left-20 blur-3xl"></div>
                         <div class="w-96 h-96 rounded-full bg-orange-500 absolute bottom-0 right-0 blur-3xl"></div>
                     </div>
                     <div class="container mx-auto relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
                         <div class="lg:w-2/3">
-                            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6">オリジナル商品の開発</h2>
-                            <p class="text-lg text-white/80 leading-relaxed mb-8">
+                            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6 text-glow">オリジナル商品の開発</h2>
+                            <p class="text-lg text-white/90 leading-relaxed mb-8 font-light">
                                 「こんな味のナッツを作りたい」「地元の特産品とコラボしたい」<br/>
                                 そんなアイデアを、私たちの技術で形にしませんか？<br/>
                                 製造ロットや仕様につきましては、お客様のご要望に合わせて柔軟に対応いたします。
                             </p>
                             <div class="flex flex-wrap gap-4">
-                               <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
-                                 <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> 試作開発対応
+                                <div class="flex items-center gap-2 text-sm bg-white/10 px-6 py-3 rounded-full border border-white/30 backdrop-blur-md shadow-lg">
+                                 <i data-lucide="check-circle" class="w-5 h-5 text-orange-300"></i> 試作開発対応
                                </div>
-                               <div class="flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
-                                 <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i> パッケージ提案
+                               <div class="flex items-center gap-2 text-sm bg-white/10 px-6 py-3 rounded-full border border-white/30 backdrop-blur-md shadow-lg">
+                                 <i data-lucide="check-circle" class="w-5 h-5 text-orange-300"></i> パッケージ提案
                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Footer -->
-                <footer class="bg-gray-900 text-white pt-20 pb-10 px-6">
+                <!-- Footer (Black Metal) -->
+                <footer class="bg-[#111] text-white pt-20 pb-10 px-6 border-t-4 border-[#333] shadow-[inset_0_10px_20px_rgba(0,0,0,1)]">
                     <div class="container mx-auto">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-gray-800 pb-12">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-[#333] pb-12">
                             <div class="md:col-span-1">
                                 <div class="mb-6 flex justify-center md:justify-center">
                                     <div class="relative group cursor-pointer" onclick="openVideoModal()">
                                         <img src="${PAGE_CONTENT.footerImage}" alt="KAWAGOEYA" class="h-64 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
-                                            onerror="this.onerror=null; this.parentNode.innerHTML = '<div class=\'h-64 w-48 bg-gray-800 rounded flex items-center justify-center border border-gray-700\'><span>Image N/A</span></div>';">
+                                            onerror="this.onerror=null; this.parentNode.innerHTML = '<div class=\'h-64 w-48 bg-[#222] rounded flex items-center justify-center border border-[#444]\'><span>Image N/A</span></div>';">
                                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div class="bg-black/40 rounded-full p-3 backdrop-blur-sm">
-                                                <i data-lucide="play" class="w-8 h-8 text-white fill-white"></i>
+                                            <div class="bg-black/70 rounded-full p-4 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_20px_#C5A059]">
+                                                <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-bold mb-6 text-gray-300">メニュー</h4>
-                                <ul class="space-y-4 text-sm text-gray-400">
-                                    <li><a href="./index.html" class="hover:text-white transition-colors">ホーム</a></li>
-                                    <li><a href="./factory.html" class="hover:text-white transition-colors">加工場設備</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">商品一覧</a></li>
+                                <h4 class="font-bold mb-6 text-[#ccc] border-b border-[#555] pb-2 inline-block">メニュー</h4>
+                                <ul class="space-y-4 text-sm text-[#999]">
+                                    <li><a href="./index.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>ホーム</a></li>
+                                    <li><a href="./factory.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>加工場設備</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>商品一覧</a></li>
                                 </ul>
                             </div>
                             <div>
-                                <h4 class="font-bold mb-6 text-gray-300">商品カテゴリー</h4>
-                                <ul class="space-y-4 text-sm text-gray-400">
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">素焼きナッツ（準備中）</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">フレーバーナッツ（準備中）</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors">業務用（準備中）</a></li>
+                                <h4 class="font-bold mb-6 text-[#ccc] border-b border-[#555] pb-2 inline-block">商品カテゴリー</h4>
+                                <ul class="space-y-4 text-sm text-[#999]">
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>素焼きナッツ（準備中）</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>フレーバーナッツ（準備中）</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>業務用（準備中）</a></li>
                                 </ul>
                             </div>
                         </div>
                         
                         <!-- Footer Bottom Area with Secret Link -->
-                        <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                            <p class="text-xs text-gray-500">
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-4">
+                            <p class="text-xs text-[#666]">
                                 &copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.
                             </p>
                             <div class="flex items-center">
-                                <button onclick="openPasswordModal()" class="text-sm font-bold text-[#C5A059] border-2 border-[#C5A059] hover:bg-[#C5A059] hover:text-[#2C2C2C] transition-all duration-300 flex items-center gap-2 px-6 py-3 rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)] hover:shadow-[0_0_25px_rgba(197,160,89,0.6)]">
+                                <button onclick="openPasswordModal()" class="gold-metal-btn text-sm font-bold flex items-center gap-2 px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-transform">
                                     <i data-lucide="lock" class="w-4 h-4"></i>
-                                    特設ページ <span class="text-[10px] uppercase tracking-wider ml-1 font-normal">Members Only</span>
+                                    特設ページ <span class="text-[10px] uppercase tracking-wider ml-1 font-normal opacity-80">Members Only</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </footer>
 
-                <!-- Scroll to Top -->
-                <button id="scrollToTop" class="fixed bottom-8 right-8 bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-orange-50 z-40 opacity-0 translate-y-10 pointer-events-none">
+                <!-- Scroll to Top (Stainless Style) -->
+                <button id="scrollToTop" class="metal-btn fixed bottom-8 right-8 !p-3 !rounded-full opacity-0 translate-y-10 pointer-events-none z-40">
                     <i data-lucide="arrow-up" class="w-5 h-5"></i>
                 </button>
             `;
@@ -607,7 +756,7 @@
             // Lucideアイコンの初期化
             lucide.createIcons();
 
-            // スクロールイベントの設定（トップへ戻るボタンのみ）
+            // スクロールイベントの設定
             const scrollBtn = document.getElementById('scrollToTop');
 
             window.addEventListener('scroll', () => {
@@ -639,7 +788,6 @@
         }
 
         // 初期描画実行
-        // 念のためDOMContentLoadedを待つ
         document.addEventListener('DOMContentLoaded', renderApp);
     </script>
 </body>
