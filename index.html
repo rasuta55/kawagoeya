@@ -541,12 +541,29 @@
                 
                 // 動画がある場合はクリックイベントとオーバーレイを設定
                 const hasVideo = !!step.video;
+                const isComingSoon = step.id === 1; // 原料入荷判定
+                
                 const clickAttr = hasVideo ? `onclick="openVideoModal('${step.video}')" style="cursor: pointer;"` : '';
-                const playOverlay = hasVideo ? `
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+                
+                let overlayContent = '';
+                if (hasVideo) {
+                    overlayContent = `
                         <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
                             <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
                         </div>
+                    `;
+                } else if (isComingSoon) {
+                    // 赤く光るComing Soonテキスト
+                    overlayContent = `
+                        <span class="text-3xl font-bold tracking-widest text-[#D14658] uppercase drop-shadow-[0_0_10px_rgba(209,70,88,0.8)] animate-pulse" style="text-shadow: 0 0 20px #D14658;">
+                            Coming Soon
+                        </span>
+                    `;
+                }
+
+                const playOverlay = overlayContent ? `
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none ${isComingSoon ? 'bg-black/50 backdrop-blur-sm' : ''}">
+                        ${overlayContent}
                     </div>
                 ` : '';
 
@@ -555,6 +572,7 @@
                     <div class="relative h-64 overflow-hidden border-b border-gray-800">
                         <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10 pointer-events-none"></div>
                         
+                        <!-- ここを修正：常に画像を表示 -->
                         <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
                         
