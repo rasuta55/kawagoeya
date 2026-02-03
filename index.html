@@ -76,8 +76,9 @@
                 0 20px 50px rgba(0,0,0,0.8),      /* 深いドロップシャドウ */
                 inset 0 1px 0 rgba(255,255,255,0.5), /* 上辺の鋭いハイライト（エッジ） */
                 inset 0 0 0 1px rgba(255,255,255,0.05); /* 全体の微かなフチ */
-                
+            
             transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+            cursor: pointer; /* クリックできることを示す */
         }
 
         /* パネル表面の強い光沢（テカり） */
@@ -931,6 +932,7 @@
                 </div>
 
                 <!-- SMOKE TINMI DOCUMENT OVERLAY -->
+                <!-- 修正: z-indexを230にして、確実に最前面に来るようにする -->
                 <div id="smoke-tinmi-doc-overlay" class="hidden fixed inset-0 z-[230] overflow-y-auto">
                     <!-- 戻るボタン -->
                     <button onclick="closeSmokeTinmiDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
