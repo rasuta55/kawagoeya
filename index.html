@@ -253,7 +253,7 @@
         }
 
         /* --- カタログページオーバーレイ（共通） --- */
-        #catalog-overlay, #smoke-nuts-doc-overlay {
+        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay {
             background-color: #f5f5f5;
             color: #333;
         }
@@ -573,6 +573,28 @@
             document.body.style.overflow = '';
         }
 
+        /* === NB商品リストモーダル制御 === */
+        window.openNbList = function() {
+            const overlay = document.getElementById('nb-list-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        window.closeNbList = function() {
+            const overlay = document.getElementById('nb-list-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
+            document.body.style.overflow = '';
+        }
+
         /* === 描画ロジック === */
 
         function renderApp() {
@@ -862,6 +884,30 @@
                     </div>
                 </div>
 
+                <!-- NB LIST OVERLAY -->
+                <div id="nb-list-overlay" class="hidden fixed inset-0 z-[220] overflow-y-auto" style="background-color: #f5f5f5; color: #333;">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeNbList()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        リストを閉じる
+                    </button>
+
+                    <div class="container mx-auto max-w-4xl px-4 flex flex-col items-center gap-8 pt-20">
+                        <!-- 1枚目の画像 -->
+                        <div class="w-full bg-white shadow-lg">
+                            <img src="${BASE_URL}/NB商品リスト改訂260129_page-0001.jpg" alt="商品リスト 1ページ目" class="w-full h-auto block" loading="eager">
+                        </div>
+                        <!-- 2枚目の画像 -->
+                        <div class="w-full bg-white shadow-lg">
+                            <img src="${BASE_URL}/NB商品リスト改訂260129_page-0002.jpg" alt="商品リスト 2ページ目" class="w-full h-auto block" loading="lazy">
+                        </div>
+                    </div>
+                    
+                    <div class="text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Product List Viewer
+                    </div>
+                </div>
+
                 <!-- KUNSEI PRODUCTS OVERLAY (Integrated content from products_kunsei.html) -->
                 <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <!-- Header -->
@@ -912,7 +958,7 @@
                                 </div>
 
                                 <!-- ② 燻製ナッツNBリスト -->
-                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('NBリストPDFを開きます（実装予定）')">
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="openNbList()">
                                     <div>
                                         <div class="flex justify-between items-start mb-6">
                                             <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">PRODUCT LIST</span>
