@@ -253,7 +253,7 @@
         }
 
         /* --- カタログページオーバーレイ（共通） --- */
-        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay {
+        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay {
             background-color: #f5f5f5;
             color: #333;
         }
@@ -595,6 +595,28 @@
             document.body.style.overflow = '';
         }
 
+        /* === スナハラ燻製所（燻製珍味）資料モーダル制御 === */
+        window.openSmokeTinmiDoc = function() {
+            const overlay = document.getElementById('smoke-tinmi-doc-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        window.closeSmokeTinmiDoc = function() {
+            const overlay = document.getElementById('smoke-tinmi-doc-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
+            document.body.style.overflow = '';
+        }
+
         /* === 描画ロジック === */
 
         function renderApp() {
@@ -908,6 +930,58 @@
                     </div>
                 </div>
 
+                <!-- SMOKE TINMI DOCUMENT OVERLAY -->
+                <div id="smoke-tinmi-doc-overlay" class="hidden fixed inset-0 z-[230] overflow-y-auto">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeSmokeTinmiDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        資料を閉じる
+                    </button>
+
+                    <div class="catalog-container pt-20">
+                        <!-- 1.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/1.jpg" alt="スナハラ燻製所 表紙" loading="eager">
+                        </div>
+                        <!-- 2.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/2.jpg" alt="スナハラ燻製所とは" loading="lazy">
+                        </div>
+                        <!-- 3.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/3.jpg" alt="燻製焼あじ紹介" loading="lazy">
+                        </div>
+                        <!-- 4.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/4.jpg" alt="燻製焼あじ商品詳細" loading="lazy">
+                        </div>
+                        <!-- 5.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/5.jpg" alt="燻製貝ひも紹介" loading="lazy">
+                        </div>
+                        <!-- 6.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/6.jpg" alt="燻製貝ひも商品詳細" loading="lazy">
+                        </div>
+                        <!-- 7.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/7.jpg" alt="燻製炙り小いわし紹介" loading="lazy">
+                        </div>
+                        <!-- 8.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/8.jpg" alt="燻製炙り小いわし商品詳細" loading="lazy">
+                        </div>
+                        <!-- 9.jpg -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/9.jpg" alt="その他・業務用案内" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Smoke Tinmi Doc Viewer
+                    </div>
+                </div>
+
                 <!-- KUNSEI PRODUCTS OVERLAY (Integrated content from products_kunsei.html) -->
                 <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <!-- Header -->
@@ -977,7 +1051,7 @@
                                 </div>
 
                                 <!-- ③ 燻製珍味（NEW） -->
-                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('新商品の詳細を開きます（実装予定）')">
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="openSmokeTinmiDoc()">
                                     <div>
                                         <div class="flex justify-between items-start mb-6">
                                             <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded shadow-[0_0_10px_#dc2626]">NEW ARRIVAL</span>
