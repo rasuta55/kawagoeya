@@ -160,6 +160,8 @@
             letter-spacing: 0.1em;
             white-space: nowrap;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
         .metal-btn:hover {
@@ -250,8 +252,8 @@
             color: #1a1a1a;
         }
 
-        /* --- カタログページオーバーレイ --- */
-        #catalog-overlay {
+        /* --- カタログページオーバーレイ（共通） --- */
+        #catalog-overlay, #smoke-nuts-doc-overlay {
             background-color: #f5f5f5;
             color: #333;
         }
@@ -272,6 +274,8 @@
             width: 100%;
             height: auto;
             display: block;
+            pointer-events: none;
+            user-select: none;
         }
 
         /* テキストエフェクト */
@@ -547,6 +551,28 @@
             document.body.style.overflow = '';
         }
 
+        /* === スモークナッツ資料モーダル制御 === */
+        window.openSmokeNutsDoc = function() {
+            const overlay = document.getElementById('smoke-nuts-doc-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.5s ease';
+                overlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        window.closeSmokeNutsDoc = function() {
+            const overlay = document.getElementById('smoke-nuts-doc-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 500);
+            document.body.style.overflow = '';
+        }
+
         /* === 描画ロジック === */
 
         function renderApp() {
@@ -740,7 +766,8 @@
                 </div>
 
                 <!-- CATALOG OVERLAY -->
-                <div id="catalog-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
+                <!-- 修正: z-indexを220にして燻製商品(200)より上にする -->
+                <div id="catalog-overlay" class="hidden fixed inset-0 z-[220] overflow-y-auto">
                     <!-- 戻るボタン -->
                     <button onclick="closeCatalog()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
                         <i data-lucide="arrow-left" class="w-5 h-5"></i>
@@ -794,6 +821,47 @@
                     </div>
                 </div>
 
+                <!-- SMOKE NUTS DOCUMENT OVERLAY -->
+                <!-- 修正: z-indexを220にして燻製商品(200)より上にする -->
+                <div id="smoke-nuts-doc-overlay" class="hidden fixed inset-0 z-[220] overflow-y-auto">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeSmokeNutsDoc()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        資料を閉じる
+                    </button>
+
+                    <div class="catalog-container pt-20">
+                        <!-- Page 1 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0001.jpg" alt="スモークナッツ 表紙" loading="eager">
+                        </div>
+
+                        <!-- Page 2 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0002.jpg" alt="燻製市場について" loading="lazy">
+                        </div>
+
+                        <!-- Page 3 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0003.jpg" alt="燻製に合うナッツと国産桜チップ" loading="lazy">
+                        </div>
+
+                        <!-- Page 4 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0004.jpg" alt="チップの煙だけで燻した本格燻製" loading="lazy">
+                        </div>
+
+                        <!-- Page 5 -->
+                        <div class="catalog-page">
+                            <img src="${BASE_URL}/スモークナッツ_page-0005.jpg" alt="深く染み込んだ自慢の強燻製" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center py-8 text-gray-500 text-sm">
+                        &copy; 2025 Kawagoeya Smoke Nuts Doc Viewer
+                    </div>
+                </div>
+
                 <!-- KUNSEI PRODUCTS OVERLAY (Integrated content from products_kunsei.html) -->
                 <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <!-- Header -->
@@ -825,7 +893,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 fade-in" style="animation-delay: 0.2s;">
 
                                 <!-- ① 燻製ナッツとは… -->
-                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('詳細資料を開きます（実装予定）')">
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="openSmokeNutsDoc()">
                                     <div>
                                         <div class="flex justify-between items-start mb-6">
                                             <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">ABOUT</span>
