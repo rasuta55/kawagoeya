@@ -160,8 +160,6 @@
             letter-spacing: 0.1em;
             white-space: nowrap;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
         }
         
         .metal-btn:hover {
@@ -238,6 +236,18 @@
             background-image: 
                 radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 70%);
             color: white;
+        }
+
+        /* --- 燻製商品オーバーレイ（ステンレス） --- */
+        #kunsei-overlay {
+            /* bodyと同じステンレス背景を適用 */
+            background-color: #8a8a8a;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent 0px, transparent 1px, rgba(255, 255, 255, 0.08) 1px, rgba(255, 255, 255, 0.08) 2px),
+                linear-gradient(90deg, #999 0%, #ddd 15%, #bbb 30%, #eee 50%, #bbb 70%, #ddd 85%, #999 100%);
+            background-blend-mode: overlay;
+            background-attachment: fixed;
+            color: #1a1a1a;
         }
 
         /* --- カタログページオーバーレイ --- */
@@ -493,6 +503,28 @@
             document.body.style.overflow = '';
         }
 
+        /* === 燻製商品オーバーレイ制御 === */
+        window.openKunsei = function() {
+            const overlay = document.getElementById('kunsei-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.8s ease';
+                overlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        window.closeKunsei = function() {
+            const overlay = document.getElementById('kunsei-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 800);
+            document.body.style.overflow = '';
+        }
+
         /* === カタログモーダル制御 === */
         window.openCatalog = function() {
             const overlay = document.getElementById('catalog-overlay');
@@ -523,17 +555,20 @@
             const NAV_LINKS = [
                 { label: 'ホーム', href: './index.html' },
                 { label: '加工場設備', href: './factory.html' },
-                { label: '商品一覧', href: './products.html' }
+                { label: '商品一覧', href: './products.html' },
+                { label: '燻製商品', href: '#', onclick: 'openKunsei(); return false;' }
             ];
 
             // ナビゲーションアイテム（メタルボタン）
-            const navItems = NAV_LINKS.map(item => 
-                `<a href="${item.href}" class="metal-btn">${item.label}</a>`
-            ).join('');
+            const navItems = NAV_LINKS.map(item => {
+                const onclickAttr = item.onclick ? `onclick="${item.onclick}"` : '';
+                return `<a href="${item.href}" ${onclickAttr} class="metal-btn">${item.label}</a>`;
+            }).join('');
 
-            const mobileNavItems = NAV_LINKS.map(item => 
-                `<a href="${item.href}" class="metal-btn text-lg py-3 px-8 w-64 text-center">${item.label}</a>`
-            ).join('');
+            const mobileNavItems = NAV_LINKS.map(item => {
+                const onclickAttr = item.onclick ? `onclick="${item.onclick}"` : '';
+                return `<a href="${item.href}" ${onclickAttr} class="metal-btn text-lg py-3 px-8 w-64 text-center">${item.label}</a>`;
+            }).join('');
 
             // 黒光沢パネルカード（工程表）
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
@@ -759,6 +794,126 @@
                     </div>
                 </div>
 
+                <!-- KUNSEI PRODUCTS OVERLAY (Integrated content from products_kunsei.html) -->
+                <div id="kunsei-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
+                    <!-- Header -->
+                    <header class="fixed w-full z-50 py-3 metal-plate">
+                        <div class="container mx-auto px-6 flex justify-between items-center">
+                            <div class="flex items-center">
+                                <button onclick="closeKunsei()" class="flex items-center gap-2 group hover:opacity-70 transition-opacity">
+                                    <i data-lucide="chevron-left" class="w-6 h-6 text-[#333]"></i>
+                                    <span class="font-serif font-bold text-lg text-[#1a1a1a]">TOPに戻る</span>
+                                </button>
+                            </div>
+                            <div class="font-serif text-xl font-bold text-[#1a1a1a] tracking-widest text-engrave hidden md:block">
+                                SMOKED NUTS COLLECTION
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Main Content -->
+                    <main class="pt-32 pb-20 px-6 min-h-screen">
+                        <div class="container mx-auto max-w-6xl">
+                            
+                            <div class="text-center mb-16 fade-in">
+                                <span class="text-[#1a1a1a] text-sm tracking-[0.3em] block mb-2 font-bold opacity-70">PREMIUM SELECTION</span>
+                                <h1 class="text-4xl md:text-5xl font-serif font-bold text-[#1a1a1a] text-engrave">これが、本物の燻製だ！！</h1>
+                                <div class="w-20 h-1 bg-[#1a1a1a] mx-auto mt-6 rounded-full opacity-30"></div>
+                            </div>
+
+                            <!-- Grid Layout -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 fade-in" style="animation-delay: 0.2s;">
+
+                                <!-- ① 燻製ナッツとは… -->
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('詳細資料を開きます（実装予定）')">
+                                    <div>
+                                        <div class="flex justify-between items-start mb-6">
+                                            <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">ABOUT</span>
+                                            <i data-lucide="flame" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors"></i>
+                                        </div>
+                                        <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">燻製ナッツとは…</h2>
+                                        <p class="text-gray-400 text-sm leading-relaxed">
+                                            桜のチップを使用し、低温でじっくりと時間をかけて燻す伝統的な製法。<br>
+                                            香りの深さと、ナッツ本来の甘みが調和した至高の味わいについて。
+                                        </p>
+                                    </div>
+                                    <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors">
+                                        <span>Read More</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+
+                                <!-- ② 燻製ナッツNBリスト -->
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('NBリストPDFを開きます（実装予定）')">
+                                    <div>
+                                        <div class="flex justify-between items-start mb-6">
+                                            <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">PRODUCT LIST</span>
+                                            <i data-lucide="list" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors"></i>
+                                        </div>
+                                        <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">燻製ナッツNBリスト</h2>
+                                        <p class="text-gray-400 text-sm leading-relaxed">
+                                            現在お取り扱い可能なナショナルブランド（NB）商品の全リスト。<br>
+                                            アーモンド、カシューナッツ、ピスタチオなど、多彩なラインナップをご確認いただけます。
+                                        </p>
+                                    </div>
+                                    <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors">
+                                        <span>View List</span>
+                                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+
+                                <!-- ③ 燻製珍味（NEW） -->
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('新商品の詳細を開きます（実装予定）')">
+                                    <div>
+                                        <div class="flex justify-between items-start mb-6">
+                                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded shadow-[0_0_10px_#dc2626]">NEW ARRIVAL</span>
+                                            <i data-lucide="sparkles" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors"></i>
+                                        </div>
+                                        <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">燻製珍味</h2>
+                                        <p class="text-gray-400 text-sm leading-relaxed">
+                                            ナッツだけではない、燻製の新たな可能性。<br>
+                                            厳選された海産物やチーズを使用した、お酒が進む新作珍味シリーズのご紹介。
+                                        </p>
+                                    </div>
+                                    <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors">
+                                        <span>Discover</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+
+                                <!-- ④ スナハラ燻製工房 -->
+                                <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px]" onclick="alert('工房紹介ページを開きます（実装予定）')">
+                                    <div>
+                                        <div class="flex justify-between items-start mb-6">
+                                            <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">FACTORY</span>
+                                            <i data-lucide="factory" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors"></i>
+                                        </div>
+                                        <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">スナハラ燻製工房</h2>
+                                        <p class="text-gray-400 text-sm leading-relaxed">
+                                            広島県・宮島の地で、職人が手作業で仕上げる燻製の技。<br>
+                                            「スナハラ燻製工房」とのコラボレーションにより生まれた、本物の味の秘密。
+                                        </p>
+                                    </div>
+                                    <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors">
+                                        <span>Visit Factory Info</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- Footer (Black Metal) -->
+                    <footer class="bg-[#111] text-white pt-10 pb-8 px-6 border-t-4 border-[#333] shadow-[inset_0_10px_20px_rgba(0,0,0,1)]">
+                        <div class="container mx-auto text-center">
+                            <p class="text-xs text-[#666]">
+                                &copy; 2026 KAWAGOEYA Co., Ltd. All Rights Reserved.
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+
                 <!-- Header (Metal Plate) -->
                 <header id="main-header" class="absolute w-full z-50 py-3 metal-plate">
                     <div class="container mx-auto px-6 flex justify-between items-center">
@@ -884,6 +1039,7 @@
                                     <li><a href="./index.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>ホーム</a></li>
                                     <li><a href="./factory.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>加工場設備</a></li>
                                     <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>商品一覧</a></li>
+                                    <li><a href="#" onclick="openKunsei(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>燻製商品</a></li>
                                 </ul>
                             </div>
                             <div>
