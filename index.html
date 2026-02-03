@@ -70,6 +70,36 @@
                 inset 0 2px 5px rgba(0,0,0,0.2);
             transform: translateY(1px);
         }
+
+        /* パスワード入力フィールドのスタイル */
+        .password-input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 4px;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s;
+            text-align: center;
+            letter-spacing: 0.2em;
+            font-size: 1.1rem;
+        }
+        .password-input:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: #C5A059;
+        }
+        .password-input::placeholder {
+            color: rgba(255,255,255,0.3);
+            letter-spacing: normal;
+            font-size: 0.9rem;
+        }
+
+        /* 特設ページオーバーレイのスタイル */
+        #secret-overlay {
+            background-color: #1a1a1a;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -86,21 +116,24 @@
             bg: '#F9F7F2',
         };
 
+        // ★修正点: 実際のサイトのURLベース
+        const BASE_URL = 'https://rasuta55.github.io/kawagoeya';
+
         // ★プレビュー用の仮画像データ
-        window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='%23eee'/><text x='100' y='40' font-family='sans-serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%23999'>ロゴ画像</text></svg>`;
+        window.PREVIEW_LOGO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><rect width='200' height='60' fill='transparent'/><text x='100' y='40' font-family='Noto Serif JP, serif' font-weight='bold' font-size='24' text-anchor='middle' fill='%234B2E1E'>KAWAGOEYA</text></svg>`;
         window.PREVIEW_HERO_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' style='background:%234B2E1E'><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='white'>TOP画像</text></svg>`;
-        window.PREVIEW_FOOTER_DATA = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 300' style='background:%23e5e7eb'><rect width='150' height='300' fill='%23d1d5db'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='20' text-anchor='middle' fill='%234b5563'>Footer<br/>Image</text></svg>`;
 
         const PAGE_CONTENT = {
-            logoImage: "./logo.png", 
-            footerVideo: "./MINANA製造工程.mp4",
+            logoImage: `${BASE_URL}/logo.png`, 
+            footerVideo: `${BASE_URL}/MINANA製造工程.mp4`,
+            footerImage: `${BASE_URL}/7moro.png`,
             
             hero: {
                 title: "創作", 
                 subtitle: "ナッツ菓子の技、一粒の芸術。",
                 description: "川越屋公認ナッツパティシエが、素材の選定から包装まで、全ての工程に魂を込めて。",
-                bgImage: "./hero.jpg",
-                fallbackBgImage: "./hero.jpeg" 
+                bgImage: `${BASE_URL}/hero.jpg`,
+                fallbackBgImage: "https://images.unsplash.com/photo-1516550135131-fe3dcb0bedc7?q=80&w=1920&auto=format&fit=crop" 
             },
             intro: {
                 title: "ナッツパティシエの流儀",
@@ -115,7 +148,7 @@
                 engTitle: "Arrival",
                 description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。",
                 icon: "truck", 
-                image: "./step1.png"
+                image: `${BASE_URL}/step1.png`
             },
             {
                 id: 2,
@@ -123,7 +156,7 @@
                 engTitle: "Selection",
                 description: "最新鋭の選別機と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。",
                 icon: "check-circle", 
-                image: "./step2.png"
+                image: `${BASE_URL}/step2.png`
             },
             {
                 id: 3,
@@ -131,7 +164,7 @@
                 engTitle: "Roasting",
                 description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。",
                 icon: "flame",
-                image: "./step3.jpg"
+                image: `${BASE_URL}/step3.jpg`
             },
             {
                 id: 4,
@@ -139,7 +172,7 @@
                 engTitle: "Sugar Coating",
                 description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。",
                 icon: "droplets",
-                image: "./step4.jpg"
+                image: `${BASE_URL}/step4.jpg`
             },
             {
                 id: 5,
@@ -147,7 +180,7 @@
                 engTitle: "Seasoning",
                 description: "きな粉、ラズベリーなど、多彩なフレーバーを纏わせます。素材の風味を損なわないよう、パウダーはたっぷり使い、職人の目で確かめながら作業しています。",
                 icon: "utensils",
-                image: "./step5.jpg"
+                image: `${BASE_URL}/step5.jpg`
             },
             {
                 id: 6,
@@ -155,7 +188,7 @@
                 engTitle: "Packaging",
                 description: "正確、丁寧をモットーに真心こめてパッケージングしています。金属探知機による最終検査を経て、皆様のもとへ出荷されます。",
                 icon: "gift",
-                image: "./step6.jpg"
+                image: `${BASE_URL}/step6.jpg`
             }
         ];
 
@@ -193,6 +226,62 @@
             }
         }
 
+        /* === パスワードモーダル制御 === */
+        window.openPasswordModal = function() {
+            const modal = document.getElementById('passwordModal');
+            const input = document.getElementById('secretPassword');
+            const error = document.getElementById('passwordError');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            input.value = ''; // 入力をリセット
+            error.classList.add('hidden'); // エラー表示をリセット
+            setTimeout(() => input.focus(), 100);
+        }
+
+        window.closePasswordModal = function() {
+            const modal = document.getElementById('passwordModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        window.checkPassword = function() {
+            const input = document.getElementById('secretPassword');
+            const error = document.getElementById('passwordError');
+            const password = input.value.toLowerCase().trim();
+            
+            // パスワード: neomoro
+            if (password === 'neomoro') {
+                closePasswordModal();
+                openSecretPage();
+            } else {
+                error.classList.remove('hidden');
+                input.classList.add('border-red-500');
+                setTimeout(() => input.classList.remove('border-red-500'), 2000);
+            }
+        }
+
+        window.openSecretPage = function() {
+            const overlay = document.getElementById('secret-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.transition = 'opacity 0.8s ease';
+                overlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        window.closeSecretPage = function() {
+            const overlay = document.getElementById('secret-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 800);
+            document.body.style.overflow = '';
+        }
+
         /* === 描画ロジック === */
 
         function renderApp() {
@@ -219,7 +308,8 @@
                 <div class="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border-b-4" style="border-color: ${BRAND_COLORS.primary}">
                     <div class="relative h-64 overflow-hidden">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10"></div>
-                        <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
+                        <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
                         <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-white/90 backdrop-blur rounded-full shadow-lg">
                             <span class="font-serif text-xl font-bold" style="color: ${BRAND_COLORS.primary}">${stepNum}</span>
                         </div>
@@ -256,11 +346,79 @@
                             <span class="text-sm font-bold">CLOSE</span>
                             <i data-lucide="x" class="w-8 h-8"></i>
                         </button>
-                        <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden">
-                            <video id="promoVideo" controls class="w-full h-full">
+                        <div class="aspect-video bg-black rounded-lg shadow-2xl overflow-hidden flex items-center justify-center relative">
+                            <video id="promoVideo" controls class="w-full h-full object-contain">
                                 <source src="${PAGE_CONTENT.footerVideo}" type="video/mp4">
                                 <p class="text-white text-center p-4">動画を再生できません。</p>
                             </video>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Entry Modal -->
+                <div id="passwordModal" class="hidden fixed inset-0 z-[150] items-center justify-center bg-black/90 backdrop-blur-md modal-animate" onclick="closePasswordModal()">
+                    <div class="relative w-full max-w-md mx-4 bg-[#2C2C2C] border border-white/10 p-8 rounded-lg shadow-2xl" onclick="event.stopPropagation()">
+                        <button onclick="closePasswordModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                        
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#C5A059]/30">
+                                <i data-lucide="lock" class="w-8 h-8 text-[#C5A059]"></i>
+                            </div>
+                            <h3 class="text-2xl font-serif text-white mb-2">Members Only</h3>
+                            <p class="text-gray-400 text-sm">特設ページへのアクセスには<br>パスワードが必要です</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <input type="password" id="secretPassword" class="password-input font-serif" placeholder="PASSWORD">
+                            <button onclick="checkPassword()" class="w-full bg-[#C5A059] text-[#2C2C2C] font-bold py-3 rounded hover:bg-white transition-colors tracking-widest">
+                                ENTER
+                            </button>
+                            <p id="passwordError" class="text-red-500 text-xs text-center hidden">パスワードが間違っています</p>
+                        </div>
+                        <div class="mt-6 text-center">
+                             <p class="text-xs text-gray-600">Hint: neomoro</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECRET CONTENT OVERLAY -->
+                <div id="secret-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto bg-[#2C2C2C]">
+                    <!-- 戻るボタン -->
+                    <button onclick="closeSecretPage()" class="fixed top-6 left-6 z-50 flex items-center gap-2 bg-[#C5A059] text-[#2C2C2C] px-6 py-2 rounded-full font-bold shadow-lg hover:bg-white transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                        ログアウト
+                    </button>
+
+                    <div class="min-h-screen flex flex-col items-center justify-center py-20 px-6">
+                        <div class="text-center max-w-4xl mx-auto">
+                            <span class="text-[#C5A059] text-xl tracking-[0.3em] block mb-4 font-bold">EXCLUSIVE CONTENTS</span>
+                            <h1 class="text-4xl md:text-6xl font-serif text-white mb-12">視聴者限定 特設ページ</h1>
+                            
+                            <div class="bg-white/5 border border-white/10 p-12 rounded-lg backdrop-blur-sm shadow-2xl">
+                                <div class="w-20 h-20 bg-[#C5A059]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <i data-lucide="gift" class="w-10 h-10 text-[#C5A059]"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold mb-4 text-white">Welcome, Special Member!</h2>
+                                <p class="text-gray-300 leading-relaxed mb-8">
+                                    パスワード認証ありがとうございます。<br>
+                                    ここは限られた方のみがアクセスできる特別なエリアです。<br>
+                                    未公開の製造工程映像や、開発秘話などを順次公開予定です。
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                                    <div class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
+                                         <span class="text-[#C5A059] text-xs font-bold tracking-widest mb-2 block">COMING SOON</span>
+                                         <h3 class="text-lg font-bold text-white group-hover:text-[#C5A059] transition-colors">未公開：開発室の裏側</h3>
+                                         <p class="text-xs text-gray-500 mt-2">新フレーバー開発の現場に密着。</p>
+                                    </div>
+                                    <div class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
+                                         <span class="text-[#C5A059] text-xs font-bold tracking-widest mb-2 block">DOWNLOAD</span>
+                                         <h3 class="text-lg font-bold text-white group-hover:text-[#C5A059] transition-colors">工場詳細スペック資料 (PDF)</h3>
+                                         <p class="text-xs text-gray-500 mt-2">関係者向けの詳細技術資料。</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -287,13 +445,7 @@
                             src="${PAGE_CONTENT.hero.bgImage}" 
                             alt="Background" 
                             class="w-full h-full object-cover object-top opacity-90" 
-                            onerror="
-                                if (this.src.endsWith('hero.jpg')) { 
-                                    this.src = '${PAGE_CONTENT.hero.fallbackBgImage}'; 
-                                } else { 
-                                    this.onerror=null; 
-                                    this.src=window.PREVIEW_HERO_DATA; 
-                                }"
+                            onerror="this.onerror=null; this.src='${PAGE_CONTENT.hero.fallbackBgImage}';"
                         >
                         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20"></div>
                     </div>
@@ -315,7 +467,7 @@
                 <section class="py-20 md:py-32 px-6">
                     <div class="container mx-auto max-w-4xl text-center">
                         <div class="mb-8 flex justify-center">
-                             <img src="https://cdn-icons-png.flaticon.com/512/2619/2619528.png" class="w-16 h-16 opacity-20 sepia" alt="decoration" />
+                             <div class="w-16 h-16 opacity-20 bg-center bg-no-repeat bg-contain" style="background-image: url('https://cdn-icons-png.flaticon.com/512/2619/2619528.png'); filter: sepia(1);"></div>
                         </div>
                         <h2 class="text-3xl md:text-4xl font-serif font-bold mb-10 text-gray-800">
                             ${PAGE_CONTENT.intro.title}
@@ -379,7 +531,8 @@
                             <div class="md:col-span-1">
                                 <div class="mb-6 flex justify-center md:justify-center">
                                     <div class="relative group cursor-pointer" onclick="openVideoModal()">
-                                        <img src="./7moro.png" alt="KAWAGOEYA" class="h-64 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src=window.PREVIEW_FOOTER_DATA;">
+                                        <img src="${PAGE_CONTENT.footerImage}" alt="KAWAGOEYA" class="h-64 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+                                            onerror="this.onerror=null; this.parentNode.innerHTML = '<div class=\'h-64 w-48 bg-gray-800 rounded flex items-center justify-center border border-gray-700\'><span>Image N/A</span></div>';">
                                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <div class="bg-black/40 rounded-full p-3 backdrop-blur-sm">
                                                 <i data-lucide="play" class="w-8 h-8 text-white fill-white"></i>
@@ -405,11 +558,17 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-                            <p>&copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.</p>
-                            <div class="flex gap-6 mt-4 md:mt-0">
-                                <a href="#" class="hover:text-white transition-colors">プライバシーポリシー</a>
-                                <a href="#" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+                        
+                        <!-- Footer Bottom Area with Secret Link -->
+                        <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                            <p class="text-xs text-gray-500">
+                                &copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.
+                            </p>
+                            <div class="flex items-center">
+                                <button onclick="openPasswordModal()" class="text-sm font-bold text-[#C5A059] border-2 border-[#C5A059] hover:bg-[#C5A059] hover:text-[#2C2C2C] transition-all duration-300 flex items-center gap-2 px-6 py-3 rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)] hover:shadow-[0_0_25px_rgba(197,160,89,0.6)]">
+                                    <i data-lucide="lock" class="w-4 h-4"></i>
+                                    特設ページ <span class="text-[10px] uppercase tracking-wider ml-1 font-normal">Members Only</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -443,6 +602,16 @@
             scrollBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+            
+            // Password input Enter key support
+            const passInput = document.getElementById('secretPassword');
+            if(passInput) {
+                passInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        checkPassword();
+                    }
+                });
+            }
         }
 
         // 初期描画実行
