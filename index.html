@@ -355,7 +355,8 @@
                 </div>
 
                 <!-- Video Modal -->
-                <div id="videoModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
+                <!-- 修正: z-indexを[100]から[250]に変更し、特設ページ(z-[200])より手前に表示させる -->
+                <div id="videoModal" class="hidden fixed inset-0 z-[250] items-center justify-center bg-black/80 backdrop-blur-sm modal-animate" onclick="closeVideoModal()">
                     <div class="relative w-full max-w-4xl mx-4" onclick="event.stopPropagation()">
                         <button onclick="closeVideoModal()" class="absolute -top-12 right-0 text-white hover:text-orange-400 transition-colors flex items-center gap-2">
                             <span class="text-sm font-bold">CLOSE</span>
@@ -430,10 +431,15 @@
                                             <i data-lucide="play-circle" class="w-4 h-4"></i> Watch Video
                                          </div>
                                     </div>
-                                    <div class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
+                                    <!-- ★ここを変更：クリックでNEOMOROPV.mp4を再生 -->
+                                    <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-black/30 p-6 rounded border border-white/5 hover:border-[#C5A059]/50 transition-colors cursor-pointer group">
                                          <span class="text-[#C5A059] text-xs font-bold tracking-widest mb-2 block">Amazon Prime Video</span>
                                          <h3 class="text-lg font-bold text-white group-hover:text-[#C5A059] transition-colors">映画：NEOMORO公開記念PV</h3>
                                          <p class="text-xs text-gray-500 mt-2">何故、人々は熱狂するのか</p>
+                                         <!-- 再生アイコン的なものを追加して動画であることを示唆 -->
+                                         <div class="mt-4 flex items-center gap-2 text-xs text-white/50 group-hover:text-[#C5A059] transition-colors">
+                                            <i data-lucide="play-circle" class="w-4 h-4"></i> Watch Video
+                                         </div>
                                     </div>
                                 </div>
                             </div>
