@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Zen+Old+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <style>
@@ -44,7 +44,6 @@
 
         .font-serif { font-family: 'Noto Serif JP', serif; }
         .font-sans { font-family: 'Noto Sans JP', sans-serif; }
-        .font-english { font-family: 'Cormorant Garamond', serif; }
         
         /* フェードインアニメーション */
         .fade-in-up {
@@ -147,7 +146,6 @@
             font-family: 'Noto Serif JP', serif; font-size: 0.95rem; letter-spacing: 0.1em;
             position: relative; overflow: hidden;
             transition: all 0.2s;
-            cursor: pointer;
         }
         .metal-btn::after {
             content: '';
@@ -275,8 +273,8 @@
         /* --- オーバーレイ共通設定 --- */
         .overlay-base { background-color: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
         #secret-overlay { background-color: #050505; background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 70%); color: white; }
-        #kunsei-overlay, #factory-overlay, #products-overlay { background-color: #8a8a8a; color: #1a1a1a; }
-        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay, #manga-overlay, #image-viewer-overlay { background-color: #f5f5f5; color: #333; }
+        #kunsei-overlay { background-color: #8a8a8a; color: #1a1a1a; }
+        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay, #manga-overlay { background-color: #f5f5f5; color: #333; }
         
         .catalog-container { width: 100%; max-width: 1000px; margin: 20px auto; background-color: transparent; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
         .catalog-page img { width: 100%; height: auto; display: block; pointer-events: none; user-select: none; background-color: white; border-bottom: 1px solid #e0e0e0; }
@@ -303,11 +301,6 @@
             outline: none; transition: all 0.3s; text-align: center; letter-spacing: 0.3em;
             font-size: 1.2rem; font-family: 'Courier New', monospace; box-shadow: inset 0 0 20px rgba(0,0,0,1);
         }
-
-        /* Products Overlay Specific */
-        .cat-badge { font-size: 0.75rem; font-weight: 900; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em; display: inline-block; margin-bottom: 8px; }
-        .cat-salt { background-color: rgba(187, 222, 251, 0.1); color: #90caf9; border: 1px solid #1e3a8a; }
-        .cat-sweet { background-color: rgba(255, 205, 210, 0.1); color: #ef9a9a; border: 1px solid #7f1d1d; }
     </style>
 </head>
 <body>
@@ -350,8 +343,7 @@
         };
 
         const PROCESS_STEPS = [
-            // id:1 にホバー用動画プロパティを追加（ファイル名を minahaisou.mp4 に変更）
-            { id: 1, title: "原料入荷", engTitle: "Arrival", description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。", icon: "truck", image: `${BASE_URL}/step1.png`, hoverVideo: `${BASE_URL}/minahaisou.mp4` },
+            { id: 1, title: "原料入荷", engTitle: "Arrival", description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。", icon: "truck", image: `${BASE_URL}/step1.png` },
             { id: 2, title: "選別", engTitle: "Selection", description: "最新鋭の選別機と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。", icon: "check-circle", image: `${BASE_URL}/step2.png`, video: `${BASE_URL}/senbetu.mp4` },
             { id: 3, title: "焙煎", engTitle: "Roasting", description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。", icon: "flame", image: `${BASE_URL}/step3.jpg`, video: `${BASE_URL}/baisen.mp4` },
             { id: 4, title: "糖掛け", engTitle: "Sugar Coating", description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。", icon: "droplets", image: `${BASE_URL}/step4.jpg`, video: `${BASE_URL}/ajitsuke.mp4` },
@@ -432,29 +424,6 @@
                 }, 10);
                 document.body.style.overflow = 'hidden';
                 overlay.scrollTop = 0;
-                
-                // オーバーレイ表示時にカウンターアニメーションを開始（Factory用）
-                if(id === 'factory-overlay') {
-                    setTimeout(() => {
-                        const counters = overlay.querySelectorAll('.counter');
-                        counters.forEach(counter => {
-                            const target = +counter.getAttribute('data-target');
-                            const speed = 200; 
-                            const inc = target / speed;
-                            let count = 0;
-                            const updateCount = () => {
-                                count += inc * 5; 
-                                if (count < target) {
-                                    counter.innerText = Math.ceil(count);
-                                    setTimeout(updateCount, 20);
-                                } else {
-                                    counter.innerText = target;
-                                }
-                            };
-                            updateCount();
-                        });
-                    }, 500);
-                }
             } else {
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.classList.add('hidden'), 800);
@@ -466,11 +435,6 @@
         window.closeSecretPage = () => toggleOverlay('secret-overlay', false);
         window.openKunsei = () => toggleOverlay('kunsei-overlay', true);
         window.closeKunsei = () => toggleOverlay('kunsei-overlay', false);
-        window.openFactory = () => toggleOverlay('factory-overlay', true);
-        window.closeFactory = () => toggleOverlay('factory-overlay', false);
-        window.openProducts = () => toggleOverlay('products-overlay', true);
-        window.closeProducts = () => toggleOverlay('products-overlay', false);
-        
         window.openCatalog = () => toggleOverlay('catalog-overlay', true);
         window.closeCatalog = () => toggleOverlay('catalog-overlay', false);
         window.openSmokeNutsDoc = () => toggleOverlay('smoke-nuts-doc-overlay', true);
@@ -484,27 +448,6 @@
         window.openManga = () => toggleOverlay('manga-overlay', true);
         window.closeManga = () => toggleOverlay('manga-overlay', false);
 
-        // Image Viewer
-        window.openImageViewer = function(imageSrc) {
-            const overlay = document.getElementById('image-viewer-overlay');
-            const img = document.getElementById('viewer-img');
-            if(overlay && img) {
-                img.src = imageSrc;
-                overlay.classList.remove('hidden');
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.opacity = '1';
-                }, 10);
-            }
-        }
-        window.closeImageViewer = function() {
-            const overlay = document.getElementById('image-viewer-overlay');
-            if(overlay) {
-                overlay.style.opacity = '0';
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-            }
-        }
-
         /* === 描画ロジック === */
         function renderApp() {
             const app = document.getElementById('app');
@@ -516,9 +459,9 @@
             }, 1500);
 
             const NAV_LINKS = [
-                { label: 'ホーム', href: '#', onclick: 'window.scrollTo({top:0, behavior:"smooth"}); return false;', icon: 'home' },
-                { label: '加工場設備', href: '#', onclick: 'openFactory(); return false;', icon: 'factory' },
-                { label: '商品一覧', href: '#', onclick: 'openProducts(); return false;', icon: 'shopping-bag' },
+                { label: 'ホーム', href: './index.html', icon: 'home' },
+                { label: '加工場設備', href: './factory.html', icon: 'factory' },
+                { label: '商品一覧', href: './products.html', icon: 'shopping-bag' },
                 { label: '燻製商品', href: '#', onclick: 'openKunsei(); return false;', icon: 'flame' }
             ];
 
@@ -549,20 +492,9 @@
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
                 const stepNum = String(index + 1).padStart(2, '0');
                 const hasVideo = !!step.video;
-                const hasHoverVideo = !!step.hoverVideo; // ホバー動画判定
-                
-                // Coming Soon 条件を変更: id=1 かつ hoverVideoが無い場合のみ
-                const isComingSoon = step.id === 1 && !hasHoverVideo; 
-                
-                // クリック属性: videoがあればモーダル、なければnull
+                const isComingSoon = step.id === 1;
                 const clickAttr = hasVideo ? `onclick="openVideoModal('${step.video}')" style="cursor: pointer;"` : '';
                 
-                // ホバーイベント属性: hoverVideoがある場合のみ設定
-                const hoverAttr = hasHoverVideo ? `
-                    onmouseenter="const v=this.querySelector('video.hover-video'); if(v){v.currentTime=0; var p = v.play(); if(p !== undefined){ p.catch(error => {}); } v.classList.remove('opacity-0');}" 
-                    onmouseleave="const v=this.querySelector('video.hover-video'); if(v){v.pause(); v.classList.add('opacity-0');}"
-                ` : '';
-
                 let overlayContent = '';
                 if (hasVideo) {
                     overlayContent = `
@@ -579,18 +511,12 @@
                 }
                 const playOverlay = overlayContent ? `<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none ${isComingSoon ? 'bg-black/50 backdrop-blur-sm' : ''}">${overlayContent}</div>` : '';
 
-                // Videoタグ生成
-                const hoverVideoTag = hasHoverVideo ? `
-                    <video class="hover-video absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 z-10" muted loop playsinline src="${step.hoverVideo}"></video>
-                ` : '';
-
                 return `
-                <div class="group relative glossy-black-panel fade-in-up" ${clickAttr} ${hoverAttr}>
+                <div class="group relative glossy-black-panel fade-in-up" ${clickAttr}>
                     <div class="relative h-64 overflow-hidden border-b border-gray-800">
                         <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10 pointer-events-none"></div>
                         <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
-                        ${hoverVideoTag}
                         ${playOverlay}
                         <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-black/80 backdrop-blur rounded-full shadow-lg border border-gray-600">
                             <span class="font-serif text-xl font-bold text-white text-glow">${stepNum}</span>
@@ -661,18 +587,18 @@
                                 <p class="text-gray-400 leading-relaxed mb-12 text-lg">ここは限られた方のみがアクセスできる特別なエリアです。</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
                                     <div onclick="openVideoModal('${BASE_URL}/members.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                            <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
-                                            <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
-                                            <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
-                                            <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
+                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
+                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
+                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
                                     </div>
                                     <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                            <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
-                                            <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
-                                            <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
-                                            <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
+                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
+                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
+                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -721,343 +647,6 @@
                     <div class="catalog-container pt-20">
                         <div class="catalog-page"><img src="${BASE_URL}/スナハラマンガ_page-0001.jpg" loading="lazy"></div>
                     </div>
-                </div>
-
-                <!-- FACTORY OVERLAY -->
-                <div id="factory-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto overlay-base">
-                    <header class="fixed w-full z-50 py-3 metal-plate">
-                        <div class="container mx-auto px-6 flex justify-between items-center">
-                            <div class="flex items-center">
-                                <button onclick="closeFactory()" class="flex items-center gap-2 group hover:opacity-70 transition-opacity">
-                                    <i data-lucide="chevron-left" class="w-6 h-6 text-[#333]"></i>
-                                    <span class="font-serif font-bold text-lg text-[#1a1a1a]">TOPに戻る</span>
-                                </button>
-                            </div>
-                            <div class="font-serif text-xl font-bold text-[#1a1a1a] tracking-widest text-engrave hidden md:block">
-                                FACTORY FACILITIES
-                            </div>
-                        </div>
-                    </header>
-                    <main class="pt-32 pb-20 min-h-screen">
-                        <!-- Hero Section from factory.html -->
-                        <div class="relative h-[60vh] bg-cover bg-center bg-fixed flex items-center justify-center overflow-hidden mb-24" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1505663784988-15a0c1097c36?q=80&w=2070&auto=format&fit=crop');">
-                            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
-                            <div class="relative z-10 text-center px-4 max-w-5xl mx-auto fade-in-up visible">
-                                <p class="text-[#C5A059] font-english text-xl md:text-2xl tracking-[0.2em] mb-4 italic">New Processing Plant</p>
-                                <h1 class="text-5xl md:text-7xl font-serif text-white mb-8 leading-tight text-glow">
-                                    伝統と革新が<br>交差する場所
-                                </h1>
-                                <p class="text-gray-300 text-sm md:text-base font-sans tracking-widest leading-loose max-w-2xl mx-auto">
-                                    最新鋭の設備と職人の感性が融合した、川越屋の新加工場。<br>
-                                    千葉県山武郡横芝光町より、ナッツの新たな可能性をお届けします。
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- About Section -->
-                        <div class="max-w-7xl mx-auto px-6 mb-32">
-                            <div class="flex flex-col lg:flex-row items-center gap-16">
-                                <div class="lg:w-1/2 fade-in-up visible">
-                                    <div class="relative shadow-2xl overflow-hidden rounded-lg border border-white/10 group">
-                                        <img src="https://rasuta55.github.io/kawagoeya/product_niji.jpg" alt="新加工場外観" class="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=Factory+Exterior'">
-                                        <div class="absolute bottom-0 left-0 bg-black/90 p-6 text-white max-w-xs border-t border-r border-white/20">
-                                            <p class="text-[#C5A059] text-xs font-english tracking-widest mb-1">LOCATION</p>
-                                            <p class="font-serif text-lg">千葉県山武郡横芝光町屋形3660</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="lg:w-1/2 fade-in-up visible space-y-8 text-white">
-                                    <h2 class="text-4xl md:text-5xl font-serif leading-tight text-engrave text-[#e0e0e0]">
-                                        <span class="text-[#C5A059] text-lg font-english block mb-2 italic">Overview</span>
-                                        新加工場概要
-                                    </h2>
-                                    <p class="text-gray-400 leading-relaxed font-light">
-                                        延床面積716㎡の広大なスペースに、ナッツ焙煎室、原料保管低温倉庫、ナッツ選別室、そしてオイルコート加工室を新設。衛生管理の行き届いた環境で、原料の受け入れから最終製品までを一貫して製造できる体制を整えました。
-                                    </p>
-                                    <div class="grid grid-cols-2 gap-6 pt-4">
-                                        <div class="border-l-2 border-[#C5A059] pl-4">
-                                            <h3 class="font-serif text-lg mb-1 text-white">低温倉庫完備</h3>
-                                            <p class="text-xs text-gray-500">最適な温度管理で鮮度を保持</p>
-                                        </div>
-                                        <div class="border-l-2 border-[#C5A059] pl-4">
-                                            <h3 class="font-serif text-lg mb-1 text-white">JFS-B規格準拠</h3>
-                                            <p class="text-xs text-gray-500">高度な食品安全管理システム</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Technology Section -->
-                        <div class="py-32 bg-[#1a1a1a] relative overflow-hidden mb-32 border-y border-[#333]">
-                            <div class="max-w-7xl mx-auto px-6 relative z-10">
-                                <div class="text-center mb-24 fade-in-up visible">
-                                    <span class="text-[#C5A059] font-english text-xl tracking-[0.3em]">INNOVATION</span>
-                                    <h2 class="text-4xl md:text-6xl font-serif mt-4 text-white text-engrave">革新的設備導入</h2>
-                                </div>
-                                <!-- Machine 1 -->
-                                <div class="grid md:grid-cols-2 gap-12 items-center mb-32 fade-in-up visible">
-                                    <div class="order-2 md:order-1 space-y-6">
-                                        <div class="flex items-center gap-4 text-[#C5A059] mb-2">
-                                            <i data-lucide="flame" class="w-6 h-6"></i>
-                                            <span class="font-english tracking-widest text-sm">ROASTING</span>
-                                        </div>
-                                        <h3 class="text-3xl font-serif text-white">流動層焙煎機</h3>
-                                        <p class="text-gray-400 leading-relaxed">
-                                            ナッツを効率よく、ムラなく焙煎する最新システム。熱風でナッツを浮遊させながら焙煎することで、一粒一粒に均一に火を通します。<br>
-                                            <span class="text-[#C5A059] text-sm block mt-2">※くるみとはラインを完全分離し、アレルゲン交差を防止。</span>
-                                        </p>
-                                        <ul class="space-y-2 text-sm text-gray-300">
-                                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-[#C5A059] rounded-full"></div>アーモンド・カシューナッツ専用</li>
-                                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-[#C5A059] rounded-full"></div>月間生産能力：50トン</li>
-                                        </ul>
-                                    </div>
-                                    <div class="order-1 md:order-2">
-                                        <div class="aspect-video bg-gray-800 rounded-lg overflow-hidden relative group border border-white/10">
-                                            <img src="https://rasuta55.github.io/kawagoeya/product_ryudo.jpg" alt="流動層焙煎機" class="w-full h-full object-contain p-4 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=Roaster'">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Machine 2 -->
-                                <div class="grid md:grid-cols-2 gap-12 items-center mb-32 fade-in-up visible">
-                                    <div class="order-1">
-                                        <div class="aspect-video bg-gray-800 rounded-lg overflow-hidden relative group border border-white/10">
-                                            <img src="https://rasuta55.github.io/kawagoeya/product_kougaku.jpg" alt="光学選別機" class="w-full h-full object-contain p-4 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=AI+Sorter'">
-                                            <div class="absolute bottom-4 left-4 bg-[#C5A059] text-black px-3 py-1 text-xs font-bold tracking-widest z-10">AI DRIVEN</div>
-                                        </div>
-                                    </div>
-                                    <div class="order-2 space-y-6">
-                                        <div class="flex items-center gap-4 text-[#C5A059] mb-2">
-                                            <i data-lucide="scan-eye" class="w-6 h-6"></i>
-                                            <span class="font-english tracking-widest text-sm">SORTING</span>
-                                        </div>
-                                        <h3 class="text-3xl font-serif text-white">AI搭載 光学選別機</h3>
-                                        <p class="text-gray-400 leading-relaxed">
-                                            「ディープラーニング」技術を搭載した最新モデル。RGBフルカラーカメラ、NIR（近赤外線）、X線の複合判定により、従来困難だった内部欠損や虫食い、同色異物を徹底的に排除します。
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Machine 3 -->
-                                <div class="grid md:grid-cols-2 gap-12 items-center fade-in-up visible">
-                                    <div class="order-2 md:order-1 space-y-6">
-                                        <div class="flex items-center gap-4 text-[#C5A059] mb-2">
-                                            <i data-lucide="droplet" class="w-6 h-6"></i>
-                                            <span class="font-english tracking-widest text-sm">COATING</span>
-                                        </div>
-                                        <h3 class="text-3xl font-serif text-white">Coaterow NEXT <span class="text-sm font-sans font-light ml-2 opacity-70">マルチスピン式コーティング</span></h3>
-                                        <p class="text-gray-400 leading-relaxed">
-                                            オールステンレス仕様の衛生的な新コーティングマシン。マルチスピン方式により、シーズニングやソルト、オイルを短時間で均質にコーティング。ムラのない美しい仕上がりを実現します。
-                                        </p>
-                                    </div>
-                                    <div class="order-1 md:order-2">
-                                        <div class="aspect-video bg-gray-800 rounded-lg overflow-hidden relative group border border-white/10">
-                                            <img src="https://rasuta55.github.io/kawagoeya/product_kotaro.jpg" alt="コーティング機" class="w-full h-full object-contain p-2 bg-white opacity-90 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/800x600.png?text=Coater'">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Stats Section -->
-                        <div class="max-w-7xl mx-auto px-6 mb-32">
-                            <div class="text-center mb-16 fade-in-up visible">
-                                <h2 class="text-3xl md:text-4xl font-serif text-[#1a1a1a] text-engrave">生産能力</h2>
-                                <p class="text-gray-500 mt-2 text-sm">Monthly Production Capacity</p>
-                            </div>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                <div class="text-center p-8 bg-[#e0e0e0] rounded fade-in-up visible border-b-4 border-[#C5A059]">
-                                    <div class="text-[#C5A059] mb-4"><i data-lucide="waves" class="w-8 h-8 mx-auto"></i></div>
-                                    <h3 class="text-sm text-gray-600 mb-2 font-medium">流動層焙煎機</h3>
-                                    <p class="text-4xl font-serif text-[#1a1a1a]"><span class="counter" data-target="50">0</span><span class="text-base ml-1">t</span></p>
-                                </div>
-                                <div class="text-center p-8 bg-[#e0e0e0] rounded fade-in-up visible border-b-4 border-[#333]">
-                                    <div class="text-[#333] mb-4"><i data-lucide="scan" class="w-8 h-8 mx-auto"></i></div>
-                                    <h3 class="text-sm text-gray-600 mb-2 font-medium">ナッツ光学選別機</h3>
-                                    <p class="text-4xl font-serif text-[#1a1a1a]"><span class="counter" data-target="50">0</span><span class="text-base ml-1">t</span></p>
-                                </div>
-                                <div class="text-center p-8 bg-[#e0e0e0] rounded fade-in-up visible border-b-4 border-[#C5A059]">
-                                    <div class="text-[#C5A059] mb-4"><i data-lucide="spray-can" class="w-8 h-8 mx-auto"></i></div>
-                                    <h3 class="text-sm text-gray-600 mb-2 font-medium">オイルコート機</h3>
-                                    <p class="text-4xl font-serif text-[#1a1a1a]"><span class="counter" data-target="40">0</span><span class="text-base ml-1">t</span></p>
-                                </div>
-                                <div class="text-center p-8 bg-[#e0e0e0] rounded fade-in-up visible border-b-4 border-[#333]">
-                                    <div class="text-[#333] mb-4"><i data-lucide="candy" class="w-8 h-8 mx-auto"></i></div>
-                                    <h3 class="text-sm text-gray-600 mb-2 font-medium">糖衣掛け機（増設）</h3>
-                                    <p class="text-4xl font-serif text-[#1a1a1a]"><span class="counter" data-target="25">0</span><span class="text-base ml-1">t</span></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Chef Message -->
-                        <div class="max-w-5xl mx-auto px-6 text-center fade-in-up visible mb-24">
-                            <div class="inline-block p-1 border rounded-full border-[#C5A059]/30 mb-6 cursor-pointer hover:scale-105 transition-transform" onclick="openVideoModal('https://rasuta55.github.io/kawagoeya/factory_kenji.mp4')">
-                                <div class="w-24 h-24 rounded-full bg-gray-700 overflow-hidden relative">
-                                    <img src="https://rasuta55.github.io/kawagoeya/product_ken.jpeg" alt="Kenji Tsuchiya" class="w-full h-full object-cover" onerror="this.src='https://placehold.jp/200x200.png?text=Chef'">
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity">
-                                        <i data-lucide="play" class="w-8 h-8 text-white"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <blockquote class="font-serif text-2xl md:text-3xl leading-relaxed italic mb-8 text-white">
-                                "味は、幸せを伝えるもの。<br>ナッツを通して、幸せの虹色を描きたい。"
-                            </blockquote>
-                            <div class="text-[#C5A059] font-english tracking-widest cursor-pointer hover:text-white transition-colors" onclick="openVideoModal('https://rasuta55.github.io/kawagoeya/factory_kenji.mp4')">
-                                <span class="block text-sm text-gray-400 font-sans normal-case mb-1">Nuts Pâtissier</span>
-                                KENJI TSUCHIYA
-                                <div class="mt-2 inline-flex items-center gap-2 text-xs border border-[#C5A059]/50 px-3 py-1 rounded-full text-[#C5A059]/80 hover:bg-[#C5A059] hover:text-black transition-colors">
-                                    <i data-lucide="play-circle" class="w-3 h-3"></i> Watch Video
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer (Factory) -->
-                        <footer class="bg-[#111] text-white py-16 border-t border-[#333]">
-                            <div class="max-w-7xl mx-auto px-6 text-center">
-                                <h2 class="text-3xl font-serif mb-2">株式会社川越屋</h2>
-                                <p class="text-gray-500 text-sm mb-6 font-english tracking-wider">KAWAGOEYA Co., Ltd.</p>
-                                <div class="space-y-2 text-sm text-gray-400">
-                                    <p><i data-lucide="map-pin" class="inline w-4 h-4 mr-2 text-[#C5A059]"></i>千葉県山武郡横芝光町屋形3660</p>
-                                </div>
-                            </div>
-                        </footer>
-                    </main>
-                </div>
-
-                <!-- PRODUCTS OVERLAY -->
-                <div id="products-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto overlay-base">
-                    <header class="fixed w-full z-50 py-3 metal-plate">
-                        <div class="container mx-auto px-6 flex justify-between items-center">
-                            <div class="flex items-center">
-                                <button onclick="closeProducts()" class="flex items-center gap-2 group hover:opacity-70 transition-opacity">
-                                    <i data-lucide="chevron-left" class="w-6 h-6 text-[#333]"></i>
-                                    <span class="font-serif font-bold text-lg text-[#1a1a1a]">TOPに戻る</span>
-                                </button>
-                            </div>
-                            <div class="font-serif text-xl font-bold text-[#1a1a1a] tracking-widest text-engrave hidden md:block">
-                                PRODUCT LINEUP
-                            </div>
-                        </div>
-                    </header>
-                    <main class="pt-32 pb-20 px-6 min-h-screen">
-                        <div class="container mx-auto max-w-6xl">
-                            <!-- Section 1: 液掛け -->
-                            <div class="mb-20 fade-in-up visible">
-                                <div class="flex items-baseline mb-8 border-b border-gray-600 pb-2">
-                                    <h2 class="text-3xl font-serif font-bold text-white text-glow">手につきにくい「糖掛け製法」</h2>
-                                    <span class="ml-4 text-xs font-bold text-[#C5A059] border border-[#C5A059] px-3 py-1 rounded-full">Liquid Coating Series</span>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    <!-- Cards -->
-                                    <div class="glossy-black-panel p-6 cursor-pointer hover:border-[#C5A059] group" onclick="openImageViewer('https://rasuta55.github.io/kawagoeya/product_basil.jpg')">
-                                        <div class="mb-4"><span class="cat-badge cat-salt">SALT / 塩系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2 group-hover:text-[#C5A059] transition-colors">バジル＆チーズ</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">アーモンド</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">パルメザンをメインに数種のチーズをブレンドしてコクを出し、バジルの香りとスパイスで深い味わいに仕上げました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6 cursor-pointer hover:border-[#C5A059] group" onclick="openImageViewer('https://rasuta55.github.io/kawagoeya/product_pepper.jpg')">
-                                        <div class="mb-4"><span class="cat-badge cat-salt">SALT / 塩系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2 group-hover:text-[#C5A059] transition-colors">3種のペッパー</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">アーモンド / カシューナッツ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">旨味の強いフランス産ロレーヌ岩塩と、3種（ブラック、ホワイト、グリーン）のペッパーとガーリックを効かせたスパイシーな味わいです。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6 cursor-pointer hover:border-[#C5A059] group" onclick="openImageViewer('https://rasuta55.github.io/kawagoeya/product_rore.jpg')">
-                                        <div class="mb-4"><span class="cat-badge cat-salt">SALT / 塩系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2 group-hover:text-[#C5A059] transition-colors">旨塩燻製風味</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">アーモンド / カシューナッツ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">旨味の強いフランス産ロレーヌ岩塩を効かせたシンプルなナッツ。ほんのり香る燻製風味と濃いめの塩味が食欲をそそります。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-salt">SALT / 塩系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">トマト＆バジル</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">アーモンド</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">プリッツのような爽やかなトマトの酸味と旨味をベースに、バジルの香りとスパイスを効かせたピリ辛味に仕上げました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">ハニーバター</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">アーモンド</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">ハンガリー産アカシアはちみつとシーズニングをたっぷり重ね掛けし、香ばしいバター香る美味しさに仕上げました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">メープル</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">くるみ / アーモンド</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">カナダ産メープルシュガーとシーズニングとやさしい甘さの三温糖を溶かしこみ、メープルの香りを引き立てました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">カカオ</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">くるみ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">ブラウンシュガーとラカントで程よい甘さを加え、ポリフェノール豊富な有機ココアパウダーをたっぷり掛けました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">塩キャラメル</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">カシューナッツ / くるみ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">ブラウンシュガーとキャラメルシーズニングを溶かしこみ、ロレーヌ岩塩でほど良い塩気を加え、塩キャラメル風味に仕上げました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">焦がしキャラメル</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">アーモンド</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">ブラウンシュガーとキャラメルシーズニングを溶かしこみ、甘く香ばしい焦がしキャラメル風味に仕上げました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">黒糖</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">くるみ / アーモンド</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">沖縄県産黒糖を何度も重ね掛けしナッツに染み込ませました。素材の味が生きたシンプルな美味しさです。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">黒糖シナモン</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">くるみ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">沖縄県産黒糖を何度も重ね掛けし、シナモンの風味をしっかり溶け込ませたヘビーユーザーの多い独特な味わいです。</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Section 2: 粉掛け -->
-                            <div class="mb-20 fade-in-up visible">
-                                <div class="flex items-baseline mb-8 border-b border-gray-600 pb-2">
-                                    <h2 class="text-3xl font-serif font-bold text-white text-glow">ふんわり香り立つ「粉掛け製法」</h2>
-                                    <span class="ml-4 text-xs font-bold text-[#C5A059] border border-[#C5A059] px-3 py-1 rounded-full">Powder Coating Series</span>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">きなこ</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">くるみ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">国産大豆のきなこを、たっぷりまぶしました。優しい甘さとふんわり掛かったきなこの香ばしさが、和菓子にも似た味わいです。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">黒糖きなこ</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">アーモンド</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">沖縄県産黒糖を何度も重ね掛けし、国産大豆のきなこを更にふんわりと重ね掛けした、厚みのある味わいです。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">ラズベリー</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">カシューナッツ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">味が濃縮されたFDラズベリーとヨーグルトをたっぷりカシューに絡めました。見た目も鮮やかで甘酸っぱい味が特に女性に人気です。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">レモンヨーグルト</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">カシューナッツ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">国産レモン皮パウダーにヨーグルト味を加え、甘みと酸味が効いた贅沢な味わいのカシューナッツに仕立てました。</p>
-                                    </div>
-                                    <div class="glossy-black-panel p-6">
-                                        <div class="mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                                        <h3 class="text-xl font-serif font-bold text-white mb-2">いちごみるく</h3>
-                                        <div class="text-xs text-gray-400 border border-gray-600 inline-block px-2 py-1 rounded mb-4">カシューナッツ</div>
-                                        <p class="text-sm text-gray-300 leading-relaxed">苺（とちおとめ）パウダーとミルクをふんわりと重ね掛けした、甘くて少し酸味がある懐かしい味わいのカシューナッツです。</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
                 </div>
 
                 <!-- KUNSEI PRODUCTS OVERLAY -->
@@ -1194,19 +783,11 @@
                     </footer>
                 </div>
 
-                <!-- IMAGE VIEWER OVERLAY -->
-                <div id="image-viewer-overlay" class="hidden fixed inset-0 z-[300] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4 transition-opacity duration-300">
-                    <button onclick="closeImageViewer()" class="absolute top-6 right-6 text-white hover:text-[#C5A059] transition-colors flex items-center gap-2">
-                        <span class="text-sm font-bold">CLOSE</span><i data-lucide="x" class="w-8 h-8"></i>
-                    </button>
-                    <img id="viewer-img" src="" alt="Product Detail" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-[#333]">
-                </div>
-
                 <!-- Header (Metal Plate) -->
                 <header id="main-header" class="absolute w-full z-50 py-3 metal-plate">
                     <div class="container mx-auto px-6 flex justify-between items-center">
                         <div class="flex items-center">
-                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
+                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
                         </div>
                         <nav class="hidden md:flex gap-4">
                             ${navItems}
@@ -1324,18 +905,18 @@
                             <div>
                                 <h4 class="font-bold mb-6 text-[#ccc] border-b border-[#555] pb-2 inline-block">メニュー</h4>
                                 <ul class="space-y-4 text-sm text-[#999]">
-                                    <li><a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>ホーム</a></li>
-                                    <li><a href="#" onclick="openFactory(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>加工場設備</a></li>
-                                    <li><a href="#" onclick="openProducts(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>商品一覧</a></li>
+                                    <li><a href="./index.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>ホーム</a></li>
+                                    <li><a href="./factory.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>加工場設備</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>商品一覧</a></li>
                                     <li><a href="#" onclick="openKunsei(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>燻製商品</a></li>
                                 </ul>
                             </div>
                             <div>
                                 <h4 class="font-bold mb-6 text-[#ccc] border-b border-[#555] pb-2 inline-block">商品カテゴリー</h4>
                                 <ul class="space-y-4 text-sm text-[#999]">
-                                    <li><a href="#" onclick="openProducts(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>素焼きナッツ（準備中）</a></li>
-                                    <li><a href="#" onclick="openProducts(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>フレーバーナッツ（準備中）</a></li>
-                                    <li><a href="#" onclick="openProducts(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>業務用（準備中）</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>素焼きナッツ（準備中）</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>フレーバーナッツ（準備中）</a></li>
+                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>業務用（準備中）</a></li>
                                     <li><a href="#" onclick="openCatalog(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>NB商品カタログ</a></li>
                                 </ul>
                             </div>
