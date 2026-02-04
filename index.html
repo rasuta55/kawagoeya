@@ -797,7 +797,7 @@
         };
 
         const PROCESS_STEPS = [
-            { id: 1, title: "原料入荷", engTitle: "Arrival", description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。", icon: "truck", image: `${BASE_URL}/step1.png` },
+            { id: 1, title: "原料入荷", engTitle: "Arrival", description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。", icon: "truck", image: `${BASE_URL}/step1.png`, video: `${BASE_URL}/minahaisou.mp4` },
             { id: 2, title: "選別", engTitle: "Selection", description: "最新鋭の選別機と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。", icon: "check-circle", image: `${BASE_URL}/step2.png`, video: `${BASE_URL}/senbetu.mp4` },
             { id: 3, title: "焙煎", engTitle: "Roasting", description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。", icon: "flame", image: `${BASE_URL}/step3.jpg`, video: `${BASE_URL}/baisen.mp4` },
             { id: 4, title: "糖掛け", engTitle: "Sugar Coating", description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。", icon: "droplets", image: `${BASE_URL}/step4.jpg`, video: `${BASE_URL}/ajitsuke.mp4` },
@@ -1007,28 +1007,39 @@
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
                 const stepNum = String(index + 1).padStart(2, '0');
                 const hasVideo = !!step.video;
-                const isComingSoon = step.id === 1;
+                const isStep1 = step.id === 1; // 01番のみ特別扱い
+                const isComingSoon = false; // Coming Soonは削除
+
+                // クリック時の挙動
                 const clickAttr = hasVideo ? `onclick="openVideoModal('${step.video}')" style="cursor: pointer;"` : '';
                 
+                // ホバー時の動画再生イベント（01番のみ）
+                const hoverEvents = isStep1 ? `onmouseenter="const v=this.querySelector('video.preview-video'); if(v){v.play(); v.style.opacity='1';}" onmouseleave="const v=this.querySelector('video.preview-video'); if(v){v.pause(); v.style.opacity='0';}"` : '';
+                
+                // プレビュー用動画タグの生成（01番のみ）
+                // z-indexを30に設定して画像より手前に表示する
+                const videoTag = isStep1 ? `<video src="${step.video}" class="preview-video absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 z-30" muted loop playsinline></video>` : '';
+
+                // オーバーレイコンテンツ（再生アイコン）
+                // 01番はホバーで動画が出るため、静止時のアイコンは表示しない（シンプルにする）か、
+                // あるいは表示するが動画の下にする。
+                // ここでは「02～06は変えるな」とのことなので、01番以外は既存のロジック（再生アイコン表示）を適用。
                 let overlayContent = '';
-                if (hasVideo) {
+                if (hasVideo && !isStep1) {
                     overlayContent = `
                         <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
                             <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
                         </div>
                     `;
-                } else if (isComingSoon) {
-                    overlayContent = `
-                        <span class="text-3xl font-bold tracking-widest text-[#D14658] uppercase drop-shadow-[0_0_10px_rgba(209,70,88,0.8)] animate-pulse" style="text-shadow: 0 0 20px #D14658;">
-                            Coming Soon
-                        </span>
-                    `;
                 }
+                // Coming Soonロジックは削除済みだが、構造維持のため空文字
+
                 const playOverlay = overlayContent ? `<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none ${isComingSoon ? 'bg-black/50 backdrop-blur-sm' : ''}">${overlayContent}</div>` : '';
 
                 return `
-                <div class="group relative glossy-black-panel fade-in-up" ${clickAttr}>
+                <div class="group relative glossy-black-panel fade-in-up" ${clickAttr} ${hoverEvents}>
                     <div class="relative h-64 overflow-hidden border-b border-gray-800">
+                        ${videoTag}
                         <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10 pointer-events-none"></div>
                         <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
