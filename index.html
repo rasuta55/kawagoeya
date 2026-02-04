@@ -626,7 +626,7 @@
         </div>
     </div>
 
-    <!-- PRODUCTS OVERLAY (Updated to Luxury Dark Theme) -->
+    <!-- PRODUCTS OVERLAY (Updated to Luxury Dark Theme with ALL 16 ITEMS) -->
     <div id="products-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto overlay-base">
         <!-- Header -->
         <div class="max-w-6xl mx-auto pt-10 pb-6 px-6 relative">
@@ -867,7 +867,7 @@
             { id: 3, title: "焙煎", engTitle: "Roasting", description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。", icon: "flame", image: `${BASE_URL}/step3.jpg`, video: `${BASE_URL}/baisen.mp4` },
             { id: 4, title: "糖掛け", engTitle: "Sugar Coating", description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。", icon: "droplets", image: `${BASE_URL}/step4.jpg`, video: `${BASE_URL}/ajitsuke.mp4` },
             { id: 5, title: "粉掛け", engTitle: "Powder Coating", description: "きな粉、ラズベリーなど、多彩なフレーバーを纏わせます。素材の風味を損なわないよう、パウダーはたっぷり使い、職人の目で確かめながら作業しています。", icon: "utensils", image: `${BASE_URL}/step5.jpg`, video: `${BASE_URL}/konagake.mp4` },
-            { id: 6, title: "包装", engTitle: "Packaging", description: "正確、丁寧をモットーに真心こめてパッキングしています。金属探知機による最終検査を経て、皆様のもとへ出荷されます。", icon: "gift", image: `${BASE_URL}/step6.jpg`, video: `${BASE_URL}/sio.mp4` }
+            { id: 6, title: "包装", engTitle: "Packaging", description: "正確、丁寧をモットーに真心こめてパッキングしています。金属探知機による最終検査を経て、皆様のもとへ出荷されます。", icon: "gift", image: `${BASE_URL}/step6.jpg`, video: `${BASE_URL}/sio_5773.mp4` }
         ];
 
         /* === 基本制御関数群 === */
@@ -1079,7 +1079,7 @@
                 const clickAttr = hasVideo ? `onclick="openVideoModal('${step.video}')" style="cursor: pointer;"` : '';
                 
                 // ホバー時の動画再生イベント（01番のみ）
-                const hoverEvents = isStep1 ? `onmouseenter="const v=this.querySelector('video.preview-video'); if(v){v.play(); v.style.opacity='1';}" onmouseleave="const v=this.querySelector('video.preview-video'); if(v){v.pause(); v.style.opacity='0';}"` : '';
+                const hoverEvents = isStep1 ? `onmouseenter="const v=this.querySelector('video.preview-video'); if(v){v.style.opacity='1'; v.play().catch(e=>{});}" onmouseleave="const v=this.querySelector('video.preview-video'); if(v){v.style.opacity='0'; v.pause();}"` : '';
                 
                 // プレビュー用動画タグの生成（01番のみ）
                 // z-indexを30に設定して画像より手前に表示する
