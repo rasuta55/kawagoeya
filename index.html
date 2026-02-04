@@ -460,7 +460,7 @@
                                     <span class="text-[#C5A059] text-lg font-english block mb-2 italic">Overview</span>
                                     新加工場概要
                                 </h2>
-                                <button id="unlockBtn" onclick="unlockTechnology()" class="gold-metal-btn px-6 py-2 rounded-full text-[#3e2723] font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(197,160,89,0.4)] mb-2 group">
+                                <button id="unlockBtn" onclick="window.unlockTechnology()" class="gold-metal-btn px-6 py-2 rounded-full text-[#3e2723] font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(197,160,89,0.4)] mb-2 group relative z-10 cursor-pointer" style="z-index: 1000; position: relative;">
                                     VIEW MORE <i data-lucide="lock" class="inline w-3 h-3 ml-1 group-hover:hidden"></i><i data-lucide="unlock" class="w-3 h-3 ml-1 hidden group-hover:inline"></i>
                                 </button>
                             </div>
@@ -510,17 +510,31 @@
                             </ul>
                         </div>
                         <div class="order-1 md:order-2">
-                            <div class="aspect-video glossy-black-panel p-1">
-                                <img src="https://rasuta55.github.io/kawagoeya/product_ryudo.jpg" alt="流動層焙煎機" class="w-full h-full object-contain bg-white/90 rounded opacity-90 hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.jp/800x600.png?text=Roaster'">
+                            <!-- Modified to click-to-play with hover icon -->
+                            <div class="aspect-video glossy-black-panel p-1 relative group cursor-pointer" onclick="openVideoModal('https://rasuta55.github.io/kawagoeya/s_ryuudou.mp4')">
+                                <img src="https://rasuta55.github.io/kawagoeya/product_ryudo.jpg" alt="流動層焙煎機" class="w-full h-full object-contain bg-white/90 rounded opacity-90 group-hover:opacity-100 transition-opacity duration-500 relative z-0" onerror="this.src='https://placehold.jp/800x600.png?text=Roaster'">
+                                <!-- Play Icon Overlay -->
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none bg-black/50 backdrop-blur-sm">
+                                    <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
+                                        <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- Machine 2: Sorter -->
                     <div class="grid md:grid-cols-2 gap-12 items-center mb-32 fade-up">
                         <div class="order-1">
-                            <div class="aspect-video glossy-black-panel p-1 relative">
-                                <img src="https://rasuta55.github.io/kawagoeya/product_kougaku.jpg" alt="光学選別機" class="w-full h-full object-contain bg-white/90 rounded opacity-90 hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.jp/800x600.png?text=AI+Sorter'">
+                            <!-- Modified to click-to-play with hover icon -->
+                            <div class="aspect-video glossy-black-panel p-1 relative group cursor-pointer" onclick="openVideoModal('https://rasuta55.github.io/kawagoeya/s_kougaku.mp4')">
+                                <img src="https://rasuta55.github.io/kawagoeya/product_kougaku.jpg" alt="光学選別機" class="w-full h-full object-contain bg-white/90 rounded opacity-90 group-hover:opacity-100 transition-opacity duration-500 relative z-0" onerror="this.src='https://placehold.jp/800x600.png?text=AI+Sorter'">
                                 <div class="absolute bottom-4 left-4 bg-[#C5A059] text-black px-3 py-1 text-xs font-bold tracking-widest z-10 shadow-lg">AI DRIVEN</div>
+                                <!-- Play Icon Overlay -->
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none bg-black/50 backdrop-blur-sm">
+                                    <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
+                                        <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="order-2 space-y-6">
@@ -1100,13 +1114,18 @@
             const modal = document.getElementById('passwordModal');
             const input = document.getElementById('secretPassword');
             const error = document.getElementById('passwordError');
-            modal.classList.remove('hidden'); modal.classList.add('flex');
+            
+            // 強制的に表示（z-index対策）
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden'); 
+            
             input.value = ''; error.classList.add('hidden'); 
             setTimeout(() => input.focus(), 100);
         }
         window.closePasswordModal = function() {
             const modal = document.getElementById('passwordModal');
-            modal.classList.add('hidden'); modal.classList.remove('flex');
+            modal.classList.add('hidden'); 
+            modal.style.display = 'none'; // 明示的に消す
             window.currentAuthCallback = null;
         }
         window.checkPassword = function() {
@@ -1129,8 +1148,7 @@
                 window.currentAuthCallback = null;
                 
                 // モーダルを閉じる
-                const modal = document.getElementById('passwordModal');
-                modal.classList.add('hidden'); modal.classList.remove('flex');
+                closePasswordModal();
                 
                 if (callback) {
                     callback();
@@ -1263,7 +1281,7 @@
                     </div>
                 </div>
 
-                <div id="passwordModal" class="hidden fixed inset-0 z-[300] items-center justify-center bg-black/90 backdrop-blur-md modal-animate" onclick="closePasswordModal()">
+                <div id="passwordModal" class="hidden fixed inset-0 z-[2147483647] items-center justify-center bg-black/90 backdrop-blur-md modal-animate" style="z-index: 2147483647;" onclick="closePasswordModal()">
                     <div class="relative w-full max-w-md mx-4 glossy-black-panel p-10" onclick="event.stopPropagation()">
                         <button onclick="closePasswordModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors z-20"><i data-lucide="x" class="w-6 h-6"></i></button>
                         <div class="text-center mb-8 relative z-10">
