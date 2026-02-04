@@ -1497,7 +1497,7 @@
                     </main>
 
                     <!-- Footer (Black Metal) -->
-                    <footer class="bg-[#111] text-white pt-10 pb-8 px-6 border-t-4 border-[#333] shadow-[inset_0_10px_20px_rgba(0,0,0,1)]">
+                    <footer class="bg-[#111] text-white pt-20 pb-10 px-6 border-t-4 border-[#333] shadow-[inset_0_10px_20px_rgba(0,0,0,1)]">
                         <div class="container mx-auto text-center">
                             <p class="text-xs text-[#666]">
                                 &copy; 2026 KAWAGOEYA Co., Ltd. All Rights Reserved.
@@ -1614,9 +1614,9 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 border-b border-[#333] pb-12">
                             <div class="md:col-span-1">
                                 <div class="mb-6 flex justify-center md:justify-center">
-                                    <div class="relative group cursor-pointer" onclick="openVideoModal()">
-                                        <img src="${PAGE_CONTENT.footerImage}" alt="KAWAGOEYA" class="h-64 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
-                                            onerror="this.onerror=null; this.parentNode.innerHTML = '<div class=\\'h-64 w-48 bg-[#222] rounded flex items-center justify-center border border-[#444]\\'><span>Image N/A</span></div>';">
+                                    <div class="relative group cursor-pointer w-full" onclick="openVideoModal()">
+                                        <img src="${PAGE_CONTENT.footerImage}" alt="KAWAGOEYA" class="h-48 w-full object-contain transition-transform duration-300 group-hover:scale-105" 
+                                            onerror="this.onerror=null; this.parentNode.innerHTML = '<div class=\\'h-48 w-full bg-[#222] rounded flex items-center justify-center border border-[#444]\\'><span>Image N/A</span></div>';">
                                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <div class="bg-black/70 rounded-full p-4 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_20px_#C5A059]">
                                                 <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
@@ -1662,9 +1662,16 @@
                         
                         <!-- Footer Bottom Area with Secret Link -->
                         <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-4">
-                            <p class="text-xs text-[#666]">
-                                &copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.
-                            </p>
+                            <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+                                <!-- Studio Mori Image moved here -->
+                                <img src="https://rasuta55.github.io/kawagoeya/studiomori.png" 
+                                     alt="Produced by Studio Mori" 
+                                     class="h-10 w-auto object-contain drop-shadow-[0_0_15px_rgba(197,160,89,0.6)] hover:scale-110 transition-transform duration-500"
+                                     onerror="this.style.display='none'">
+                                <p class="text-xs text-[#666]">
+                                    &copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.
+                                </p>
+                            </div>
                             <div class="flex items-center">
                                 <button onclick="openSecretAuth()" class="gold-metal-btn text-sm font-bold flex items-center gap-2 px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-transform">
                                     <i data-lucide="lock" class="w-4 h-4"></i>
