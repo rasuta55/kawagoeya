@@ -146,6 +146,7 @@
             font-family: 'Noto Serif JP', serif; font-size: 0.95rem; letter-spacing: 0.1em;
             position: relative; overflow: hidden;
             transition: all 0.2s;
+            cursor: pointer;
         }
         .metal-btn::after {
             content: '';
@@ -343,7 +344,8 @@
         };
 
         const PROCESS_STEPS = [
-            { id: 1, title: "原料入荷", engTitle: "Arrival", description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。", icon: "truck", image: `${BASE_URL}/step1.png` },
+            // id:1 にホバー用動画プロパティを追加（ファイル名を minahaisou.mp4 に変更）
+            { id: 1, title: "原料入荷", engTitle: "Arrival", description: "海外からアーモンドやクルミ、カシューナッツなどを調達しています。品質証明書だけでなく、熟練の目利きで鮮度と粒の大きさを確認します。", icon: "truck", image: `${BASE_URL}/step1.png`, hoverVideo: `${BASE_URL}/minahaisou.mp4` },
             { id: 2, title: "選別", engTitle: "Selection", description: "最新鋭の選別機と、人の目による最終確認のダブルチェック体制。欠けや変色のある豆を徹底的に取り除き、良質な粒だけを次の工程へ送ります。", icon: "check-circle", image: `${BASE_URL}/step2.png`, video: `${BASE_URL}/senbetu.mp4` },
             { id: 3, title: "焙煎", engTitle: "Roasting", description: "味の決め手となる焙煎。ナッツの種類ごとに最適な温度と時間を設定し、芯まで均一に火を通すことで、香ばしさとカリッとした食感を引き出します。", icon: "flame", image: `${BASE_URL}/step3.jpg`, video: `${BASE_URL}/baisen.mp4` },
             { id: 4, title: "糖掛け", engTitle: "Sugar Coating", description: "釜を使用し、熟練の職人が手作業で糖蜜を絡めます。温度管理を徹底し、均一な衣を作ることで、上品な甘さと美しい艶を生み出します。", icon: "droplets", image: `${BASE_URL}/step4.jpg`, video: `${BASE_URL}/ajitsuke.mp4` },
@@ -459,9 +461,9 @@
             }, 1500);
 
             const NAV_LINKS = [
-                { label: 'ホーム', href: './index.html', icon: 'home' },
-                { label: '加工場設備', href: './factory.html', icon: 'factory' },
-                { label: '商品一覧', href: './products.html', icon: 'shopping-bag' },
+                { label: 'ホーム', href: '#', icon: 'home' },
+                { label: '加工場設備', href: '#', icon: 'factory' },
+                { label: '商品一覧', href: '#', icon: 'shopping-bag' },
                 { label: '燻製商品', href: '#', onclick: 'openKunsei(); return false;', icon: 'flame' }
             ];
 
@@ -492,9 +494,20 @@
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
                 const stepNum = String(index + 1).padStart(2, '0');
                 const hasVideo = !!step.video;
-                const isComingSoon = step.id === 1;
+                const hasHoverVideo = !!step.hoverVideo; // ホバー動画判定
+                
+                // Coming Soon 条件を変更: id=1 かつ hoverVideoが無い場合のみ
+                const isComingSoon = step.id === 1 && !hasHoverVideo; 
+                
+                // クリック属性: videoがあればモーダル、なければnull
                 const clickAttr = hasVideo ? `onclick="openVideoModal('${step.video}')" style="cursor: pointer;"` : '';
                 
+                // ホバーイベント属性: hoverVideoがある場合のみ設定
+                const hoverAttr = hasHoverVideo ? `
+                    onmouseenter="const v=this.querySelector('video.hover-video'); if(v){v.currentTime=0; var p = v.play(); if(p !== undefined){ p.catch(error => {}); } v.classList.remove('opacity-0');}" 
+                    onmouseleave="const v=this.querySelector('video.hover-video'); if(v){v.pause(); v.classList.add('opacity-0');}"
+                ` : '';
+
                 let overlayContent = '';
                 if (hasVideo) {
                     overlayContent = `
@@ -511,12 +524,18 @@
                 }
                 const playOverlay = overlayContent ? `<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none ${isComingSoon ? 'bg-black/50 backdrop-blur-sm' : ''}">${overlayContent}</div>` : '';
 
+                // Videoタグ生成
+                const hoverVideoTag = hasHoverVideo ? `
+                    <video class="hover-video absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 z-10" muted loop playsinline src="${step.hoverVideo}"></video>
+                ` : '';
+
                 return `
-                <div class="group relative glossy-black-panel fade-in-up" ${clickAttr}>
+                <div class="group relative glossy-black-panel fade-in-up" ${clickAttr} ${hoverAttr}>
                     <div class="relative h-64 overflow-hidden border-b border-gray-800">
                         <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10 pointer-events-none"></div>
                         <img src="${step.image}" alt="${step.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599599810694-b5b37304c041?q=80&w=800&auto=format&fit=crop';">
+                        ${hoverVideoTag}
                         ${playOverlay}
                         <div class="absolute top-4 left-4 z-20 w-12 h-12 flex items-center justify-center bg-black/80 backdrop-blur rounded-full shadow-lg border border-gray-600">
                             <span class="font-serif text-xl font-bold text-white text-glow">${stepNum}</span>
@@ -587,18 +606,18 @@
                                 <p class="text-gray-400 leading-relaxed mb-12 text-lg">ここは限られた方のみがアクセスできる特別なエリアです。</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
                                     <div onclick="openVideoModal('${BASE_URL}/members.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
-                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
-                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
-                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                            <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
+                                            <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
+                                            <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
+                                            <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
                                     </div>
                                     <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
-                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
-                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
-                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                            <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
+                                            <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
+                                            <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
+                                            <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -787,7 +806,7 @@
                 <header id="main-header" class="absolute w-full z-50 py-3 metal-plate">
                     <div class="container mx-auto px-6 flex justify-between items-center">
                         <div class="flex items-center">
-                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto object-contain" onerror="this.onerror=null; this.src=window.PREVIEW_LOGO_DATA;">
+                            <img src="${PAGE_CONTENT.logoImage}" alt="KAWAGOEYA" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
                         </div>
                         <nav class="hidden md:flex gap-4">
                             ${navItems}
@@ -905,18 +924,18 @@
                             <div>
                                 <h4 class="font-bold mb-6 text-[#ccc] border-b border-[#555] pb-2 inline-block">メニュー</h4>
                                 <ul class="space-y-4 text-sm text-[#999]">
-                                    <li><a href="./index.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>ホーム</a></li>
-                                    <li><a href="./factory.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>加工場設備</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>商品一覧</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>ホーム</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>加工場設備</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>商品一覧</a></li>
                                     <li><a href="#" onclick="openKunsei(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>燻製商品</a></li>
                                 </ul>
                             </div>
                             <div>
                                 <h4 class="font-bold mb-6 text-[#ccc] border-b border-[#555] pb-2 inline-block">商品カテゴリー</h4>
                                 <ul class="space-y-4 text-sm text-[#999]">
-                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>素焼きナッツ（準備中）</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>フレーバーナッツ（準備中）</a></li>
-                                    <li><a href="./products.html" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>業務用（準備中）</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>素焼きナッツ（準備中）</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>フレーバーナッツ（準備中）</a></li>
+                                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>業務用（準備中）</a></li>
                                     <li><a href="#" onclick="openCatalog(); return false;" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-[#555]"></i>NB商品カタログ</a></li>
                                 </ul>
                             </div>
