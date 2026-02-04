@@ -641,18 +641,31 @@
                                 </p>
                             </div>
                         </div>
+                        
+                        <!-- Map Container -->
                         <div class="h-[350px] w-full rounded-lg overflow-hidden border border-[#333] shadow-[0_0_30px_rgba(0,0,0,0.5)] relative group">
-                             <!-- Google Map with Dark Filter -->
+                             <!-- Google Map (Dark Filter applied, Interaction disabled to keep pin centered) -->
                              <iframe 
-                                width="100%" 
-                                height="100%" 
+                                class="w-full h-full pointer-events-none"
                                 style="border:0; filter: grayscale(100%) invert(92%) contrast(83%);" 
                                 loading="lazy" 
-                                allowfullscreen 
                                 src="https://maps.google.com/maps?q=千葉県山武郡横芝光町屋形3660&t=&z=15&ie=UTF8&iwloc=&output=embed">
                             </iframe>
+
+                            <!-- Custom Red Pin & Label Overlay -->
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[80%] flex flex-col items-center pointer-events-none z-20">
+                                <div class="bg-black/90 text-white text-xs font-serif py-1 px-3 rounded border border-[#C5A059] shadow-lg mb-1 whitespace-nowrap">
+                                    川越屋千葉工場
+                                </div>
+                                <!-- Red Pin Icon -->
+                                <i data-lucide="map-pin" class="w-10 h-10 text-[#dc2626] fill-[#dc2626]/30 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></i>
+                            </div>
+
                             <!-- Gold Border Overlay -->
-                            <div class="absolute inset-0 border border-[#C5A059]/20 pointer-events-none rounded-lg"></div>
+                            <div class="absolute inset-0 border border-[#C5A059]/20 pointer-events-none rounded-lg z-30"></div>
+                            
+                            <!-- Clickable Area to Open Google Maps -->
+                            <a href="https://www.google.com/maps/search/?api=1&query=千葉県山武郡横芝光町屋形3660" target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-40 bg-transparent" title="Googleマップで開く"></a>
                         </div>
                     </div>
                 </div>
