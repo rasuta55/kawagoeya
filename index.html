@@ -389,6 +389,29 @@
             outline: none; transition: all 0.3s; text-align: center; letter-spacing: 0.3em;
             font-size: 1.2rem; font-family: 'Courier New', monospace; box-shadow: inset 0 0 20px rgba(0,0,0,1);
         }
+        
+        /* Volume Slider Customization */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #C5A059;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 5px rgba(197, 160, 89, 0.8);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -409,7 +432,7 @@
         <!-- JSで挿入 -->
     </div>
 
-    <!-- FACTORY OVERLAY (Updated to Luxury Dark Theme) -->
+    <!-- FACTORY OVERLAY -->
     <div id="factory-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto overlay-base">
         <!-- Header -->
         <div class="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-[#333] transition-all duration-300 py-3 md:py-4">
@@ -512,10 +535,8 @@
                             </ul>
                         </div>
                         <div class="order-1 md:order-2">
-                            <!-- Modified to click-to-play with hover icon -->
                             <div class="aspect-video glossy-black-panel p-1 relative group cursor-pointer" onclick="openVideoModal('https://rasuta55.github.io/kawagoeya/s_ryuudou.mp4')">
                                 <img src="https://rasuta55.github.io/kawagoeya/product_ryudo.jpg" alt="流動層焙煎機" class="w-full h-full object-contain bg-white/90 rounded opacity-90 group-hover:opacity-100 transition-opacity duration-500 relative z-0" onerror="this.src='https://placehold.jp/800x600.png?text=Roaster'">
-                                <!-- Play Icon Overlay -->
                                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none bg-black/50 backdrop-blur-sm">
                                     <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
                                         <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
@@ -527,11 +548,9 @@
                     <!-- Machine 2: Sorter -->
                     <div class="grid md:grid-cols-2 gap-12 items-center mb-32 fade-up">
                         <div class="order-1">
-                            <!-- Modified to click-to-play with hover icon -->
                             <div class="aspect-video glossy-black-panel p-1 relative group cursor-pointer" onclick="openVideoModal('https://rasuta55.github.io/kawagoeya/s_kougaku.mp4')">
                                 <img src="https://rasuta55.github.io/kawagoeya/product_kougaku.jpg" alt="光学選別機" class="w-full h-full object-contain bg-white/90 rounded opacity-90 group-hover:opacity-100 transition-opacity duration-500 relative z-0" onerror="this.src='https://placehold.jp/800x600.png?text=AI+Sorter'">
                                 <div class="absolute bottom-4 left-4 bg-[#C5A059] text-black px-3 py-1 text-xs font-bold tracking-widest z-10 shadow-lg">AI DRIVEN</div>
-                                <!-- Play Icon Overlay -->
                                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none bg-black/50 backdrop-blur-sm">
                                     <div class="bg-black/60 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
                                         <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
@@ -569,7 +588,6 @@
                         </div>
                     </div>
                     
-                    <!-- Added Gallery Button here -->
                     <div class="mt-20 text-center">
                         <button onclick="openGallery()" class="metal-btn px-12 py-4 text-lg w-full md:w-auto">
                             <i data-lucide="file-text" class="w-6 h-6 mr-2"></i>
@@ -658,9 +676,7 @@
                             </div>
                         </div>
                         
-                        <!-- Map Container -->
                         <div class="h-[350px] w-full rounded-lg overflow-hidden border border-[#333] shadow-[0_0_30px_rgba(0,0,0,0.5)] relative group">
-                             <!-- Google Map (Dark Filter applied, Interaction disabled to keep pin centered) -->
                              <iframe 
                                 class="w-full h-full pointer-events-none"
                                 style="border:0; filter: grayscale(100%) invert(92%) contrast(83%);" 
@@ -668,19 +684,15 @@
                                 src="https://maps.google.com/maps?q=千葉県山武郡横芝光町屋形3660&t=&z=15&ie=UTF8&iwloc=&output=embed">
                             </iframe>
 
-                            <!-- Custom Red Pin & Label Overlay -->
                             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[80%] flex flex-col items-center pointer-events-none z-20">
                                 <div class="bg-black/90 text-white text-xs font-serif py-1 px-3 rounded border border-[#C5A059] shadow-lg mb-1 whitespace-nowrap">
                                     川越屋千葉工場
                                 </div>
-                                <!-- Red Pin Icon -->
                                 <i data-lucide="map-pin" class="w-10 h-10 text-[#dc2626] fill-[#dc2626]/30 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></i>
                             </div>
 
-                            <!-- Gold Border Overlay -->
                             <div class="absolute inset-0 border border-[#C5A059]/20 pointer-events-none rounded-lg z-30"></div>
                             
-                            <!-- Clickable Area to Open Google Maps -->
                             <a href="https://www.google.com/maps/search/?api=1&query=千葉県山武郡横芝光町屋形3660" target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-40 bg-transparent" title="Googleマップで開く"></a>
                         </div>
                     </div>
@@ -696,7 +708,7 @@
         </div>
     </div>
 
-    <!-- PRODUCTS OVERLAY (Updated to Luxury Dark Theme with ALL 16 ITEMS) -->
+    <!-- PRODUCTS OVERLAY -->
     <div id="products-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto overlay-base">
         <!-- Header -->
         <div class="max-w-6xl mx-auto pt-10 pb-6 px-6 relative">
@@ -863,6 +875,8 @@
 
     <!-- JavaScript Logic -->
     <script>
+        let authTarget = ''; // Global variable for authentication
+        
         const BRAND_COLORS = { primary: '#4B2E1E', gold: '#C5A059', bg: '#F9F7F2' };
         const BASE_URL = 'https://rasuta55.github.io/kawagoeya';
 
@@ -894,7 +908,6 @@
         let passwordSuccessCallback = null;
 
         /* === 基本制御関数群 === */
-        // These are defined globally so they can be accessed by onclick attributes in HTML strings
         window.toggleMobileMenu = function() {
             const menu = document.getElementById('mobileMenu');
             if (menu) menu.classList.toggle('translate-x-full');
@@ -951,7 +964,6 @@
         // Factory Control
         window.openFactory = () => {
             toggleOverlay('factory-overlay', true);
-            // Factory内アニメーション発火
             setTimeout(() => {
                 document.querySelectorAll('#factory-overlay .fade-up').forEach(el => observer.observe(el));
             }, 100);
@@ -1052,7 +1064,6 @@
                 const techSection = document.getElementById('technology');
                 techSection.classList.remove('hidden');
                 
-                // ボタンの見た目変更
                 const btn = document.getElementById('unlockBtn');
                 if(btn) {
                     btn.innerHTML = 'UNLOCKED <i data-lucide="unlock" class="inline w-3 h-3 ml-1"></i>';
@@ -1061,7 +1072,6 @@
                     btn.onclick = null;
                 }
 
-                // 少し待ってからスクロール（DOMの表示反映待ち）
                 setTimeout(() => {
                     techSection.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
@@ -1076,17 +1086,35 @@
             });
         }
 
-        // Rengo Page Logic
+        // Rengo Page Logic (Updated with BGM)
         window.openRengoAuth = function() {
             authTarget = 'rengo';
             window.openPasswordModal(() => { window.openRengoPage(); });
         };
-        window.openRengoPage = function() { window.toggleOverlay('rengo-overlay', true); };
-        window.closeRengoPage = function() { window.toggleOverlay('rengo-overlay', false); };
+        
+        window.openRengoPage = function() { 
+            window.toggleOverlay('rengo-overlay', true); 
+            // Play BGM
+            const audio = document.getElementById('rengo-bgm');
+            if(audio) {
+                audio.volume = 0.5; // Default volume
+                audio.currentTime = 0;
+                audio.play().catch(e => console.log("BGM Play Error:", e));
+            }
+        };
+        
+        window.closeRengoPage = function() { 
+            window.toggleOverlay('rengo-overlay', false); 
+            // Stop BGM
+            const audio = document.getElementById('rengo-bgm');
+            if(audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        };
 
         // Password Logic
         window.openPasswordModal = function(callback = null) {
-            // コールバックをグローバルに保存（checkPasswordで使用）
             window.currentAuthCallback = callback;
             
             const modal = document.getElementById('passwordModal');
@@ -1094,13 +1122,11 @@
             const error = document.getElementById('passwordError');
             const hint = document.querySelector('#passwordModal .text-gray-600');
             
-            // 強制的に表示（z-index対策）
             modal.style.display = 'flex';
             modal.classList.remove('hidden'); 
             
             input.value = ''; error.classList.add('hidden'); 
             
-            // ヒントの切り替え
             if (hint) {
                 if (authTarget === 'secret') hint.innerText = 'Hint: neomoro';
                 else if (authTarget === 'rengo') hint.innerText = 'Hint: chihiro';
@@ -1112,7 +1138,7 @@
         window.closePasswordModal = function() {
             const modal = document.getElementById('passwordModal');
             modal.classList.add('hidden'); 
-            modal.style.display = 'none'; // 明示的に消す
+            modal.style.display = 'none';
             window.currentAuthCallback = null;
         }
         window.checkPassword = function() {
@@ -1131,18 +1157,13 @@
             }
 
             if (isValid) {
-                // コールバックを退避
                 const callback = window.currentAuthCallback;
-                // グローバル変数はクリア（これ以降の操作で発火しないように）
                 window.currentAuthCallback = null;
-                
-                // モーダルを閉じる
                 closePasswordModal();
                 
                 if (callback) {
                     callback();
                 } else {
-                    // フォールバック
                     if (authTarget === 'secret') openSecretPage();
                     if (authTarget === 'rengo') openRengoPage();
                 }
@@ -1178,7 +1199,6 @@
                 return `<a href="${item.href}" onclick="${item.onclick}; toggleMobileMenu();" class="metal-btn text-lg py-3 px-8 w-64 text-center">${item.label}</a>`;
             }).join('');
 
-            // サイドナビゲーション生成
             const sideNav = document.getElementById('side-nav');
             if (sideNav) {
                 sideNav.innerHTML = NAV_LINKS.map(item => {
@@ -1194,23 +1214,13 @@
             const stepsHtml = PROCESS_STEPS.map((step, index) => {
                 const stepNum = String(index + 1).padStart(2, '0');
                 const hasVideo = !!step.video;
-                const isStep1 = step.id === 1; // 01番のみ特別扱い
-                const isComingSoon = false; // Coming Soonは削除
+                const isStep1 = step.id === 1;
+                const isComingSoon = false;
 
-                // クリック時の挙動
                 const clickAttr = hasVideo ? `onclick="openVideoModal('${step.video}')" style="cursor: pointer;"` : '';
-                
-                // ホバー時の動画再生イベント（01番のみ）
                 const hoverEvents = isStep1 ? `onmouseenter="const v=this.querySelector('video.preview-video'); if(v){v.style.opacity='1'; v.play().catch(e=>{});}" onmouseleave="const v=this.querySelector('video.preview-video'); if(v){v.style.opacity='0'; v.pause();}"` : '';
-                
-                // プレビュー用動画タグの生成（01番のみ）
-                // z-indexを30に設定して画像より手前に表示する
                 const videoTag = isStep1 ? `<video src="${step.video}" class="preview-video absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 z-30" muted loop playsinline></video>` : '';
 
-                // オーバーレイコンテンツ（再生アイコン）
-                // 01番はホバーで動画が出るため、静止時のアイコンは表示しない（シンプルにする）か、
-                // あるいは表示するが動画の下にする。
-                // ここでは「02～06は変えるな」とのことなので、01番以外は既存のロジック（再生アイコン表示）を適用。
                 let overlayContent = '';
                 if (hasVideo && !isStep1) {
                     overlayContent = `
@@ -1219,7 +1229,6 @@
                         </div>
                     `;
                 }
-                // Coming Soonロジックは削除済みだが、構造維持のため空文字
 
                 const playOverlay = overlayContent ? `<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none ${isComingSoon ? 'bg-black/50 backdrop-blur-sm' : ''}">${overlayContent}</div>` : '';
 
@@ -1291,6 +1300,7 @@
                 <div id="secret-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
                     <button onclick="closeSecretPage()" class="fixed top-6 left-6 z-50 flex items-center gap-2 gold-metal-btn px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="log-out" class="w-5 h-5"></i>ログアウト</button>
                     <div class="min-h-screen flex flex-col items-center justify-center py-20 px-6">
+                        <!-- Secret Overlay Content (Same as previous) -->
                         <div class="text-center max-w-6xl mx-auto w-full">
                             <span class="text-[#C5A059] text-xl tracking-[0.5em] block mb-4 font-bold text-glow" style="text-shadow: 0 0 20px rgba(197,160,89,0.8);">EXCLUSIVE CONTENTS</span>
                             <h1 class="text-4xl md:text-7xl font-serif text-white mb-16 text-glow">視聴者限定 特設ページ</h1>
@@ -1300,19 +1310,19 @@
                                 <p class="text-gray-400 leading-relaxed mb-12 text-lg">ここは限られた方のみがアクセスできる特別なエリアです。</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
                                     <div onclick="openVideoModal('${BASE_URL}/members.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                             <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                             <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
-                                             <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
-                                             <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
-                                             <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
-                                    </div>
-                                    <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                             <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                             <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
-                                             <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
-                                             <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
-                                             <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
-                                    </div>
+                                                 <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                                 <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
+                                                 <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
+                                                 <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
+                                                 <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                     </div>
+                                     <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
+                                                 <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                                 <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
+                                                 <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
+                                                 <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
+                                                 <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                     </div>
                                 </div>
                             </div>
                         </div>
@@ -1320,7 +1330,16 @@
                 </div>
 
                 <div id="rengo-overlay" class="hidden fixed inset-0 z-[200] overflow-y-auto">
+                    <audio id="rengo-bgm" src="rengou_gandam.mp3" loop></audio>
+                    
                     <button onclick="closeRengoPage()" class="fixed top-6 left-6 z-50 flex items-center gap-2 gold-metal-btn px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="log-out" class="w-5 h-5"></i>ログアウト</button>
+                    
+                    <!-- Volume Control -->
+                    <div class="fixed top-6 right-6 z-50 flex items-center gap-2 bg-black/70 backdrop-blur rounded-full px-4 py-2 border border-[#C5A059] shadow-lg">
+                        <i data-lucide="volume-2" class="w-5 h-5 text-[#C5A059]"></i>
+                        <input type="range" id="rengo-volume" min="0" max="1" step="0.1" value="0.5" class="w-24 accent-[#C5A059]">
+                    </div>
+
                     <div class="min-h-screen flex flex-col items-center justify-center py-20 px-6">
                         <div class="text-center max-w-6xl mx-auto w-full">
                             <span class="text-[#C5A059] text-xl tracking-[0.5em] block mb-4 font-bold text-glow" style="text-shadow: 0 0 20px rgba(197,160,89,0.8);">SECRET SOCIETY</span>
@@ -1432,7 +1451,7 @@
                                 <i data-lucide="file-text" class="w-6 h-6 text-gray-500 group-hover:text-[#C5A059]"></i>
                             </button>
                             <button onclick="openDocShopPdf()" class="glossy-black-panel p-6 text-left hover:scale-105 transition-transform flex items-center justify-between group">
-                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">店内画像.pdf</span>
+                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">トップワールド店内画像.pdf</span>
                                 <i data-lucide="file-text" class="w-6 h-6 text-gray-500 group-hover:text-[#C5A059]"></i>
                             </button>
                         </div>
@@ -1446,7 +1465,7 @@
                         <h2 class="text-3xl font-serif text-white mb-10 text-glow">活動写真インデックス</h2>
                         <div class="grid gap-6 max-w-2xl w-full">
                             <button onclick="openPhotoTopworld()" class="glossy-black-panel p-6 text-left hover:scale-105 transition-transform flex items-center justify-between group">
-                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">トップワールド店内写真</span>
+                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">トップワールド製造風景</span>
                                 <i data-lucide="image" class="w-6 h-6 text-gray-500 group-hover:text-[#C5A059]"></i>
                             </button>
                             <button onclick="openPhotoKinokuniya()" class="glossy-black-panel p-6 text-left hover:scale-105 transition-transform flex items-center justify-between group">
@@ -1862,6 +1881,17 @@
             if(passInput) {
                 passInput.addEventListener('keypress', function (e) {
                     if (e.key === 'Enter') checkPassword();
+                });
+            }
+            
+            // Volume Slider Logic
+            const volumeSlider = document.getElementById('rengo-volume');
+            if(volumeSlider) {
+                volumeSlider.addEventListener('input', (e) => {
+                    const audio = document.getElementById('rengo-bgm');
+                    if(audio) {
+                        audio.volume = e.target.value;
+                    }
                 });
             }
         }
