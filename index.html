@@ -316,7 +316,7 @@
         .overlay-base { background-color: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
         #secret-overlay { background-color: #050505; background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 70%); color: white; }
         #kunsei-overlay { background-color: #8a8a8a; color: #1a1a1a; }
-        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay, #manga-overlay { background-color: #f5f5f5; color: #333; }
+        #catalog-overlay, #smoke-nuts-doc-overlay, #nb-list-overlay, #smoke-tinmi-doc-overlay, #sunahara-company-doc-overlay, #manga-overlay, #rengo-docs-index, #rengo-photos-index, #doc-cranberry-overlay, #doc-shop-pdf-overlay, #photo-topworld-overlay, #photo-kinokuniya-overlay { background-color: #f5f5f5; color: #333; }
         
         .catalog-container { width: 100%; max-width: 1000px; margin: 20px auto; background-color: transparent; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
         .catalog-page img { width: 100%; height: auto; display: block; pointer-events: none; user-select: none; background-color: white; border-bottom: 1px solid #e0e0e0; }
@@ -467,6 +467,7 @@
                             <p class="text-gray-400 leading-relaxed font-light">
                                 延床面積716㎡の広大なスペースに、ナッツ焙煎室、原料保管低温倉庫、ナッツ選別室、そしてオイルコート加工室を新設。衛生管理の行き届いた環境で、原料の受け入れから最終製品までを一貫して製造できる体制を整えました。
                             </p>
+
                             <div class="grid grid-cols-2 gap-6 pt-4">
                                 <div class="border-l-2 border-[#C5A059] pl-4">
                                     <h3 class="font-serif text-lg mb-1 text-white">低温倉庫完備</h3>
@@ -504,6 +505,7 @@
                                 ナッツを効率よく、ムラなく焙煎する最新システム。熱風でナッツを浮遊させながら焙煎することで、一粒一粒に均一に火を通します。<br>
                                 <span class="text-[#C5A059] text-sm block mt-2">※くるみとはラインを完全分離し、アレルゲン交差を防止。</span>
                             </p>
+
                             <ul class="space-y-2 text-sm text-gray-300">
                                 <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-[#C5A059] rounded-full"></div>アーモンド・カシューナッツ専用</li>
                                 <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-[#C5A059] rounded-full"></div>月間生産能力：50トン</li>
@@ -806,55 +808,6 @@
                 </div>
             </section>
 
-            <!-- Section 2: 粉掛け -->
-            <section class="mb-20">
-                <div class="flex items-baseline border-b border-[#333] pb-2 mb-8">
-                    <h2 class="text-2xl font-bold text-white m-0 text-engrave">ふんわり香り立つ「粉掛け製法」</h2>
-                    <span class="ml-4 text-xs text-[#1a1a1a] bg-[#C5A059] px-3 py-1 rounded-full tracking-wider font-bold shadow-[0_0_10px_rgba(197,160,89,0.5)]">Powder Coating Series</span>
-                </div>
-                <div class="grid-layout">
-                    <!-- 1. きなこ -->
-                    <div class="glossy-black-panel p-8 group flex flex-col h-full">
-                        <div class="flex items-center mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#C5A059] transition-colors">きなこ</h3>
-                        <div class="inline-block bg-[#111] px-3 py-1 rounded-md text-xs font-bold text-[#C5A059] border border-[#333] mb-4 w-max">くるみ</div>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">国産大豆のきなこを、たっぷりまぶしました。優しい甘さとふんわり掛かったきなこの香ばしさが、和菓子にも似た味わいです。</p>
-                    </div>
-
-                    <!-- 2. 黒糖きなこ -->
-                    <div class="glossy-black-panel p-8 group flex flex-col h-full">
-                        <div class="flex items-center mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#C5A059] transition-colors">黒糖きなこ</h3>
-                        <div class="inline-block bg-[#111] px-3 py-1 rounded-md text-xs font-bold text-[#C5A059] border border-[#333] mb-4 w-max">アーモンド</div>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">沖縄県産黒糖を何度も重ね掛けし、国産大豆のきなこを更にふんわりと重ね掛けした、厚みのある味わいです。</p>
-                    </div>
-
-                    <!-- 3. ラズベリー -->
-                    <div class="glossy-black-panel p-8 group flex flex-col h-full">
-                        <div class="flex items-center mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#C5A059] transition-colors">ラズベリー</h3>
-                        <div class="inline-block bg-[#111] px-3 py-1 rounded-md text-xs font-bold text-[#C5A059] border border-[#333] mb-4 w-max">カシューナッツ</div>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">味が濃縮されたFDラズベリーとヨーグルトをたっぷりカシューに絡めました。見た目も鮮やかで甘酸っぱい味が特に女性に人気です。</p>
-                    </div>
-
-                    <!-- 4. レモンヨーグルト -->
-                    <div class="glossy-black-panel p-8 group flex flex-col h-full">
-                        <div class="flex items-center mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#C5A059] transition-colors">レモンヨーグルト</h3>
-                        <div class="inline-block bg-[#111] px-3 py-1 rounded-md text-xs font-bold text-[#C5A059] border border-[#333] mb-4 w-max">カシューナッツ</div>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">国産レモン皮パウダーにヨーグルト味を加え、甘みと酸味が効いた贅沢な味わいのカシューナッツに仕立てました。</p>
-                    </div>
-
-                    <!-- 5. いちごみるく -->
-                    <div class="glossy-black-panel p-8 group flex flex-col h-full">
-                        <div class="flex items-center mb-4"><span class="cat-badge cat-sweet">SWEET / 甘系</span></div>
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#C5A059] transition-colors">いちごみるく</h3>
-                        <div class="inline-block bg-[#111] px-3 py-1 rounded-md text-xs font-bold text-[#C5A059] border border-[#333] mb-4 w-max">カシューナッツ</div>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">苺（とちおとめ）パウダーとミルクをふんわりと重ね掛けした、甘くて少し酸味がある懐かしい味わいのカシューナッツです。</p>
-                    </div>
-                </div>
-            </section>
-
             <footer class="text-center py-10 border-t-2 border-[#333] text-[#666] text-xs">
                 <p>&copy; 2026 KAWAGOEYA. All Rights Reserved.</p>
             </footer>
@@ -1026,6 +979,22 @@
         window.closeSunaharaCompanyDoc = () => toggleOverlay('sunahara-company-doc-overlay', false);
         window.openManga = () => toggleOverlay('manga-overlay', true);
         window.closeManga = () => toggleOverlay('manga-overlay', false);
+
+        // Rengo New Overlays
+        window.openRengoDocsIndex = () => toggleOverlay('rengo-docs-index', true);
+        window.closeRengoDocsIndex = () => toggleOverlay('rengo-docs-index', false);
+        window.openRengoPhotosIndex = () => toggleOverlay('rengo-photos-index', true);
+        window.closeRengoPhotosIndex = () => toggleOverlay('rengo-photos-index', false);
+        
+        window.openDocCranberry = () => toggleOverlay('doc-cranberry-overlay', true);
+        window.closeDocCranberry = () => toggleOverlay('doc-cranberry-overlay', false);
+        window.openDocShopPdf = () => toggleOverlay('doc-shop-pdf-overlay', true);
+        window.closeDocShopPdf = () => toggleOverlay('doc-shop-pdf-overlay', false);
+        
+        window.openPhotoTopworld = () => toggleOverlay('photo-topworld-overlay', true);
+        window.closePhotoTopworld = () => toggleOverlay('photo-topworld-overlay', false);
+        window.openPhotoKinokuniya = () => toggleOverlay('photo-kinokuniya-overlay', true);
+        window.closePhotoKinokuniya = () => toggleOverlay('photo-kinokuniya-overlay', false);
 
         // Factory: Kenji Video
         window.openKenjiVideo = function() {
@@ -1331,18 +1300,18 @@
                                 <p class="text-gray-400 leading-relaxed mb-12 text-lg">ここは限られた方のみがアクセスできる特別なエリアです。</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
                                     <div onclick="openVideoModal('${BASE_URL}/members.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
-                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
-                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
-                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                             <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                             <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Recruiting members</span>
+                                             <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">発行準備中：新メンバーカード</h3>
+                                             <p class="text-sm text-gray-400 mt-2 leading-relaxed">応募条件についてはお問い合わせください。</p>
+                                             <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
                                     </div>
                                     <div onclick="openVideoModal('${BASE_URL}/NEOMOROPV.mp4')" class="bg-gradient-to-b from-[#222] to-[#111] p-8 rounded-xl border border-[#333] hover:border-[#C5A059] transition-all cursor-pointer group hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:-translate-y-2 relative overflow-hidden">
-                                         <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                         <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
-                                         <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
-                                         <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
-                                         <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
+                                             <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                             <span class="text-[#C5A059] text-xs font-bold tracking-[0.2em] mb-3 block">Amazon Prime Video</span>
+                                             <h3 class="text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors mb-3">映画：NEOMORO公開記念PV</h3>
+                                             <p class="text-sm text-gray-400 mt-2 leading-relaxed">何故、人々は熱狂するのか</p>
+                                             <div class="mt-6 flex items-center gap-3 text-sm text-white/80 group-hover:text-[#C5A059] transition-colors"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-colors"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div><span class="border-b border-transparent group-hover:border-[#C5A059] tracking-wider">Watch Video</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -1365,9 +1334,43 @@
                                     結束と誇り。<br>
                                     ここは選ばれし者のみが足を踏み入れることができる聖域です。
                                 </p>
-                                <div class="p-8 border border-[#333] rounded bg-black/50">
-                                    <p class="text-[#C5A059] font-serif text-xl mb-4">MEMBER CONTENTS</p>
-                                    <p class="text-gray-500">現在、コンテンツを準備中です。</p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                                    <!-- ① 共有ドキュメント (連合資料パネル) -->
+                                    <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px] kunsei-card" onclick="openRengoDocsIndex()" style="cursor: pointer;">
+                                        <div>
+                                            <div class="flex justify-between items-start mb-6">
+                                                <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">DOCUMENTS</span>
+                                                <i data-lucide="file-text" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors main-icon"></i>
+                                            </div>
+                                            <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">連合資料</h2>
+                                            <p class="text-gray-400 text-sm leading-relaxed">
+                                                商品提案書、店舗画像資料など、<br>連合員限定の共有ドキュメントへアクセスします。
+                                            </p>
+                                        </div>
+                                        <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors arrow-area">
+                                            <span>View Documents</span>
+                                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- ② 共有ドキュメント (活動写真パネル) -->
+                                    <div class="glossy-black-panel p-8 group flex flex-col justify-between min-h-[300px] kunsei-card" onclick="openRengoPhotosIndex()" style="cursor: pointer;">
+                                        <div>
+                                            <div class="flex justify-between items-start mb-6">
+                                                <span class="text-xs font-bold text-gray-500 tracking-widest border border-gray-700 px-2 py-1 rounded">GALLERY</span>
+                                                <i data-lucide="camera" class="w-8 h-8 text-[#C5A059] group-hover:text-white transition-colors main-icon"></i>
+                                            </div>
+                                            <h2 class="text-3xl font-serif font-bold text-white mb-4 group-hover:text-[#C5A059] transition-colors">活動写真</h2>
+                                            <p class="text-gray-400 text-sm leading-relaxed">
+                                                トップワールド店内や、新商品の陳列状況など、<br>日々の活動記録をご覧いただけます。
+                                            </p>
+                                        </div>
+                                        <div class="mt-8 flex items-center gap-2 text-xs text-white/50 group-hover:text-white transition-colors arrow-area">
+                                            <span>View Gallery</span>
+                                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1414,6 +1417,78 @@
                     <button onclick="closeManga()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
                     <div class="catalog-container pt-20">
                         <div class="catalog-page"><img src="${BASE_URL}/スナハラマンガ_page-0001.jpg" loading="lazy"></div>
+                    </div>
+                </div>
+
+                <!-- RENGO SUB OVERLAYS -->
+                <!-- 1. 連合資料インデックス -->
+                <div id="rengo-docs-index" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
+                    <button onclick="closeRengoDocsIndex()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 戻る</button>
+                    <div class="min-h-screen flex flex-col items-center justify-center py-20 px-6">
+                        <h2 class="text-3xl font-serif text-white mb-10 text-glow">連合資料インデックス</h2>
+                        <div class="grid gap-6 max-w-2xl w-full">
+                            <button onclick="openDocCranberry()" class="glossy-black-panel p-6 text-left hover:scale-105 transition-transform flex items-center justify-between group">
+                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">クランベリーくるみ提案書.pdf</span>
+                                <i data-lucide="file-text" class="w-6 h-6 text-gray-500 group-hover:text-[#C5A059]"></i>
+                            </button>
+                            <button onclick="openDocShopPdf()" class="glossy-black-panel p-6 text-left hover:scale-105 transition-transform flex items-center justify-between group">
+                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">店内画像.pdf</span>
+                                <i data-lucide="file-text" class="w-6 h-6 text-gray-500 group-hover:text-[#C5A059]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 活動写真インデックス -->
+                <div id="rengo-photos-index" class="hidden fixed inset-0 z-[250] overflow-y-auto overlay-base">
+                    <button onclick="closeRengoPhotosIndex()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 戻る</button>
+                    <div class="min-h-screen flex flex-col items-center justify-center py-20 px-6">
+                        <h2 class="text-3xl font-serif text-white mb-10 text-glow">活動写真インデックス</h2>
+                        <div class="grid gap-6 max-w-2xl w-full">
+                            <button onclick="openPhotoTopworld()" class="glossy-black-panel p-6 text-left hover:scale-105 transition-transform flex items-center justify-between group">
+                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">トップワールド店内写真</span>
+                                <i data-lucide="image" class="w-6 h-6 text-gray-500 group-hover:text-[#C5A059]"></i>
+                            </button>
+                            <button onclick="openPhotoKinokuniya()" class="glossy-black-panel p-6 text-left hover:scale-105 transition-transform flex items-center justify-between group">
+                                <span class="text-xl text-white font-bold group-hover:text-[#C5A059] transition-colors">紀ノ国屋燻製焼あじ登場</span>
+                                <i data-lucide="image" class="w-6 h-6 text-gray-500 group-hover:text-[#C5A059]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 各ドキュメント・写真ビューア -->
+                <!-- クランベリー提案書 -->
+                <div id="doc-cranberry-overlay" class="hidden fixed inset-0 z-[260] overflow-y-auto overlay-base">
+                    <button onclick="closeDocCranberry()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
+                    <div class="catalog-container pt-20">
+                        <div class="catalog-page"><img src="${BASE_URL}/クランベリーくるみ提案書.pdf" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x1131.png?text=Proposal%20Document';"></div>
+                    </div>
+                </div>
+                <!-- 店内画像PDF -->
+                <div id="doc-shop-pdf-overlay" class="hidden fixed inset-0 z-[260] overflow-y-auto overlay-base">
+                    <button onclick="closeDocShopPdf()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
+                    <div class="catalog-container pt-20">
+                        <div class="catalog-page"><img src="${BASE_URL}/店内画像.pdf" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x1131.png?text=Shop%20Image%20PDF';"></div>
+                    </div>
+                </div>
+                <!-- トップワールド写真集 -->
+                <div id="photo-topworld-overlay" class="hidden fixed inset-0 z-[260] overflow-y-auto overlay-base">
+                    <button onclick="closePhotoTopworld()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
+                    <div class="catalog-container pt-20 space-y-4">
+                        <div class="catalog-page"><img src="${BASE_URL}/IMG_4778.jpg" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x600.png?text=IMG_4778.jpg';"></div>
+                        <div class="catalog-page"><img src="${BASE_URL}/IMG_4779.jpg" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x600.png?text=IMG_4779.jpg';"></div>
+                        <div class="catalog-page"><img src="${BASE_URL}/IMG_4780.jpg" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x600.png?text=IMG_4780.jpg';"></div>
+                        <div class="catalog-page"><img src="${BASE_URL}/IMG_4782.jpg" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x600.png?text=IMG_4782.jpg';"></div>
+                        <div class="catalog-page"><img src="${BASE_URL}/IMG_4783.jpg" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x600.png?text=IMG_4783.jpg';"></div>
+                        <div class="catalog-page"><img src="${BASE_URL}/topworld_mix.jpg" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x600.png?text=topworld_mix.jpg';"></div>
+                    </div>
+                </div>
+                <!-- 紀ノ国屋写真 -->
+                <div id="photo-kinokuniya-overlay" class="hidden fixed inset-0 z-[260] overflow-y-auto overlay-base">
+                    <button onclick="closePhotoKinokuniya()" class="fixed top-6 left-6 z-50 flex items-center gap-2 metal-btn !text-black !bg-white px-6 py-2 rounded-full font-bold shadow-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i> 閉じる</button>
+                    <div class="catalog-container pt-20">
+                        <div class="catalog-page"><img src="${BASE_URL}/kinokuniya_aji.jpg" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.jp/3d4070/ffffff/800x600.png?text=kinokuniya_aji.jpg';"></div>
                     </div>
                 </div>
 
@@ -1659,14 +1734,9 @@
                         <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-16 border-b border-[#333] pb-12">
                             <div class="md:col-span-1 flex flex-col justify-between h-full">
                                 <div class="mb-6 flex justify-center md:justify-center">
-                                    <div class="relative group cursor-pointer w-full" onclick="openVideoModal()">
+                                    <div class="relative group cursor-default w-full">
                                         <img src="${PAGE_CONTENT.footerImage}" alt="KAWAGOEYA" class="h-48 w-full object-contain transition-transform duration-300 group-hover:scale-105" 
                                             onerror="this.onerror=null; this.parentNode.innerHTML = '<div class=\\'h-48 w-full bg-[#222] rounded flex items-center justify-center border border-[#444]\\'><span>Image N/A</span></div>';">
-                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div class="bg-black/70 rounded-full p-4 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_20px_#C5A059]">
-                                                <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
