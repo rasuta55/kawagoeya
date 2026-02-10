@@ -1615,14 +1615,10 @@
                         <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-16 border-b border-[#333] pb-12">
                             <div class="md:col-span-1 flex flex-col justify-between h-full">
                                 <div class="mb-6 flex justify-center md:justify-center">
-                                    <div class="relative group cursor-pointer w-full" onclick="window.openVideoModal()">
-                                        <img src="${PAGE_CONTENT.footerImage}" alt="KAWAGOEYA" class="h-48 w-full object-contain transition-transform duration-300 group-hover:scale-105" 
+                                    <!-- Modified: Removed onclick event, cursor-pointer, and play overlay for Soft Doll -->
+                                    <div class="relative w-full">
+                                        <img src="${PAGE_CONTENT.footerImage}" alt="KAWAGOEYA" class="h-48 w-full object-contain transition-transform duration-300" 
                                             onerror="this.onerror=null; this.parentNode.innerHTML = '<div class=\\'h-48 w-full bg-[#222] rounded flex items-center justify-center border border-[#444]\\'><span>Image N/A</span></div>';">
-                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div class="bg-black/70 rounded-full p-4 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_20px_#C5A059]">
-                                                <i data-lucide="play" class="w-8 h-8 text-[#C5A059] fill-[#C5A059]"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1671,11 +1667,19 @@
                         <!-- Footer Bottom Area with Secret Link -->
                         <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-4">
                             <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
-                                <!-- Studio Mori Image moved here with h-24 size (2x previous h-12) -->
-                                <img src="https://rasuta55.github.io/kawagoeya/studiomori.png" 
-                                     alt="Produced by Studio Mori" 
-                                     class="h-24 w-auto object-contain drop-shadow-[0_0_15px_rgba(197,160,89,0.6)] hover:scale-110 transition-transform duration-500"
-                                     onerror="this.style.display='none'">
+                                <!-- Studio Mori Image: Added Video Mark on Hover & Click Event -->
+                                <div class="cursor-pointer group relative" onclick="window.openVideoModal('https://rasuta55.github.io/kawagoeya/s_mori2.mp4')">
+                                    <img src="https://rasuta55.github.io/kawagoeya/studiomori.png" 
+                                         alt="Produced by Studio Mori" 
+                                         class="h-24 w-auto object-contain drop-shadow-[0_0_15px_rgba(197,160,89,0.6)] group-hover:scale-110 transition-transform duration-500 relative z-10"
+                                         onerror="this.style.display='none'">
+                                    <!-- Play Icon Overlay -->
+                                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+                                        <div class="bg-black/70 rounded-full p-3 backdrop-blur-sm border border-[#C5A059] shadow-[0_0_15px_#C5A059]">
+                                            <i data-lucide="play" class="w-6 h-6 text-[#C5A059] fill-[#C5A059]"></i>
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="text-xs text-[#666]">
                                     &copy; ${new Date().getFullYear()} KAWAGOEYA Co., Ltd. All Rights Reserved.
                                 </p>
